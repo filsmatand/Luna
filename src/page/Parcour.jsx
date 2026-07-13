@@ -7,7 +7,6 @@ import {
   Code2,
   Database,
   Palette,
-  ArrowRight,
 } from "lucide-react";
 
 export default function ImpactSection() {
@@ -18,8 +17,8 @@ export default function ImpactSection() {
 };
   return (
    
-    <section className="overflow-hidden bg-stone-50 py-16 sm:py-10">
-      <div className="mx-auto grid max-w-7xl max-h-4xl items-center gap-12 px-4 lg:grid-cols-2 lg:gap-16">
+    <section className="overflow-hidden bg-stone-50 pb-7 sm:py-10">
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 lg:grid-cols-2 lg:gap-16">
         <motion.div
           initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
@@ -67,94 +66,46 @@ export default function ImpactSection() {
             quel metier je choisis ?
           </p>
 
-         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="mt-10 flex flex-wrap justify-center gap-4 lg:justify-start">
 
-  {/* Software */}
-  <motion.button
-    whileHover={{ y: -8, scale: 1.03 }}
-    whileTap={{ scale: 0.98 }}
-    onClick={handleLogin}
-    className="group rounded-3xl border border-gray-200 bg-white p-6 shadow-lg transition-all duration-300 hover:border-yellow-400 hover:shadow-2xl"
-  >
-    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 text-white">
-      <Code2 size={28} />
-    </div>
+              <button
+                onClick={handleLogin}
+                className="group flex items-center gap-3 rounded-full border border-zinc-700 bg-zinc-900 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-yellow-500 hover:bg-zinc-800 hover:shadow-lg hover:shadow-yellow-500/20"
+              >
+                <Code2
+                  size={20}
+                  className="text-yellow-400 transition-transform duration-300 group-hover:rotate-6"
+                />
+                <span className="font-medium">
+                  Software Development
+                </span>
+              </button>
 
-    <h3 className="mt-5 text-lg font-bold text-gray-900">
-      Software Development
-    </h3>
+              <button
+                className="group flex items-center gap-3 rounded-full border border-zinc-700 bg-zinc-900 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:bg-zinc-800 hover:shadow-lg hover:shadow-blue-500/20"
+              >
+                <Database
+                  size={20}
+                  className="text-blue-400 transition-transform duration-300 group-hover:rotate-6"
+                />
+                <span className="font-medium">
+                  Data Science
+                </span>
+              </button>
 
-    <p className="mt-2 text-sm leading-6 text-gray-500">
-      Développez des applications web, mobiles et desktop avec les
-      technologies les plus demandées.
-    </p>
+              <button
+                className="group flex items-center gap-3 rounded-full border border-zinc-700 bg-zinc-900 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-pink-500 hover:bg-zinc-800 hover:shadow-lg hover:shadow-pink-500/20"
+              >
+                <Palette
+                  size={20}
+                  className="text-pink-400 transition-transform duration-300 group-hover:rotate-6"
+                />
+                <span className="font-medium">
+                  UI / UX Design
+                </span>
+              </button>
 
-    <div className="mt-5 flex items-center gap-2 font-semibold text-yellow-500">
-      Commencer
-      <ArrowRight
-        size={18}
-        className="transition group-hover:translate-x-2"
-      />
-    </div>
-  </motion.button>
-
-  {/* Data Science */}
-  <motion.button
-    whileHover={{ y: -8, scale: 1.03 }}
-    whileTap={{ scale: 0.98 }}
-    className="group rounded-3xl border border-gray-200 bg-white p-6 shadow-lg transition-all duration-300 hover:border-blue-400 hover:shadow-2xl"
-  >
-    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-600 text-white">
-      <Database size={28} />
-    </div>
-
-    <h3 className="mt-5 text-lg font-bold text-gray-900">
-      Data Science
-    </h3>
-
-    <p className="mt-2 text-sm leading-6 text-gray-500">
-      Analysez les données, créez des modèles d'IA et prenez des décisions
-      grâce aux statistiques.
-    </p>
-
-    <div className="mt-5 flex items-center gap-2 font-semibold text-sky-600">
-      Explorer
-      <ArrowRight
-        size={18}
-        className="transition group-hover:translate-x-2"
-      />
-    </div>
-  </motion.button>
-
-  {/* Design */}
-  <motion.button
-    whileHover={{ y: -8, scale: 1.03 }}
-    whileTap={{ scale: 0.98 }}
-    className="group rounded-3xl border border-gray-200 bg-white p-6 shadow-lg transition-all duration-300 hover:border-pink-400 hover:shadow-2xl"
-  >
-    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-pink-500 to-purple-600 text-white">
-      <Palette size={28} />
-    </div>
-
-    <h3 className="mt-5 text-lg font-bold text-gray-900">
-      UI / UX Design
-    </h3>
-
-    <p className="mt-2 text-sm leading-6 text-gray-500">
-      Concevez des interfaces modernes et des expériences utilisateur
-      exceptionnelles.
-    </p>
-
-    <div className="mt-5 flex items-center gap-2 font-semibold text-pink-600">
-      Découvrir
-      <ArrowRight
-        size={18}
-        className="transition group-hover:translate-x-2"
-      />
-    </div>
-  </motion.button>
-
-</div>
+            </div>
         </motion.div>
       </div>
     </section>

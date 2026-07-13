@@ -1,106 +1,245 @@
-import { useMemo, useState } from "react";
-import { Layout, CheckCircle } from "lucide-react";
+import React, { useMemo, useState } from "react";
+import { 
+  Layout, 
+  CheckCircle, 
+  ChevronDown, 
+  ChevronUp, 
+  BookOpen, 
+  Code, 
+  PenTool, 
+  Globe, 
+  Server, 
+  Zap, 
+  Eye, 
+  Smartphone 
+} from "lucide-react";
 
+/**
+ * Composant Fondamentaux du Web
+ * Une interface interactive et moderne pour apprendre les bases du développement web.
+ */
 export default function Fondamentaux() {
+  const [completed, setCompleted] = useState([]);
+  const [expandedIndex, setExpandedIndex] = useState(0);
+
   const lessons = useMemo(
     () => [
-      "Introduction au Web et à Internet",
-      "Le fonctionnement d’une requête HTTP",
-      "Les navigateurs et leur rôle",
-      "URL, domaines et DNS",
-      "Serveurs et hébergement",
-      "Structure d’une page HTML",
-      "Les balises essentielles",
-      "Premiers pas en CSS",
-      "Les outils de développement",
-      "Bonnes pratiques du Web",
-      "Accessibilité et responsive design",
-      "Mini-projet : ma première page Web",
+      {
+        title: "Introduction au Web et à Internet",
+        icon: <Globe className="text-blue-500" size={20} />,
+        course: "Internet est un réseau mondial de serveurs interconnectés. Le Web (World Wide Web) est une application qui fonctionne sur Internet en utilisant le protocole HTTP pour transférer des documents HTML.",
+        code: "// Concept : Client -> Requête -> Internet -> Serveur -> Réponse -> Client",
+        exercise: "Recherchez la différence entre 'Internet' et le 'Web' et expliquez-la en une phrase."
+      },
+      {
+        title: "Le fonctionnement d’une requête HTTP",
+        icon: <Zap className="text-yellow-500" size={20} />,
+        course: "Une requête HTTP se compose d'une méthode (GET, POST), d'une URL, d'en-têtes (headers) et parfois d'un corps (body). Le serveur répond avec un code de statut (ex: 200 OK, 404 Not Found).",
+        code: "fetch('https://api.exemple.com/data')\n  .then(response => response.json())\n  .then(data => console.log(data));",
+        exercise: "Ouvrez l'onglet 'Réseau' de votre navigateur (F12) et observez les requêtes lors du chargement d'une page."
+      },
+      {
+        title: "URL, domaines et DNS",
+        icon: <Server className="text-purple-500" size={20} />,
+        course: "Le DNS (Domain Name System) est l'annuaire d'Internet. Il traduit un nom de domaine (google.com) en adresse IP (142.250.190.46) compréhensible par les machines.",
+        code: "Structure URL : https:// (protocole) + sub.domaine.com (hôte) + /chemin (path) + ?id=1 (query)",
+        exercise: "Identifiez le protocole, le domaine et le chemin de l'URL de cette page."
+      },
+      {
+        title: "Structure d’une page HTML",
+        icon: <Layout className="text-orange-500" size={20} />,
+        course: "HTML5 définit la structure. Une page commence par <!DOCTYPE html>, suivie de <html>, <head> (métadonnées) et <body> (contenu visible).",
+        code: "<!DOCTYPE html>\n<html>\n<head>\n  <title>Ma Page</title>\n</head>\n<body>\n  <h1>Bonjour le monde</h1>\n</body>\n</html>",
+        exercise: "Créez un fichier index.html avec la structure de base et ouvrez-le dans votre navigateur."
+      },
+      {
+        title: "Les balises essentielles",
+        icon: <PenTool className="text-green-500" size={20} />,
+        course: "Les balises sémantiques comme <header>, <nav>, <main>, <footer> et les balises de contenu comme <h1>, <p>, <a>, <img> sont la base du SEO et de l'accessibilité.",
+        code: "<main>\n  <article>\n    <h2>Titre de l'article</h2>\n    <p>Contenu textuel...</p>\n    <a href='#'>Lire la suite</a>\n  </article>\n</main>",
+        exercise: "Listez 5 balises HTML que vous utiliseriez pour créer un blog."
+      },
+      {
+        title: "Premiers pas en CSS",
+        icon: <Code className="text-cyan-500" size={20} />,
+        course: "CSS (Cascading Style Sheets) gère la présentation. On utilise des sélecteurs pour appliquer des propriétés (color, margin, font-size) aux éléments HTML.",
+        code: "h1 {\n  color: #2563eb;\n  font-size: 2rem;\n  text-align: center;\n}",
+        exercise: "Changez la couleur de fond de votre page HTML en bleu ciel en utilisant du CSS interne."
+      },
+      {
+        title: "Accessibilité et Responsive Design",
+        icon: <Smartphone className="text-indigo-500" size={20} />,
+        course: "Le Web doit être accessible à tous. Le responsive design utilise les Media Queries pour adapter l'affichage selon la taille de l'écran (mobile, tablette, desktop).",
+        code: "@media (max-width: 768px) {\n  .container {\n    flex-direction: column;\n  }\n}",
+        exercise: "Testez le mode 'Responsive' dans les outils de développement de votre navigateur sur votre site préféré."
+      },
+      {
+        title: "Mini-projet : Ma première page Web",
+        icon: <Eye className="text-rose-500" size={20} />,
+        course: "C'est l'heure de tout assembler ! Créez une page de profil personnel incluant une photo, une bio et des liens vers vos réseaux sociaux.",
+        code: "<!-- Combinez HTML pour la structure et CSS pour le style -->\n<section class='profile-card'>\n  <img src='photo.jpg' alt='Ma Photo'>\n  <h1>Mon Nom</h1>\n</section>",
+        exercise: "Publiez votre mini-projet sur une plateforme comme GitHub Pages ou Netlify."
+      }
     ],
     []
   );
 
-  const [completed, setCompleted] = useState([]);
+  const progress = Math.round((completed.length / lessons.length) * 100);
 
-  const progress = Math.round(
-    (completed.length / lessons.length) * 100
-  );
-
-  const toggleLesson = (index) => {
+  const toggleLesson = (index, e) => {
+    e.stopPropagation();
     setCompleted((prev) =>
-      prev.includes(index)
-        ? prev.filter((i) => i !== index)
-        : [...prev, index]
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
   };
 
   return (
-    <div className="min-h-screen bg-stone-50 px-6 py-12">
-      <div className="mx-auto max-w-5xl">
-        <div className="rounded-3xl bg-white p-8 shadow-sm">
-          <div className="flex items-center gap-4">
-            <div className="rounded-2xl bg-amber-100 p-4">
-              <Layout className="text-amber-500" size={32} />
-            </div>
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-widest text-amber-500">
-                Module 1 · 12 leçons
-              </p>
-              <h1 className="text-4xl font-bold text-stone-900">
-                Les fondamentaux du Web
-              </h1>
-            </div>
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 selection:bg-indigo-100">
+      <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
+        
+        {/* Header Section */}
+        <header className="mb-12 text-center">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-indigo-100 px-4 py-1 text-sm font-bold text-indigo-600 uppercase tracking-wider">
+            <Layout size={16} />
+            <span>Module Fondamentaux</span>
           </div>
-
-          <p className="mt-6 text-stone-600">
-            Comprends comment fonctionne Internet, les navigateurs et les bases
-            du développement web.
+          <h1 className="text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl">
+            Maîtriser le <span className="text-indigo-600">Web</span>
+          </h1>
+          <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-600 leading-relaxed">
+            Un parcours structuré pour comprendre l'architecture d'Internet, 
+            maîtriser la structure HTML et styliser vos premières interfaces.
           </p>
+        </header>
 
-          <div className="mt-8">
-            <div className="mb-2 flex justify-between text-sm font-medium">
-              <span>Progression</span>
-              <span>{progress}%</span>
+        {/* Progress Card */}
+        <div className="mb-10 overflow-hidden rounded-3xl bg-white p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-200">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h2 className="text-xl font-bold">Votre Progression</h2>
+              <p className="text-slate-500 text-sm">{completed.length} sur {lessons.length} étapes complétées</p>
             </div>
-            <div className="h-3 overflow-hidden rounded-full bg-stone-200">
-              <div
-                className="h-full rounded-full bg-amber-500 transition-all"
-                style={{ width: `${progress}%` }}
-              />
-            </div>
+            <span className="text-3xl font-black text-indigo-600">{progress}%</span>
           </div>
-
-          <div className="mt-10 grid gap-4 md:grid-cols-2">
-            {lessons.map((lesson, index) => (
-              <button
-                key={lesson}
-                onClick={() => toggleLesson(index)}
-                className="flex items-center gap-4 rounded-2xl border border-stone-200 bg-stone-50 p-4 text-left transition hover:border-amber-500"
-              >
-                <CheckCircle
-                  className={
-                    completed.includes(index)
-                      ? "text-green-500"
-                      : "text-stone-300"
-                  }
-                />
-                <span>{lesson}</span>
-              </button>
-            ))}
-          </div>
-
-          <div className="mt-12 rounded-2xl bg-amber-50 p-6">
-            <h2 className="text-2xl font-bold text-stone-900">
-              Exercices pratiques
-            </h2>
-            <ul className="mt-4 list-disc space-y-2 pl-5 text-stone-700">
-              <li>Expliquer le rôle d’un navigateur web.</li>
-              <li>Identifier les parties d’une URL.</li>
-              <li>Créer une page HTML contenant un titre et un paragraphe.</li>
-              <li>Appliquer un style CSS simple à cette page.</li>
-            </ul>
+          <div className="relative h-4 w-full overflow-hidden rounded-full bg-slate-100">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-700 ease-out"
+              style={{ width: `${progress}%` }}
+            />
           </div>
         </div>
+
+        {/* Lessons List */}
+        <div className="space-y-4">
+          {lessons.map((lesson, index) => {
+            const isExpanded = expandedIndex === index;
+            const isCompleted = completed.includes(index);
+
+            return (
+              <div
+                key={index}
+                className={`group overflow-hidden rounded-2xl border transition-all duration-300 ${
+                  isExpanded 
+                    ? "border-indigo-200 bg-white shadow-lg ring-1 ring-indigo-50" 
+                    : "border-slate-200 bg-white/50 hover:border-indigo-300 hover:bg-white"
+                }`}
+              >
+                {/* Lesson Header */}
+                <button
+                  onClick={() => setExpandedIndex(isExpanded ? -1 : index)}
+                  className="flex w-full items-center justify-between p-5 text-left focus:outline-none"
+                >
+                  <div className="flex items-center gap-4">
+                    <div className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors ${
+                      isCompleted ? "bg-green-100" : "bg-slate-100 group-hover:bg-indigo-50"
+                    }`}>
+                      {isCompleted ? (
+                        <CheckCircle className="text-green-600" size={22} />
+                      ) : (
+                        lesson.icon
+                      )}
+                    </div>
+                    <span className={`text-lg font-semibold ${isExpanded ? "text-indigo-700" : "text-slate-700"}`}>
+                      {lesson.title}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <button
+                      onClick={(e) => toggleLesson(index, e)}
+                      className={`hidden sm:flex items-center gap-2 rounded-lg px-3 py-1 text-xs font-bold transition-all ${
+                        isCompleted 
+                          ? "bg-green-50 text-green-700" 
+                          : "bg-slate-100 text-slate-500 hover:bg-indigo-600 hover:text-white"
+                      }`}
+                    >
+                      {isCompleted ? "Complété" : "Marquer comme fini"}
+                    </button>
+                    {isExpanded ? <ChevronUp size={20} className="text-indigo-400" /> : <ChevronDown size={20} className="text-slate-400" />}
+                  </div>
+                </button>
+
+                {/* Lesson Content */}
+                {isExpanded && (
+                  <div className="border-t border-slate-100 bg-white p-6 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <div className="grid gap-8 md:grid-cols-2">
+                      {/* Course Part */}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2 text-indigo-600">
+                          <BookOpen size={18} />
+                          <h3 className="font-bold uppercase tracking-wider text-sm">Cours Essentiel</h3>
+                        </div>
+                        <p className="text-slate-600 leading-relaxed">
+                          {lesson.course}
+                        </p>
+                        
+                        <div className="flex items-center gap-2 text-rose-500 pt-2">
+                          <PenTool size={18} />
+                          <h3 className="font-bold uppercase tracking-wider text-sm">Exercice</h3>
+                        </div>
+                        <div className="rounded-xl bg-rose-50 p-4 text-rose-800 text-sm border border-rose-100">
+                          {lesson.exercise}
+                        </div>
+                      </div>
+
+                      {/* Code Part */}
+                      <div className="space-y-4">
+                        <div className="flex items-center gap-2 text-slate-700">
+                          <Code size={18} />
+                          <h3 className="font-bold uppercase tracking-wider text-sm">Code Concret</h3>
+                        </div>
+                        <div className="relative group/code">
+                          <pre className="overflow-x-auto rounded-xl bg-slate-900 p-5 text-sm text-indigo-300 font-mono leading-relaxed shadow-inner">
+                            <code>{lesson.code}</code>
+                          </pre>
+                          <div className="absolute top-3 right-3 opacity-0 group-hover/code:opacity-100 transition-opacity">
+                             <span className="bg-slate-800 text-slate-400 text-[10px] px-2 py-1 rounded border border-slate-700 uppercase">JSX / Code</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Mobile toggle button */}
+                    <div className="mt-6 sm:hidden">
+                      <button
+                        onClick={(e) => toggleLesson(index, e)}
+                        className={`w-full py-3 rounded-xl font-bold transition-all ${
+                          isCompleted 
+                            ? "bg-green-100 text-green-700" 
+                            : "bg-indigo-600 text-white shadow-lg shadow-indigo-200"
+                        }`}
+                      >
+                        {isCompleted ? "Leçon terminée ✓" : "Valider cette étape"}
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Footer Note */}
+        
       </div>
     </div>
   );

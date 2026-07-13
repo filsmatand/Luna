@@ -7,6 +7,8 @@ import Software from "../src/page/Software_developer/software";
 import Data from "../src/page/Parcour";
 import Debutant from "../src/page/Software_developer/Debutant"
 import Fondamentaux from "./page/Software_developer/Fondamentaux";
+import Intermediaire from "./page/Software_developer/Intermediaire";
+import Expert from "../src/page/Software_developer/Expert"
 
 
 export default function App(){
@@ -20,6 +22,8 @@ return (
     <Route path="/data"element={<Data/>}/>
     <Route path ="/debutant" element={<Debutant/>}/>
     <Route path = "/fondamentaux" element = {<Fondamentaux/>}/>
+    <Route path="/intermediaire" element = {<Intermediaire/>}/>
+    <Route path="/expert" element = {<Expert/>}/>
 
   </Route>
 </Routes>
