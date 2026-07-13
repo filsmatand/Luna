@@ -29,7 +29,7 @@ export default function Intermediaire() {
         title: "Maîtrise de JavaScript ES6+",
         icon: <Zap className="text-yellow-500" size={20} />,
         course: "Le JavaScript moderne (ES6+) a introduit des concepts puissants comme la décomposition (destructuring), les fonctions fléchées, les templates literals et les modules. C'est la base de tout framework moderne.",
-        code: "// Destructuring & Arrow Functions\nconst user = { name: 'Ali', age: 25 };\nconst { name } = user;\n\nconst greet = (name) => `Bonjour \\${name}!`;\nconsole.log(greet(name));",
+       code: `// Destructuring & Arrow Functions const user = { name: 'Ali', age: 25 }; const { name } = user; const greet = (name) => \`Bonjour \${name}!\`; console.log(greet(name));`,
         exercise: "Transformez une fonction classique utilisant 'var' en une fonction fléchée utilisant 'const' et des templates literals."
       },
       {
