@@ -54,7 +54,7 @@ export default function ImpactSection() {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-white py-24 sm:py-32">
+    <section className="relative overflow-hidden bg-white  sm:py-6">
       {/* Background Decor */}
       <div className="absolute top-0 right-0 -z-10 h-[600px] w-[600px] rounded-full bg-slate-50 opacity-50 blur-3xl"></div>
       
@@ -79,7 +79,7 @@ export default function ImpactSection() {
               
               {/* Image 1 (Large - Center) */}
               <motion.div
-                whileHover={{ scale: 1.05 }}
+                
                 className="z-20 h-48 w-48 overflow-hidden rounded-[2.5rem] bg-white p-2 shadow-2xl sm:h-64 sm:w-64"
               >
                 <img src={img1} alt="Learning" className="h-full w-full rounded-[2rem] object-cover" />
@@ -87,9 +87,6 @@ export default function ImpactSection() {
 
               {/* Image 2 (Medium - Top Right) */}
               <motion.div
-                initial={{ y: 20 }}
-                animate={{ y: -20 }}
-                transition={{ duration: 3, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
                 className="absolute -right-4 top-10 z-30 h-28 w-28 overflow-hidden rounded-3xl bg-white p-1.5 shadow-xl sm:h-36 sm:w-36"
               >
                 <img src={img3} alt="Progress" className="h-full w-full rounded-2xl object-cover" />
@@ -97,9 +94,7 @@ export default function ImpactSection() {
 
               {/* Image 3 (Small - Bottom Left) */}
               <motion.div
-                initial={{ x: -10 }}
-                animate={{ x: 10 }}
-                transition={{ duration: 4, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+               
                 className="absolute -left-6 bottom-10 z-30 h-24 w-24 overflow-hidden rounded-full bg-white p-1.5 shadow-lg sm:h-32 sm:w-32"
               >
                 <img src={img2} alt="Success" className="h-full w-full rounded-full object-cover" />
@@ -125,7 +120,7 @@ export default function ImpactSection() {
                 Parcours Personnalisé
               </span>
 
-              <h2 className="mt-6 text-4xl font-black tracking-tight text-slate-900 sm:text-5xl lg:text-6xl leading-[1.1]">
+              <h2 className="mt-6 text-4xl font-black tracking-tight text-slate-900 sm:text-5xl lg:text-4xl leading-[1.1]">
                 Identifiez votre <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">niveau actuel</span>
               </h2>
 

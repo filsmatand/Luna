@@ -61,7 +61,7 @@ export default function Hero() {
             {/* Badge optionnel pour le professionnalisme */}
             <motion.span 
               variants={wordVariants}
-              className="mb-6 inline-block rounded-full bg-indigo-50 px-4 py-1.5 text-sm font-bold tracking-wider text-indigo-600 uppercase"
+              className="mb-6 inline-block  rounded-lg bg-indigo-50 px-4 py-1.5 text-sm font-bold tracking-wider text-indigo-600 uppercase"
             >
               L'avenir technologique du continent
             </motion.span>

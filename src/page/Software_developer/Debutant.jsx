@@ -217,15 +217,15 @@ return (
 
 <section className=" px-6 py-20">
         <div className=" mx-auto max-w-4xl rounded-3xl bg-black p-10 text-center text-white">
-
+          
             <h2 className=" text-3xl font-bold">
                  Prêt à commencer ton aventure ?
             </h2>
 
-
+            
 
             <p className=" mt-4 text-stone-300">Construis tes premières applications et développe les compétences recherchées par les entreprises.</p>
-                <button className="mt-8 inline-flex items-center gap-3 rounded-tr-full rounded-tl-full rounded-bl-full bg-amber-500 px-8 py-4 font-semibold text-black">
+                <button onClick={handlego}  className="mt-8 inline-flex items-center gap-3 rounded-tr-full rounded-tl-full rounded-bl-full bg-amber-500 px-8 py-4 font-semibold text-black">
                              Voir le premier cours
                  <ArrowRight size={20}/>
                 </button>

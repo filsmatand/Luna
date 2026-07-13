@@ -1,12 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import logo from "../assets/logo.png"
-import {
-  Menu,
-  X,
-  ChevronDown,
-  User,
-} from "lucide-react";
+import {Menu,X,ChevronDown,User,} from "lucide-react";
 
 export default function Navbar() {
 
@@ -80,11 +75,11 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
 
           
-       <a href="/" className="flex items-center">
+       <a href="/" className="flex items-center -ml-8 md:ml-8">
         <img
           src={logo}
           alt="Maarifa"
-          className="h-32 sm:h-24 md:h-32 lg:h-32 xl:h-28 w-auto object-contain transition-transform duration-300 hover:scale-105"
+          className=" w-56 sm:h-24 md:h-48 lg:h-48 xl:h-56 w-auto object-contain transition-transform duration-300 mt-4 mr-16"
            />
         </a>
 
@@ -150,7 +145,7 @@ export default function Navbar() {
 
           <button> ENGLISH</button>
 
-          <button className="bg-yellow-500 text-white px-6 py-2 rounded-tr-full rounded-tl-full rounded-bl-full hover:bg-yellow-600 transition">
+          <button className="bg-yellow-400 text-white px-6 py-2 rounded-tr-full rounded-tl-full rounded-bl-full hover:bg-yellow-600 transition">
             CONNEXION
           </button>
 
