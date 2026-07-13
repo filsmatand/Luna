@@ -72,17 +72,21 @@ export default function Navbar() {
   transition={{ duration: 0.6, ease: "easeOut",}}
   className="fixed top-0 left-0 w-full z-50">
 
-      <div className=" fixed h-16 max-w-full top-0 z-20 px-4 w-full bg-white flex items-center justify-between">
+      <div className="mx-auto  h-16 max-w-full px-8 backdrop-blur-xl bg-white/80 border border-gray-200/70 shadow-[0_8px_10px_rgba(0,0,0,0.02)]
+           flex items-center justify-between">
  
         {/* LOGO */}
 
         <div className="flex items-center gap-3">
 
           
-        <h2 className="font-bold text-xl md:text-2xl">
-           <img src={logo} alt="" className="w-[250px] items-center mt-4"  />
-
-          </h2>
+       <a href="/" className="flex items-center">
+        <img
+          src={logo}
+          alt="Maarifa"
+          className="h-32 sm:h-24 md:h-32 lg:h-32 xl:h-28 w-auto object-contain transition-transform duration-300 hover:scale-105"
+           />
+        </a>
 
         </div>
 
@@ -92,7 +96,8 @@ export default function Navbar() {
 
           {menus.map(menu=>(
 
-            <li key={menu} className=" cursor-pointer hover:text-yellow-500 transition ">
+            <li key={menu} className=" relative cursor-pointer text-gray-700
+                                      hover:text-yellow-500 transition duration-300 group ">
               {menu} </li>
 
           ))}
@@ -149,8 +154,8 @@ export default function Navbar() {
             CONNEXION
           </button>
 
-          <button className=" flex items-center gap-2 bg-yellow-500 rounded-full p-2 text-white">
-             <User size={20}/>
+          <button className=" w-11 h-11 rounded-full bg-gray-100 hover:bg-yellow-500 hover:text-white transition flex items-center justify-center">
+              <User size={20}/>
           </button>
         </div>
 

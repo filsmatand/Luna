@@ -3,6 +3,12 @@ import { useNavigate } from "react-router-dom";
 import img1 from "../assets/ecolier.png"
 import img2 from "../assets/ecolier2.png"
 import img3 from "../assets/ecolier3.png"
+import {
+  Code2,
+  Database,
+  Palette,
+  ArrowRight,
+} from "lucide-react";
 
 export default function ImpactSection() {
   const navigate = useNavigate();
@@ -61,30 +67,94 @@ export default function ImpactSection() {
             quel metier je choisis ?
           </p>
 
-          <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row sm:justify-center lg:justify-start">
-            <button onClick={handleLogin}
-             className="rounded-full bg-black px-6 py-3 text-sm font-medium text-white">
-              Software Development
-            </button>
-            
-            <button className="rounded-full bg-black px-6 py-3 text-sm font-medium text-white">
-              Data Science / Analytics
-            </button>
+         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
-            <button className="rounded-full bg-black px-6 py-3 text-sm font-medium text-white">
-              Le Design 
-            </button>
-            
+  {/* Software */}
+  <motion.button
+    whileHover={{ y: -8, scale: 1.03 }}
+    whileTap={{ scale: 0.98 }}
+    onClick={handleLogin}
+    className="group rounded-3xl border border-gray-200 bg-white p-6 shadow-lg transition-all duration-300 hover:border-yellow-400 hover:shadow-2xl"
+  >
+    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-yellow-400 to-orange-500 text-white">
+      <Code2 size={28} />
+    </div>
 
-            {/* <button className="flex items-center gap-3 rounded-full border border-stone-200 bg-white px-5 py-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-500 text-white">
-                <Play className="h-4 w-4 fill-current" />
-              </span>
-              Watch Video
-            </button> */}
+    <h3 className="mt-5 text-lg font-bold text-gray-900">
+      Software Development
+    </h3>
 
+    <p className="mt-2 text-sm leading-6 text-gray-500">
+      Développez des applications web, mobiles et desktop avec les
+      technologies les plus demandées.
+    </p>
 
-          </div>
+    <div className="mt-5 flex items-center gap-2 font-semibold text-yellow-500">
+      Commencer
+      <ArrowRight
+        size={18}
+        className="transition group-hover:translate-x-2"
+      />
+    </div>
+  </motion.button>
+
+  {/* Data Science */}
+  <motion.button
+    whileHover={{ y: -8, scale: 1.03 }}
+    whileTap={{ scale: 0.98 }}
+    className="group rounded-3xl border border-gray-200 bg-white p-6 shadow-lg transition-all duration-300 hover:border-blue-400 hover:shadow-2xl"
+  >
+    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-sky-500 to-indigo-600 text-white">
+      <Database size={28} />
+    </div>
+
+    <h3 className="mt-5 text-lg font-bold text-gray-900">
+      Data Science
+    </h3>
+
+    <p className="mt-2 text-sm leading-6 text-gray-500">
+      Analysez les données, créez des modèles d'IA et prenez des décisions
+      grâce aux statistiques.
+    </p>
+
+    <div className="mt-5 flex items-center gap-2 font-semibold text-sky-600">
+      Explorer
+      <ArrowRight
+        size={18}
+        className="transition group-hover:translate-x-2"
+      />
+    </div>
+  </motion.button>
+
+  {/* Design */}
+  <motion.button
+    whileHover={{ y: -8, scale: 1.03 }}
+    whileTap={{ scale: 0.98 }}
+    className="group rounded-3xl border border-gray-200 bg-white p-6 shadow-lg transition-all duration-300 hover:border-pink-400 hover:shadow-2xl"
+  >
+    <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-pink-500 to-purple-600 text-white">
+      <Palette size={28} />
+    </div>
+
+    <h3 className="mt-5 text-lg font-bold text-gray-900">
+      UI / UX Design
+    </h3>
+
+    <p className="mt-2 text-sm leading-6 text-gray-500">
+      Concevez des interfaces modernes et des expériences utilisateur
+      exceptionnelles.
+    </p>
+
+    <div className="mt-5 flex items-center gap-2 font-semibold text-pink-600">
+      Découvrir
+      <ArrowRight
+        size={18}
+        className="transition group-hover:translate-x-2"
+      />
+    </div>
+  </motion.button>
+
+</div>
         </motion.div>
       </div>
     </section>
