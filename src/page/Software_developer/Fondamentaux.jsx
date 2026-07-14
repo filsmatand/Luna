@@ -103,7 +103,7 @@ export default function Fondamentaux() {
             <Layout size={16} />
             <span>Module Fondamentaux</span>
           </div>
-          <h1 className="text-5xl font-extrabold tracking-tight text-slate-900 sm:text-6xl">
+          <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-6xl">
             Maîtriser le <span className="text-indigo-600">Web</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-600 leading-relaxed">
@@ -238,7 +238,7 @@ export default function Fondamentaux() {
           })}
         </div>
 
-        {/* Footer Note */}
+      
         
       </div>
     </div>

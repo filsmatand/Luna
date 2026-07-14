@@ -61,14 +61,13 @@ export default function Navbar() {
 
   return (
 
-<motion.nav
-  initial={{ y: -100 }}
-  animate={{ y: 0 }}
-  transition={{ duration: 0.6, ease: "easeOut",}}
-  className="fixed top-0 left-0 w-full z-50">
+        <motion.nav
+          initial={{ y: -100 }}
+          animate={{ y: 0 }}
+          transition={{ duration: 0.6, ease: "easeOut",}}
+          className="fixed top-0 left-0 w-full z-50">
 
-      <div className="mx-auto  h-16 max-w-full px-8 backdrop-blur-xl bg-white/80 border border-gray-200/70 shadow-[0_8px_10px_rgba(0,0,0,0.02)]
-           flex items-center justify-between">
+      <div className="mx-auto  h-16 max-w-full px-8 backdrop-blur-xl   shadow-[0_8px_4px_rgba(0,0,0,0.02)] flex items-center justify-between">
  
         {/* LOGO */}
 
@@ -79,7 +78,7 @@ export default function Navbar() {
         <img
           src={logo}
           alt="Maarifa"
-          className=" w-56 sm:h-24 md:h-48 lg:h-48 xl:h-56 w-auto object-contain transition-transform duration-300 mt-4 mr-16"
+          className=" w-[150px] sm:h-24 md:h-[160px] lg:h-48 xl:h-56 w-auto object-contain transition-transform duration-300 mt-4 mr-16"
            />
         </a>
 
@@ -87,12 +86,11 @@ export default function Navbar() {
 
         {/* DESKTOP MENU */}
 
-        <ul className=" hidden lg:flex items-center gap-8 font-medium">
+        <ul className=" hidden text-sm lg:flex items-center gap-8 font-medium">
 
           {menus.map(menu=>(
 
-            <li key={menu} className=" relative cursor-pointer text-gray-700
-                                      hover:text-yellow-500 transition duration-300 group ">
+            <li key={menu} className=" text-sm relative cursor-pointer text-gray-700 hover:text-yellow-500 transition duration-300 group ">
               {menu} </li>
 
           ))}
@@ -127,7 +125,6 @@ export default function Navbar() {
                   </div>
                 ))}
 
-
               </motion.div>
 
             )}
@@ -160,7 +157,7 @@ export default function Navbar() {
 
           className="lg:hidden" onClick={()=>setMenuOpen(!menuOpen)}>
 
-          {menuOpen?<X size={30}/>:<Menu size={30}/>}
+          {menuOpen?<X size={20}/>:<Menu size={20}/>}
         </button>
       </div>
 

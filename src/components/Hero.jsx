@@ -61,7 +61,7 @@ export default function Hero() {
             {/* Badge optionnel pour le professionnalisme */}
             <motion.span 
               variants={wordVariants}
-              className="mb-6 inline-block  rounded-lg bg-indigo-50 px-4 py-1.5 text-sm font-bold tracking-wider text-indigo-600 uppercase"
+              className="mb-6 inline-block rounded-lg bg-indigo-50 px-4 py-1.5 text-sm font-bold tracking-wider text-indigo-600 uppercase"
             >
               L'avenir technologique du continent
             </motion.span>
@@ -82,8 +82,7 @@ export default function Hero() {
 
             <motion.p
               variants={wordVariants}
-              className="mt-8 max-w-xl text-lg leading-relaxed text-slate-600 md:text-xl"
-            >
+              className="mt-8 max-w-xl text-lg leading-relaxed text-slate-600 md:text-xl">
               Apprenez l’essentiel sur la technologie, du niveau débutant à expert, 
               et découvrez comment utiliser l’intelligence artificielle pour créer 
               <span className="font-semibold text-slate-900"> plus vite et mieux</span>.

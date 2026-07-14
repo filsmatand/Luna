@@ -224,11 +224,6 @@ export default function Intermediaire() {
             );
           })}
         </div>
-
-        {/* Footer Note */}
-        <footer className="mt-16 text-center text-slate-400 text-sm">
-          <p>© 2026 Académie Tech Afrique · Excellence & Innovation</p>
-        </footer>
       </div>
     </div>
   );

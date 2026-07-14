@@ -149,7 +149,7 @@ De zéro à développeur Web
 
 <section className="px-6 pb-20">
         <div className="mx-auto max-w-6xl">
-            <h2 className="text-3xl font-bold text-stone-900">
+            <h2 className="text-2xl font-bold text-stone-900">
                  Ce que tu vas apprendre
              </h2>
 
@@ -162,7 +162,7 @@ De zéro à développeur Web
 
 return (
 
-<motion.div key={module.title}
+        <motion.div key={module.title}
         initial={{opacity:0, y:30}}
 
         whileInView={{opacity:1, y:0}}
@@ -182,19 +182,19 @@ return (
             {module.description}
         </p>
 
-<div className="mt-5 text-sm font-medium text-amber-500">
-    {module.lessons}
-</div>
-</motion.div>
-)})}
+                <div className="mt-5 text-sm font-medium text-amber-500">
+                    {module.lessons}
+                </div>
+                </motion.div>
+                )})}
 
-</div>
-</div>
-</section>
+                </div>
+                </div>
+                </section>
 
 {/* TECHNOLOGIES */}
 
-<section className="bg-white px-6 py-16">
+      <section className="bg-white px-6 py-16">
         <div className="mx-auto max-w-6xl">
 
             <h2 className=" text-3xl font-bold">
@@ -207,31 +207,29 @@ return (
                 <div key={tech}className=" flex items-center gap-2 rounded-full bg-stone-100 px-5 py-3 font-medium">
                         <CheckCircle size={18}/> {tech}
             </div>))}
-    </div>
+            </div>
 
-    </div>
-    </section>
+            </div>
+            </section>
 
 
 {/* FOOTER CTA */}
 
-<section className=" px-6 py-20">
-        <div className=" mx-auto max-w-4xl rounded-3xl bg-black p-10 text-center text-white">
-          
-            <h2 className=" text-3xl font-bold">
-                 Prêt à commencer ton aventure ?
-            </h2>
+      <section className=" px-6 py-20">
+              <div className=" mx-auto max-w-4xl rounded-3xl bg-black p-10 text-center text-white">
+                
+                  <h2 className=" text-3xl font-bold">
+                      Prêt à commencer ton aventure ?
+                  </h2>
 
-            
+                  <p className=" mt-4 text-stone-300">Construis tes premières applications et développe les compétences recherchées par les entreprises.</p>
+                      <button onClick={handlego}  className="mt-8 inline-flex items-center gap-3 rounded-tr-full rounded-tl-full rounded-bl-full bg-amber-500 px-8 py-4 font-semibold text-black">
+                                  Voir le premier cours
+                      <ArrowRight size={20}/>
+                      </button>
+              </div>
+      </section>
 
-            <p className=" mt-4 text-stone-300">Construis tes premières applications et développe les compétences recherchées par les entreprises.</p>
-                <button onClick={handlego}  className="mt-8 inline-flex items-center gap-3 rounded-tr-full rounded-tl-full rounded-bl-full bg-amber-500 px-8 py-4 font-semibold text-black">
-                             Voir le premier cours
-                 <ArrowRight size={20}/>
-                </button>
-        </div>
-</section>
-
-</div>
+      </div>
 
 )}
