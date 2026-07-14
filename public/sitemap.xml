@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://maarifa-delta.vercel.app/</loc>
+  </url>
+
+  <url>
+    <loc>https://maarifa-delta.vercel.app/software</loc>
+  </url>
+
+  <url>
+    <loc>https://maarifa-delta.vercel.app/data</loc>
+  </url>
+
+  <url>
+    <loc>https://maarifa-delta.vercel.app/debutant</loc>
+  </url>
+
+  <url>
+    <loc>https://maarifa-delta.vercel.app/fondamentaux</loc>
+  </url>
+
+  <url>
+    <loc>https://maarifa-delta.vercel.app/intermediaire</loc>
+  </url>
+
+  <url>
+    <loc>https://maarifa-delta.vercel.app/expert</loc>
+  </url>
+
+</urlset>
