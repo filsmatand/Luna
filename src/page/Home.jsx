@@ -6,8 +6,6 @@ export default function Home() {
   return (
    <main className="relative overflow-hidden">
 
-  
-
   <div className="relative z-10">
     <Navbar />
     <Parcours/>
