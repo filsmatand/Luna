@@ -78,7 +78,7 @@ export default function Navbar() {
         <img
           src={logo}
           alt="Maarifa"
-          className=" w-[150px] sm:h-24 md:h-[160px] lg:h-48 xl:h-56 w-auto object-contain transition-transform duration-300 mt-4 mr-16"
+          className=" w-[100px] sm:h-24 md:w-[180px] lg:h-48 xl:h-56 w-auto object-contain transition-transform duration-300 mt-4 mr-16"
            />
         </a>
 
