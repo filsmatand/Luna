@@ -94,7 +94,7 @@ const niveaux = [
           initial={{ y: -100 }}
           animate={{ y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut",}}
-          className="fixed top-0 left-0 w-full z-50">
+          className=" w-full z-50">
 
       <div className="mx-auto  h-16 max-w-full px-8 backdrop-blur-xl   shadow-[0_8px_4px_rgba(0,0,0,0.02)] flex items-center justify-between">
  

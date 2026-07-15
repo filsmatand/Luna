@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import {Code2, Terminal, Layout, Database, GitBranch, CheckCircle,} from "lucide-react";
+import {Code2, Terminal, Layout, Database, GitBranch,} from "lucide-react";
 import { Sparkles, BookOpen, GraduationCap } from "lucide-react";
 
 import { FaHtml5, FaCss3Alt, FaJs, FaGitAlt, FaReact } from "react-icons/fa";
@@ -50,7 +50,7 @@ const modules = [
   },
 ];
 
-const technologies = ["HTML", "CSS", "JavaScript", "Git", "GitHub"];
+
 
 export default function Debutant() {
   const Navigate = useNavigate();
@@ -63,19 +63,19 @@ export default function Debutant() {
 
       <div className="mx-auto mb-16 max-w-5xl text-center">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-5 py-2 text-sm font-semibold text-amber-600">
+        <div className="inline-flex mt-6 items-center gap-2 rounded-full border border-amber-200 bg-amber-50 px-5 py-2 text-sm font-semibold text-amber-600">
           <Sparkles size={18} />
           Parcours Débutant
         </div>
 
         {/* Titre */}
-        <h2 className="mt-6 text-4xl font-extrabold text-gray-900 md:text-5xl">
+        <h2 className="mt-6 text-3xl font-extrabold text-gray-900 md:text-5xl">
           Maîtrise les bases du
           <span className="block text-amber-500">Développement Web</span>
         </h2>
 
         {/* Description */}
-        <p className="mx-auto mt-6 max-w-3xl text-lg leading-8 text-gray-600">
+        <p className=" p-6 mx-auto mt-6 max-w-3xl text-lg leading-8 text-gray-600">
           <BookOpen size={18} className="mr-2 inline text-amber-500" />
           Découvre les technologies essentielles du Web grâce à des cours
           structurés, des exercices pratiques et des projets concrets pour
@@ -196,7 +196,7 @@ export default function Debutant() {
 
       {/* TECHNOLOGIES */}
 
-      <section className="bg-white px-6 py-16">
+      {/* <section className="bg-white px-6 py-16">
         <div className="mx-auto max-w-6xl">
           <h2 className=" text-3xl font-bold">Technologies maîtrisées</h2>
 
@@ -211,7 +211,7 @@ export default function Debutant() {
             ))}
           </div>
         </div>
-      </section>
+      </section> */}
 
       
 

@@ -7,16 +7,18 @@ import {
   Code2,
   Database,
   Palette,
+  PenTool,
+  ServerCog,
 } from "lucide-react";
 
 export default function ImpactSection() {
   const navigate = useNavigate();
 
- const handleLogin = () => {
-  navigate("/software");
-};
+  const handleLogin = () => {
+    navigate("/software");
+  };
   return (
-   
+
     <section className="overflow-hidden bg-stone-50 pb-7 sm:py-10">
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-4 lg:grid-cols-2 lg:gap-16">
         <motion.div
@@ -66,44 +68,184 @@ export default function ImpactSection() {
             quel metier je choisis ?
           </p>
 
-          <div className="mt-10 flex flex-wrap justify-center gap-4 lg:justify-start">
+          <div
+            className="
+            mt-10
+            grid
+            grid-cols-1
+            gap-4
+            sm:grid-cols-2
+            lg:flex
+            lg:flex-wrap
+            lg:justify-start
+          ">
+            <button
+              onClick={handleLogin}
+              className="
+                  group
+                  flex
+                  w-full
+                  items-center
+                  justify-center
+                  gap-3
+                  rounded-full
+                  border
+                  border-zinc-700
+                  bg-zinc-900
+                  px-6
+                  py-3
+                  text-white
+                  transition-all
+                  duration-300
+                  hover:-translate-y-1
+                  hover:border-yellow-500
+                  hover:bg-zinc-800
+                  hover:shadow-lg
+                  hover:shadow-yellow-500/20
+                  lg:w-auto
+                ">
+              <Code2
+                size={20}
+                className="text-yellow-400 transition-transform duration-300 group-hover:rotate-6"
+              />
+              <span className="font-medium">
+                Software Engineering
+              </span>
+            </button>
 
-              <button onClick={handleLogin} className="group flex items-center gap-3 rounded-full border border-zinc-700 bg-zinc-900 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-yellow-500 hover:bg-zinc-800 hover:shadow-lg hover:shadow-yellow-500/20">
-                <Code2 size={20} className="text-yellow-400 transition-transform duration-300 group-hover:rotate-6"/>
-                <span className="font-medium">
-                  Software Ingenering
-                </span>
-              </button>
+            <button
+              className="
+              group
+              flex
+              w-full
+              items-center
+              justify-center
+              gap-3
+              rounded-full
+              border
+              border-zinc-700
+              bg-zinc-900
+              px-6
+              py-3
+              text-white
+              transition-all
+              duration-300
+              hover:-translate-y-1
+              hover:border-blue-500
+              hover:bg-zinc-800
+              hover:shadow-lg
+              hover:shadow-blue-500/20
+              lg:w-auto
+            ">
+              <Database
+                size={20}
+                className="text-blue-400 transition-transform duration-300 group-hover:rotate-6"
+              />
+              <span className="font-medium">
+                Data Scientist
+              </span>
+            </button>
 
-              <button className="group flex items-center gap-3 rounded-full border border-zinc-700 bg-zinc-900 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:bg-zinc-800 hover:shadow-lg hover:shadow-blue-500/20">
-                <Database size={20}className="text-blue-400 transition-transform duration-300 group-hover:rotate-6"/>
-                <span className="font-medium">
-                  Data Scientist
-                </span>
-              </button>
+            <button
+              className="
+              group
+              flex
+              w-full
+              items-center
+              justify-center
+              gap-3
+              rounded-full
+              border
+              border-zinc-700
+              bg-zinc-900
+              px-6
+              py-3
+              text-white
+              transition-all
+              duration-300
+              hover:-translate-y-1
+              hover:border-pink-500
+              hover:bg-zinc-800
+              hover:shadow-lg
+              hover:shadow-pink-500/20
+              lg:w-auto
+            ">
+              <Palette
+                size={20}
+                className="text-pink-400 transition-transform duration-300 group-hover:rotate-6"
+              />
+              <span className="font-medium">
+                Data Analyst
+              </span>
+            </button>
 
-              <button className="group flex items-center gap-3 rounded-full border border-zinc-700 bg-zinc-900 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-pink-500 hover:bg-zinc-800 hover:shadow-lg hover:shadow-pink-500/20">
-                <Palette size={20}  className="text-pink-400 transition-transform duration-300 group-hover:rotate-6"/>
-                <span className="font-medium">
-                  Data Analyst
-                </span>
-              </button>
+            <button
+              className="
+            group
+            flex
+            w-full
+            items-center
+            justify-center
+            gap-3
+            rounded-full
+            border
+            border-zinc-700
+            bg-zinc-900
+            px-6
+            py-3
+            text-white
+            transition-all
+            duration-300
+            hover:-translate-y-1
+            hover:border-green-500
+            hover:bg-zinc-800
+            hover:shadow-lg
+            hover:shadow-green-500/20
+            lg:w-auto
+          ">
+              <ServerCog
+                size={20}
+                className="text-green-400 transition-transform duration-300 group-hover:rotate-6"
+              />
+              <span className="font-medium">
+                DevOps
+              </span>
+            </button>
 
-              <button className="group flex items-center gap-3 rounded-full border border-zinc-700 bg-zinc-900 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-pink-500 hover:bg-zinc-800 hover:shadow-lg hover:shadow-pink-500/20">
-                <Palette size={20}  className="text-pink-400 transition-transform duration-300 group-hover:rotate-6"/>
-                <span className="font-medium">
-                  DevOps
-                </span>
-              </button>
+            <button
+              className="
+              group
+              flex
+              w-full
+              items-center
+              justify-center
+              gap-3
+              rounded-full
+              border
+              border-zinc-700
+              bg-zinc-900
+              px-6
+              py-3
+              text-white
+              transition-all
+              duration-300
+              hover:-translate-y-1
+              hover:border-purple-500
+              hover:bg-zinc-800
+              hover:shadow-lg
+              hover:shadow-purple-500/20
+              lg:w-auto
+            ">
+              <PenTool
+                size={20}
+                className="text-purple-400 transition-transform duration-300 group-hover:rotate-6"
+              />
+              <span className="font-medium">
+                UI / UX Design
+              </span>
+            </button>
+          </div>
 
-              <button className="group flex items-center gap-3 rounded-full border border-zinc-700 bg-zinc-900 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-pink-500 hover:bg-zinc-800 hover:shadow-lg hover:shadow-pink-500/20">
-                <Palette size={20}  className="text-pink-400 transition-transform duration-300 group-hover:rotate-6"/>
-                <span className="font-medium">
-                  UI / UX Design
-                </span>
-              </button>
-
-            </div>
         </motion.div>
       </div>
     </section>

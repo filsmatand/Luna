@@ -40,7 +40,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-[70vh] flex items-center overflow-hidden bg-white px-6 py-20 sm:px-8 lg:px-16">
+    <section className="relative -mt-16 md:-mt-20 min-h-[70vh] flex items-center overflow-hidden bg-white px-6 py-20 sm:px-8 lg:px-16">
       
       {/* Éléments de design d'arrière-plan (subtils/techno) */}
       <div className="absolute top-0 left-0 -z-10 h-full w-full overflow-hidden opacity-20">

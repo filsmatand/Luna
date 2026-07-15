@@ -7,11 +7,10 @@ import {
   BookOpen,
   Code,
   PenTool,
-
   Eye,
   Smartphone,
 } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+
 
 
 /**
@@ -21,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 export default function HtmlCss() {
   const [completed, setCompleted] = useState([]);
   const [expandedIndex, setExpandedIndex] = useState(0);
-  const navigate = useNavigate();
+ 
 
   const lessons = useMemo(
     () => [
@@ -104,12 +103,12 @@ export default function HtmlCss() {
       <div className="mx-auto max-w-4xl px-4 py-16 sm:px-6">
         {/* Header Section */}
         <header className="mb-12 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-indigo-100 px-4 py-1 text-sm font-bold text-indigo-600 uppercase tracking-wider">
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-yellow-100 px-4 py-1 text-sm font-bold text-yellow-600 uppercase tracking-wider">
             <Layout size={16} />
             <span>Module Fondamentaux</span>
           </div>
           <h1 className="text-4xl font-extrabold tracking-tight text-slate-900 sm:text-6xl">
-            Maîtriser le <span className="text-indigo-600">Web</span>
+            Maîtriser le <span className="text-yellow-500">Web</span>
           </h1>
           <p className="mx-auto mt-6 max-w-2xl text-lg text-slate-600 leading-relaxed">
             Un parcours structuré pour comprendre l'architecture d'Internet,
@@ -126,13 +125,13 @@ export default function HtmlCss() {
                 {completed.length} sur {lessons.length} étapes complétées
               </p>
             </div>
-            <span className="text-3xl font-black text-indigo-600">
+            <span className="text-3xl font-black text-yellow-500">
               {progress}%
             </span>
           </div>
           <div className="relative h-4 w-full overflow-hidden rounded-full bg-slate-100">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-700 ease-out"
+              className="h-full rounded-full bg-gradient-to-r from-yellow-500 to-yellow-500 transition-all duration-700 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -268,67 +267,13 @@ export default function HtmlCss() {
         </div>
       </div>
 
-      <div className="mt-16 rounded-3xl bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600 p-10 text-white shadow-2xl">
+bonjour 
 
-  <div className="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
 
-    <div>
-
-      <div className="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2 text-sm font-semibold">
-
-        <Code size={18}/>
-
-        Mise en pratique
-
-      </div>
-
-      <h2 className="mt-5 text-4xl font-bold">
-
-        Il est temps de coder.
-
-      </h2>
-
-      <p className="mt-4 max-w-2xl text-indigo-100 leading-8">
-
-        Tu connais maintenant les bases de HTML et CSS.
-        Passe à la pratique en réalisant plusieurs exercices
-        progressifs qui te permettront de construire tes
-        premières pages Web comme un véritable développeur.
-
-      </p>
-
-      <div className="mt-8 flex flex-wrap gap-3">
-
-        <span className="rounded-full bg-white/20 px-4 py-2">
-          HTML
-        </span>
-
-        <span className="rounded-full bg-white/20 px-4 py-2">
-          CSS
-        </span>
-
-        <span className="rounded-full bg-white/20 px-4 py-2">
-          Responsive
-        </span>
-
-        <span className="rounded-full bg-white/20 px-4 py-2">
-          Mini Projet
-        </span>
-
-      </div>
-
-    </div>
-
-    <button
-      onClick={() => navigate("/html-css/pratique")}
-      className="rounded-2xl bg-white px-8 py-4 font-bold text-indigo-600 transition hover:scale-105"
-    >
-      Commencer les exercices →
-    </button>
 
   </div>
 
-</div>
-    </div>
+
+   
   );
 }

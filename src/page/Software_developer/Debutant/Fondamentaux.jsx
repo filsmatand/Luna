@@ -11,10 +11,6 @@ import {
   Zap,
   Eye,
   Smartphone,
-  Globe,
-  Code2,
-  Palette,
-  Network,
 } from "lucide-react";
 
 import { ClipboardCheck, ArrowRight } from "lucide-react";
@@ -252,9 +248,9 @@ Chrome DevTools`,
           </div>
 
           {/* Title */}
-          <h1 className="mx-auto max-w-4xl text-3xl font-black leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-7xl">
+          <h1 className="mx-auto max-w-4xl text-3xl font-black leading-tight tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">
             Comprendre le{" "}
-            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 bg-clip-text text-transparent">
               Web Moderne
             </span>
             <br />
@@ -272,71 +268,10 @@ Chrome DevTools`,
             Construisez une vraie compréhension du Web, étape par étape.
           </p>
 
-          {/* Technologies */}
-          <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:flex lg:flex-wrap lg:justify-center lg:gap-4">
-            {/* Card */}
-            {[
-              {
-                title: "Internet",
-                desc: "Réseaux & protocoles",
-                icon: <Globe size={20} />,
-                style: "bg-indigo-100 text-indigo-600",
-              },
-              {
-                title: "HTML",
-                desc: "Structure du Web",
-                icon: <Code2 size={20} />,
-                style: "bg-orange-100 text-orange-600",
-              },
-              {
-                title: "CSS",
-                desc: "Design & styles",
-                icon: <Palette size={20} />,
-                style: "bg-blue-100 text-blue-600",
-              },
-              {
-                title: "Serveurs",
-                desc: "Backend & données",
-                icon: <Server size={20} />,
-                style: "bg-purple-100 text-purple-600",
-              },
-              {
-                title: "Architecture",
-                desc: "Fonctionnement du Web",
-                icon: <Network size={20} />,
-                style: "bg-green-100 text-green-600",
-              },
-            ].map((item, index) => (
-              <div
-                key={index}
-                className="
-        group flex items-center gap-3 
-        rounded-2xl border border-slate-200 
-        bg-white px-4 py-3 
-        shadow-sm transition-all 
-        hover:-translate-y-1 hover:shadow-md
-        sm:px-5 sm:py-4
-        "
-              >
-                <div
-                  className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${item.style}`}
-                >
-                  {item.icon}
-                </div>
-
-                <div className="text-left">
-                  <p className="text-sm font-bold text-slate-900">
-                    {item.title}
-                  </p>
-
-                  <p className="text-xs text-slate-500">{item.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          
         </header>
         {/* Progress Card */}
-        <div className="mb-10 overflow-hidden rounded-3xl bg-white p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-200">
+        <div className="mb-10 overflow-hidden rounded-2xl bg-white p-8 shadow-xl shadow-slate-200/50 ring-1 ring-slate-200">
           <div className="flex items-center justify-between mb-4">
             <div>
               <h2 className="text-xl font-bold">Votre Progression</h2>
@@ -344,13 +279,13 @@ Chrome DevTools`,
                 {completed.length} sur {lessons.length} étapes complétées
               </p>
             </div>
-            <span className="text-3xl font-black text-indigo-600">
+            <span className="text-3xl font-black text-yellow-600">
               {progress}%
             </span>
           </div>
           <div className="relative h-4 w-full overflow-hidden rounded-full bg-slate-100">
             <div
-              className="h-full rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 transition-all duration-700 ease-out"
+              className="h-full rounded-full bg-gradient-to-r from-yellow-500 to-yellow-500 transition-all duration-700 ease-out"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -470,7 +405,7 @@ Chrome DevTools`,
                         className={`w-full py-3 rounded-xl font-bold transition-all ${
                           isCompleted
                             ? "bg-green-100 text-green-700"
-                            : "bg-indigo-600 text-white shadow-lg shadow-indigo-200"
+                            : "bg-yellow-400 text-white shadow-lg shadow-indigo-200"
                         }`}
                       >
                         {isCompleted
@@ -492,106 +427,31 @@ Chrome DevTools`,
           transition={{ duration: 0.5 }}
           className="mx-auto mt-12 max-w-5xl px-4 sm:mt-20 sm:px-0"
         >
-          <div
-            className="
-    relative overflow-hidden rounded-3xl 
-    border border-green-200 
-    bg-gradient-to-r from-green-50 to-white 
-    p-5 shadow-lg 
-    sm:p-8
-  "
-          >
+          <div className="relative overflow-hidden rounded-3xl border border-yellow-200 bg-gradient-to-r from-yellow-50 to-white  p-5 shadow-lg sm:p-8">
             {/* Cercle décoratif */}
-            <div
-              className="
-      absolute -right-16 -top-16 
-      h-40 w-40 
-      rounded-full 
-      bg-green-200/30 
-      blur-3xl
-      sm:-right-10 sm:-top-10
-    "
-            />
+            <div className=" absolute -right-16 -top-16 h-40 w-40 rounded-full bg-yellow-200/30 blur-3xl sm:-right-10 sm:-top-10"/>
 
-            <div
-              className="
-      relative flex flex-col 
-      gap-6
-      md:flex-row 
-      md:items-center 
-      md:justify-between
-      md:gap-8
-    "
-            >
+            <div className="relative flex flex-col  gap-6 md:flex-row  md:items-center md:justify-between md:gap-8" >
               {/* Texte */}
-              <div
-                className="
-        flex flex-col 
-        gap-4
-        sm:flex-row 
-        sm:items-start
-      "
-              >
+      <div className=" flex flex-col  gap-4 sm:flex-row  sm:items-start">
                 {/* Icon */}
-                <div
-                  className="
-          flex h-14 w-14 
-          shrink-0 
-          items-center justify-center 
-          rounded-2xl 
-          bg-green-500 
-          text-white 
-          shadow-lg
-          sm:h-16 sm:w-16
-        "
-                >
-                  <ClipboardCheck size={28} className="sm:h-8 sm:w-8" />
-                </div>
+         <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-yellow-500 text-white shadow-lg sm:h-16 sm:w-16">
+              <ClipboardCheck size={28} className="sm:h-8 sm:w-8" />
+              </div>
 
                 <div>
                   {/* Badge */}
-                  <span
-                    className="
-            inline-block 
-            rounded-full 
-            bg-green-100 
-            px-3 py-1 
-            text-[10px] 
-            font-semibold 
-            uppercase 
-            tracking-wider 
-            text-green-700
-            sm:text-xs
-          "
-                  >
+                  <span className="inline-block  rounded-full bg-yellow-100 px-3 py-1 text-[10px]  font-semibold uppercase tracking-wider text-yellow-700 sm:text-xs ">
                     Validation
                   </span>
 
                   {/* Title */}
-                  <h2
-                    className="
-            mt-3 
-            text-2xl 
-            font-bold 
-            leading-tight 
-            text-stone-900
-            sm:text-3xl
-          "
-                  >
+                  <h2 className=" mt-3  text-2xl  font-bold  leading-tight  text-stone-900 sm:text-3xl">
                     Quiz Final des Fondamentaux
                   </h2>
 
                   {/* Description */}
-                  <p
-                    className="
-            mt-3 
-            max-w-2xl 
-            text-sm 
-            leading-relaxed 
-            text-stone-600
-            sm:text-base
-          "
-                  >
+                  <p className="mt-3  max-w-2xl  text-sm leading-relaxed text-stone-600 sm:text-base" >
                     Teste tes connaissances sur Internet, le Web, HTML, CSS,
                     JavaScript, HTTP, DNS, Git et les autres notions
                     essentielles. Obtiens ton score et valide ce premier module
@@ -603,33 +463,10 @@ Chrome DevTools`,
               {/* Bouton */}
               <button
                 onClick={() => navigate("/quiz")}
-                className="
-          group 
-          inline-flex 
-          w-full
-          items-center 
-          justify-center 
-          gap-3 
-          rounded-xl 
-          bg-green-500 
-          px-7 
-          py-3 
-          font-semibold 
-          text-white 
-          transition 
-          hover:bg-green-600
-          sm:w-auto
-          md:shrink-0
-        "
-              >
+                className=" group inline-flex w-full items-center  justify-center  gap-3  rounded-xl  bg-yellow-500  px-7 py-3 font-semibold 
+                  text-white transition  hover:bg-yellow-600 sm:w-auto md:shrink-0 ">
                 Commencer
-                <ArrowRight
-                  size={20}
-                  className="
-            transition-transform 
-            group-hover:translate-x-1
-          "
-                />
+                <ArrowRight size={20}className="transition-transform  group-hover:translate-x-1"/>
               </button>
             </div>
           </div>

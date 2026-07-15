@@ -101,7 +101,7 @@ export default function ImpactSection() {
               </motion.div>
 
               {/* Floating Badge */}
-              <div className="absolute -bottom-4 right-10 z-40 flex items-center gap-2 rounded-2xl bg-indigo-600 px-4 py-2 text-white shadow-xl">
+              <div className="absolute -bottom-4 right-10 z-40 flex items-center gap-2 rounded-2xl bg-yellow-500 px-4 py-2 text-white shadow-xl">
                 <Target size={16} />
                 <span className="text-xs font-bold uppercase tracking-wider">Objectif Carrière</span>
               </div>
@@ -116,12 +116,12 @@ export default function ImpactSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <span className="inline-block rounded-full bg-indigo-50 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-indigo-600">
+              <span className="inline-block rounded-full bg-yellow-50 px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] text-yellow-600">
                 Parcours Personnalisé
               </span>
 
               <h2 className="mt-6 text-4xl font-black tracking-tight text-slate-900 sm:text-5xl lg:text-4xl leading-[1.1]">
-                Identifiez votre <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">niveau actuel</span>
+                Identifiez votre <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-600 to-yellow-600">niveau actuel</span>
               </h2>
 
               <p className="mt-6 text-lg leading-relaxed text-slate-600 max-w-xl mx-auto lg:mx-0">

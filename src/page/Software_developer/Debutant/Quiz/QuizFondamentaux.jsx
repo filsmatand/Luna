@@ -227,7 +227,7 @@ export default function QuizFinal() {
     <section className="min-h-screen bg-stone-50 py-20 px-6">
       <div className="mx-auto max-w-5xl">
         <div className="text-center mb-14">
-          <h1 className="text-5xl font-bold">Quiz Final</h1>
+          <h1 className="text-3xl font-bold">Quiz Final</h1>
 
           <p className="mt-4 text-gray-600">
             Vérifie si tu maîtrises les fondamentaux du Web.
