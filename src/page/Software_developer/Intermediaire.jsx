@@ -1,19 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { 
-  Rocket, 
-  CheckCircle, 
-  ChevronDown, 
-  ChevronUp, 
-  BookOpen, 
-  Code, 
-  PenTool, 
-  Cpu, 
-  Database, 
-  Layers, 
-  Wind, 
-  Zap, 
-  Terminal
-} from "lucide-react";
+import {  Rocket, CheckCircle,  ChevronDown, ChevronUp, BookOpen, Code, PenTool, Cpu, Database, Layers, Wind, Zap, Terminal} from "lucide-react";
 
 /**
  * Composant Intermediaire

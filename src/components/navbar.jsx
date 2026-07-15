@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import logo from "../assets/logo.png"
 import {Menu,X,ChevronDown,User,} from "lucide-react";
+import { NavLink } from "react-router-dom";
 
 export default function Navbar() {
 
@@ -43,19 +44,47 @@ export default function Navbar() {
 
 
   const menus = [
-    "HOME",
-    "COURS",
-    "PROJETS",
-    "CONTACTS",
-  ];
+  {
+    name: "HOME",
+    path: "/",
+  },
+  {
+    name: "RESOURCES",
+    path: "/resourcegrid",
+  },
+  {
+    name: "COLLECTIONS",
+    path: "/question",
+  },
+  {
+    name: "COURS",
+    path: "/cours",
+  },
+];
 
 
-  const niveaux = [
-    "Débutant",
-    "Intermédiaire",
-    "Avancé",
-    "Expert",
-  ];
+const niveaux = [
+  {
+    name: "Software Ingenering",
+    path: "/software",
+  },
+  {
+    name: "Data Scientist",
+    path: "/intermediaire",
+  },
+  {
+    name: "Data Analytic",
+    path: "/avance",
+  },
+  {
+    name: "DevOps",
+    path: "/expert",
+  },
+   {
+    name: "Design UI/UX",
+    path: "/expert",
+  },
+];
 
 
 
@@ -78,7 +107,7 @@ export default function Navbar() {
         <img
           src={logo}
           alt="Maarifa"
-          className=" w-[100px] sm:h-24 md:w-[180px] lg:h-48 xl:h-56 w-auto object-contain transition-transform duration-300 mt-4 mr-16"
+          className=" w-[10px] sm:h-24 md:w-[180px] lg:h-48 xl:h-56 w-auto object-contain transition-transform duration-300 mt-4 mr-16"
            />
         </a>
 
@@ -86,14 +115,22 @@ export default function Navbar() {
 
         {/* DESKTOP MENU */}
 
-        <ul className=" hidden text-sm lg:flex items-center gap-8 font-medium">
+        <ul className=" hidden text-sm lg:flex items-center gap-8 font-bold">
 
-          {menus.map(menu=>(
-
-            <li key={menu} className=" text-sm relative cursor-pointer text-gray-700 hover:text-yellow-500 transition duration-300 group ">
-              {menu} </li>
-
-          ))}
+         {menus.map((menu) => (
+          <li key={menu.path}>
+            <NavLink
+              to={menu.path}
+              className={({ isActive }) =>
+                `transition duration-300 hover:text-yellow-500 ${
+                  isActive ? "text-yellow-500" : "text-gray-700"
+                }`
+              }
+            >
+              {menu.name}
+            </NavLink>
+          </li>
+        ))}
 
           {/* NIVEAU */}
 
@@ -103,7 +140,7 @@ export default function Navbar() {
 
             <button onClick={(e)=>{e.stopPropagation();setNiveauOpen(!niveauOpen); }}
              className=" flex items-center gap-2 hover:text-yellow-500">
-              NIVEAU
+              DOMAINE
               <motion.div animate={{ rotate:niveauOpen ? 180 : 0 }}>
                 <ChevronDown size={18}/>
               </motion.div>
@@ -116,13 +153,15 @@ export default function Navbar() {
                initial={{ y: -80, opacity: 0 }}
                animate={{ y: 0, opacity: 1 }} transition={{ type: "spring", stiffness: 120, damping: 18 }}
                className="absolute top-10 left-0 w-52 bg-white rounded-xl shadow-xl py-3">
-                {niveaux.map(niveau=>(
-                  <div key={niveau}
-                  className=" px-5 py-3 hover:bg-yellow-50 cursor-pointer ">
-
-                    {niveau}
-
-                  </div>
+              {niveaux.map((niveau) => (
+                  <NavLink
+                    key={niveau.path}
+                    to={niveau.path}
+                    onClick={() => setNiveauOpen(false)}
+                    className="block px-5 py-3 hover:bg-yellow-50"
+                  >
+                    {niveau.name}
+                  </NavLink>
                 ))}
 
               </motion.div>
@@ -175,19 +214,16 @@ export default function Navbar() {
         transition={{ type: "spring", stiffness: 120, damping: 18 }}
 
           className="lg:hidden bg-white rounded-2xl shadow-xl p-6">
-          {menus.map(menu=>(
-
-            <div
-
-              key={menu}
-
-              className="py-3 border-b ">
-
-              {menu}
-
-            </div>
-
-          ))}
+          {menus.map((menu) => (
+              <NavLink
+                key={menu.path}
+                to={menu.path}
+                onClick={() => setMenuOpen(false)}
+                className="block py-3 border-b"
+              >
+                {menu.name}
+              </NavLink>
+            ))}
 
           {/* MOBILE NIVEAU */}
 
@@ -198,7 +234,7 @@ export default function Navbar() {
               onClick={()=>setNiveauOpen(!niveauOpen)}
 
               className=" flex justify-between w-full">
-              NIVEAU
+              DOMAINE
               <ChevronDown
                 className={` transition ${niveauOpen ? "rotate-180":""} `} />
             </button>
@@ -214,14 +250,18 @@ export default function Navbar() {
 
                 className="pl-5  space-y-3 overflow-hidden">
 
-                {niveaux.map(niveau=>(
-
-                  <div key={niveau}>
-
-                    {niveau}
-
-                  </div>
-
+              {niveaux.map((niveau) => (
+                  <NavLink
+                    key={niveau.path}
+                    to={niveau.path}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setNiveauOpen(false);
+                    }}
+                    className="block py-2"
+                  >
+                    {niveau.name}
+                  </NavLink>
                 ))}
 
 

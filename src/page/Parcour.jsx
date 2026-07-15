@@ -68,38 +68,36 @@ export default function ImpactSection() {
 
           <div className="mt-10 flex flex-wrap justify-center gap-4 lg:justify-start">
 
-              <button
-                onClick={handleLogin}
-                className="group flex items-center gap-3 rounded-full border border-zinc-700 bg-zinc-900 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-yellow-500 hover:bg-zinc-800 hover:shadow-lg hover:shadow-yellow-500/20"
-              >
-                <Code2
-                  size={20}
-                  className="text-yellow-400 transition-transform duration-300 group-hover:rotate-6"
-                />
+              <button onClick={handleLogin} className="group flex items-center gap-3 rounded-full border border-zinc-700 bg-zinc-900 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-yellow-500 hover:bg-zinc-800 hover:shadow-lg hover:shadow-yellow-500/20">
+                <Code2 size={20} className="text-yellow-400 transition-transform duration-300 group-hover:rotate-6"/>
                 <span className="font-medium">
-                  Software Development
+                  Software Ingenering
                 </span>
               </button>
 
-              <button
-                className="group flex items-center gap-3 rounded-full border border-zinc-700 bg-zinc-900 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:bg-zinc-800 hover:shadow-lg hover:shadow-blue-500/20"
-              >
-                <Database
-                  size={20}
-                  className="text-blue-400 transition-transform duration-300 group-hover:rotate-6"
-                />
+              <button className="group flex items-center gap-3 rounded-full border border-zinc-700 bg-zinc-900 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-blue-500 hover:bg-zinc-800 hover:shadow-lg hover:shadow-blue-500/20">
+                <Database size={20}className="text-blue-400 transition-transform duration-300 group-hover:rotate-6"/>
                 <span className="font-medium">
-                  Data Science
+                  Data Scientist
                 </span>
               </button>
 
-              <button
-                className="group flex items-center gap-3 rounded-full border border-zinc-700 bg-zinc-900 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-pink-500 hover:bg-zinc-800 hover:shadow-lg hover:shadow-pink-500/20"
-              >
-                <Palette
-                  size={20}
-                  className="text-pink-400 transition-transform duration-300 group-hover:rotate-6"
-                />
+              <button className="group flex items-center gap-3 rounded-full border border-zinc-700 bg-zinc-900 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-pink-500 hover:bg-zinc-800 hover:shadow-lg hover:shadow-pink-500/20">
+                <Palette size={20}  className="text-pink-400 transition-transform duration-300 group-hover:rotate-6"/>
+                <span className="font-medium">
+                  Data Analyst
+                </span>
+              </button>
+
+              <button className="group flex items-center gap-3 rounded-full border border-zinc-700 bg-zinc-900 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-pink-500 hover:bg-zinc-800 hover:shadow-lg hover:shadow-pink-500/20">
+                <Palette size={20}  className="text-pink-400 transition-transform duration-300 group-hover:rotate-6"/>
+                <span className="font-medium">
+                  DevOps
+                </span>
+              </button>
+
+              <button className="group flex items-center gap-3 rounded-full border border-zinc-700 bg-zinc-900 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-pink-500 hover:bg-zinc-800 hover:shadow-lg hover:shadow-pink-500/20">
+                <Palette size={20}  className="text-pink-400 transition-transform duration-300 group-hover:rotate-6"/>
                 <span className="font-medium">
                   UI / UX Design
                 </span>
