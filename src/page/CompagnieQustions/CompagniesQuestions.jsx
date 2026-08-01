@@ -1,0 +1,108 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
+import img1 from "../../assets/ent1.png";
+import img2 from "../../assets/ent2.png";
+import img3 from "../../assets/luna.png";
+import img4 from "../../assets/ent4.png";
+import img5 from "../../assets/ent5.png";
+import img6 from "../../assets/ent6.png";
+import img7 from "../../assets/ent7.png";
+import img8 from "../../assets/ent8.png";
+import img9 from "../../assets/ent9.png";
+
+const companies = [
+  { name: "Google", logo: img4, path: "google" },
+  { name: "Amazon", logo: img2, path: "amazon" },
+  { name: "Meta", logo: img6, path: "meta" },
+  { name: "Microsoft", logo: img7, path: "microsoft" },
+   { name: "Apple", logo: img8, path: "apple" },
+   { name: "Snap", logo: img9, path: "/company/snap" },
+  { name: "LunaTech", logo: img3, path: "/company/LunaTech" },
+  { name: "Google", logo: img1, path: "/company/Google" },
+  { name: "PhotoShop", logo: img5, path: "/company/PhotoShop" },
+  
+];
+
+export default function CompanyQuestionsSection() {
+  return (
+    <section className="bg-slate-950 py-16 px-4 sm:px-6 lg:px-8 text-white">
+
+      <div className="max-w-7xl mx-auto">
+
+        <h2 className="text-3xl font-bold tracking-tight text-center mb-12">
+           Les Questions Spécifiques Des Entreprises 
+        </h2>
+
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+          {companies.map((company, index) => (
+
+            <Link
+              key={index}
+              to={company.path}
+              className="group"
+            >
+
+              <div
+                className="
+                flex items-center p-4 
+                bg-[#1A202C] 
+                rounded-lg 
+                border border-white/5
+                transition-all duration-300
+                hover:border-blue-500/50
+                hover:bg-[#202938]
+                hover:-translate-y-1
+                hover:shadow-lg
+                hover:shadow-blue-500/10
+                "
+              >
+
+                <img
+                  src={company.logo}
+                  alt={company.name}
+                  className="w-8 h-8 rounded-full mr-3 object-cover"
+                />
+
+
+                <span className="text-lg font-medium group-hover:text-blue-400 transition">
+                  {company.name}
+                </span>
+
+              </div>
+
+            </Link>
+
+          ))}
+
+        </div>
+
+
+        <div className="flex items-center gap-3 mt-8 justify-center">
+
+          <div className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+
+          <Link
+            to="/"
+            className="
+            text-[10px] 
+            font-black 
+            uppercase 
+            tracking-[0.2em] 
+            text-blue-400
+            hover:text-blue-300
+            transition
+            "
+          >
+            Passez Directement vous exercer
+          </Link>
+
+        </div>
+
+      </div>
+
+    </section>
+  );
+}

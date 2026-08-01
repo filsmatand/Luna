@@ -1,17 +1,21 @@
 
 import Parcours from "../page/Parcour"
 import Hero from "../components/Hero";
-// import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+
+import FeaturesSection from "../page/Imporent";
+import CompanyQuestionsSection from "./CompagnieQustions/CompagniesQuestions";
 
 
 
 export default function Home() {
   return (
-   <main className="relative  overflow-hidden">
+   <main className=" bg-slate-950  overflow-hidden">
     
-  <div className="relative z-10">
+  <div className=" bg-slate-950 z-10">
     <Hero/>
     <Parcours/>
+    <FeaturesSection/>
+    <CompanyQuestionsSection/>
   </div>
 
 </main>

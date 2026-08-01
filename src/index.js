@@ -5,6 +5,13 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+import "@fontsource/inter";
+import "@fontsource/space-grotesk";
+import "@fontsource/jetbrains-mono";
+import "@fontsource/manrope";
+
+
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
