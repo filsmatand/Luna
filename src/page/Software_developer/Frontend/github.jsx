@@ -1,564 +1,311 @@
-
-import React, { useState } from 'react';
+import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  Terminal,
-  PlayCircle,
-  CheckCircle2,
-  ChevronRight,
-  Clock,
-  Trophy,
-  ArrowLeft,
-  ChevronDown,
-  BookOpen,
-  GitBranch,
-} from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import {
+  Layout, PenTool, Code, Smartphone, Eye,
+  Search, ChevronRight, ExternalLink, Menu, X,
+  Settings, Info, MessageSquare, Sparkles, BookOpen,
+  Terminal, CheckCircle, GitBranch, GitPullRequest, GitMerge, Database, Globe
+} from "lucide-react";
+import { FaGithub, FaGitAlt } from "react-icons/fa";
 
-const GithubCourses = () => {
+const lessons = [
+  // Introduction à Git
+  {
+    title: "Qu'est-ce que Git ?",
+    category: "Introduction à Git",
+    icon: GitBranch,
+    color: "text-blue-500",
+    course: "Git est un système de contrôle de version distribué (DVCS) gratuit et open source. Il permet de suivre les modifications du code, de collaborer efficacement et de conserver un historique complet de votre projet.",
+    code: "# Vérifier si Git est installé\ngit --version",
+    exercise: "Installez Git sur votre machine et vérifiez la version installée dans votre terminal.",
+  },
+  {
+    title: "Installation et Configuration",
+    category: "Introduction à Git",
+    icon: Settings,
+    color: "text-indigo-500",
+    course: "Pour commencer, configurez votre identité. Ces informations seront associées à chacun de vos commits pour identifier l'auteur des modifications.",
+    code: "git config --global user.name \"Votre Nom\"\ngit config --global user.email \"votre.email@example.com\"",
+    exercise: "Configurez votre nom d'utilisateur et votre email dans votre environnement Git local.",
+  },
+  {
+    title: "Commandes de Base (init, add, commit)",
+    category: "Introduction à Git",
+    icon: Terminal,
+    color: "text-blue-400",
+    course: "Le cycle de base : 'init' pour créer un dépôt, 'add' pour préparer les fichiers (staging), et 'commit' pour enregistrer les modifications dans l'historique.",
+    code: "git init\ngit add .\ngit commit -m \"Message descriptif\"",
+    exercise: "Créez un nouveau dossier, initialisez un dépôt Git, créez un fichier et effectuez votre premier commit.",
+  },
+  // Travailler avec les Dépôts
+  {
+    title: "Branches et Fusions",
+    category: "Travailler avec les Dépôts",
+    icon: GitMerge,
+    color: "text-cyan-500",
+    course: "Les branches permettent de travailler sur des fonctionnalités isolées. Une fois le travail terminé, on fusionne (merge) la branche dans la branche principale.",
+    code: "git checkout -b feature-nouvelle-page\n# ... modifications ...\ngit checkout main\ngit merge feature-nouvelle-page",
+    exercise: "Créez une branche nommée 'test-feature', faites une modification, et fusionnez-la dans 'main'.",
+  },
+  {
+    title: "Historique et Annulation",
+    category: "Travailler avec les Dépôts",
+    icon: Database,
+    color: "text-blue-600",
+    course: "Git permet d'explorer l'historique avec 'log' et d'annuler des erreurs avec 'reset' ou 'revert'. C'est votre filet de sécurité ultime.",
+    code: "git log --oneline\ngit revert <commit-hash>\ngit reset --hard HEAD~1",
+    exercise: "Affichez l'historique de vos commits et essayez d'annuler le dernier commit de manière sécurisée.",
+  },
+  // Introduction à GitHub
+  {
+    title: "Qu'est-ce que GitHub ?",
+    category: "Introduction à GitHub",
+    icon: FaGithub,
+    color: "text-slate-400",
+    course: "GitHub est une plateforme web qui héberge vos dépôts Git. Elle ajoute une couche collaborative puissante : Pull Requests, Issues, et Actions.",
+    code: "# GitHub est une interface web, pas seulement une CLI\n# Mais vous interagissez avec via Git",
+    exercise: "Créez un compte sur GitHub.com si ce n'est pas déjà fait.",
+  },
+  {
+    title: "Cloner et Pousser (clone, push)",
+    category: "Introduction à GitHub",
+    icon: Globe,
+    color: "text-blue-300",
+    course: "Pour lier votre travail local à GitHub, utilisez 'clone' pour récupérer un projet et 'push' pour envoyer vos commits vers le serveur distant.",
+    code: "git clone https://github.com/user/repo.git\ngit push origin main",
+    exercise: "Créez un dépôt vide sur GitHub et poussez votre projet local vers celui-ci.",
+  },
+  // Collaboration sur GitHub
+  {
+    title: "Pull Requests (PR)",
+    category: "Collaboration sur GitHub",
+    icon: GitPullRequest,
+    color: "text-blue-500",
+    course: "La Pull Request est le cœur de la collaboration. C'est une demande formelle pour fusionner votre code, permettant la revue par les pairs avant intégration.",
+    code: "# 1. Push la branche\ngit push origin feature-branch\n# 2. Ouvrir la PR sur l'interface GitHub",
+    exercise: "Ouvrez une Pull Request sur un dépôt de test pour simuler une revue de code.",
+  },
+  {
+    title: "Gestion des Conflits",
+    category: "Collaboration sur GitHub",
+    icon: X,
+    color: "text-red-400",
+    course: "Un conflit survient quand deux personnes modifient la même ligne. Git vous demande alors de choisir manuellement quelle version conserver.",
+    code: "<<<<<<< HEAD\nMon code\n=======\nCode de l'autre\n>>>>>>> branch-name",
+    exercise: "Provoquez volontairement un conflit de fusion et résolvez-le dans votre éditeur de code.",
+  },
+];
+
+const categories = [
+  "Introduction à Git",
+  "Travailler avec les Dépôts",
+  "Introduction à GitHub",
+  "Collaboration sur GitHub"
+];
+
+export default function GithubResources() {
   const navigate = useNavigate();
-  const [completedTopics, setCompletedTopics] = useState(new Set());
-  const [expandedTopic, setExpandedTopic] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedLesson, setSelectedLesson] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
-  const toggleTopic = (id, e) => {
-    e.stopPropagation();
-    const newSet = new Set(completedTopics);
-    if (newSet.has(id)) newSet.delete(id);
-    else newSet.add(id);
-    setCompletedTopics(newSet);
-  };
+  const filteredLessons = useMemo(() => {
+    return lessons.filter(l =>
+      l.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      l.course.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [searchQuery]);
 
-  const toggleExpand = (id) => {
-    setExpandedTopic(expandedTopic === id ? null : id);
-  };
-
-  const courseSections = [
-    {
-      title: "Introduction à Git",
-      topics: [
-        {
-          id: "git-intro",
-          title: "Qu'est-ce que Git ?",
-          duration: "20 min",
-          type: "theory",
-          content: `
-            <div class="space-y-4">
-              <p><strong>Git</strong> est un système de contrôle de version distribué (DVCS) gratuit et open source, conçu pour gérer de petits à de très grands projets avec rapidité et efficacité.</p>
-              <h4 class="text-blue-400 font-bold mt-4">Pourquoi utiliser Git ?</h4>
-              <ul class="list-disc ml-5 space-y-1">
-                <li><strong>Suivi des modifications :</strong> Enregistre chaque modification apportée au code.</li>
-                <li><strong>Collaboration :</strong> Permet à plusieurs développeurs de travailler sur le même projet sans se marcher sur les pieds.</li>
-                <li><strong>Historique :</strong> Accès facile à toutes les versions précédentes du code.</li>
-                <li><strong>Branches :</strong> Crée des environnements isolés pour développer de nouvelles fonctionnalités.</li>
-              </ul>
-              <h4 class="text-blue-400 font-bold mt-4">Git vs. GitHub</h4>
-              <p>Git est le logiciel de contrôle de version que vous installez localement. GitHub est une plateforme en ligne qui héberge des dépôts Git et fournit des outils de collaboration supplémentaires.</p>
-            </div>
-          `
-        },
-        {
-          id: "git-install-config",
-          title: "Installation et Configuration",
-          duration: "15 min",
-          type: "practice",
-          content: `
-            <div class="space-y-4">
-              <p>Pour commencer avec Git, vous devez l'installer sur votre système et le configurer avec votre nom et votre adresse e-mail.</p>
-              <h4 class="text-blue-400 font-bold mt-4">Installation</h4>
-              <ul class="list-disc ml-5 space-y-1">
-                <li><strong>Windows :</strong> Téléchargez l'installateur depuis <a href="https://git-scm.com/download/win" target="_blank" class="text-blue-400 hover:underline">git-scm.com</a>.</li>
-                <li><strong>macOS :</strong> Installez via Homebrew (<code>brew install git</code>) ou Xcode Command Line Tools.</li>
-                <li><strong>Linux :</strong> Utilisez votre gestionnaire de paquets (ex: <code>sudo apt install git</code> pour Debian/Ubuntu).</li>
-              </ul>
-              <h4 class="text-blue-400 font-bold mt-4">Configuration Initiale</h4>
-              <pre class="bg-slate-900 p-3 rounded-lg text-sm overflow-x-auto"><code>git config --global user.name "Votre Nom"\ngit config --global user.email "votre.email@example.com"</code></pre>
-              <p>Ces informations seront associées à vos commits.</p>
-            </div>
-          `
-        },
-        {
-          id: "git-basic-commands",
-          title: "Les Commandes de Base (init, add, commit)",
-          duration: "30 min",
-          type: "essential",
-          content: `
-            <div class="space-y-4">
-              <p>Voici les commandes fondamentales pour initialiser un dépôt et enregistrer vos modifications :</p>
-              <ul class="list-disc ml-5 space-y-2">
-                <li><strong><code>git init</code> :</strong> Initialise un nouveau dépôt Git vide dans le répertoire courant.</li>
-                <li><strong><code>git add &lt;fichier&gt;</code> :</strong> Ajoute un fichier au "staging area" (zone de préparation) pour le prochain commit. Utilisez <code>git add .</code> pour ajouter tous les fichiers modifiés.</li>
-                <li><strong><code>git commit -m "Message de commit"</code> :</strong> Enregistre les modifications du staging area dans l'historique du dépôt avec un message descriptif.</li>
-              </ul>
-              <pre class="bg-slate-900 p-3 rounded-lg text-sm overflow-x-auto"><code>mkdir mon-projet\ncd mon-projet\ngit init\necho "Hello Git!" > README.md\ngit add README.md\ngit commit -m "Initial commit: Add README"</code></pre>
-            </div>
-          `
-        }
-      ]
-    },
-    {
-      title: "Travailler avec les Dépôts",
-      topics: [
-        {
-          id: "git-branches-merge",
-          title: "Branches et Fusions",
-          duration: "45 min",
-          type: "essential",
-          content: `
-            <div class="space-y-4">
-              <p>Les branches permettent de développer des fonctionnalités ou de corriger des bugs de manière isolée sans affecter la branche principale (souvent <code>main</code> ou <code>master</code>).</p>
-              <h4 class="text-blue-400 font-bold mt-4">Commandes Clés</h4>
-              <ul class="list-disc ml-5 space-y-1">
-                <li><strong><code>git branch &lt;nom-branche&gt;</code> :</strong> Crée une nouvelle branche.</li>
-                <li><strong><code>git checkout &lt;nom-branche&gt;</code> :</strong> Bascule vers une branche existante.</li>
-                <li><strong><code>git checkout -b &lt;nom-branche&gt;</code> :</strong> Crée et bascule vers une nouvelle branche.</li>
-                <li><strong><code>git merge &lt;nom-branche&gt;</code> :</strong> Fusionne la branche spécifiée dans la branche actuelle.</li>
-                <li><strong><code>git branch -d &lt;nom-branche&gt;</code> :</strong> Supprime une branche (après fusion).</li>
-              </ul>
-              <pre class="bg-slate-900 p-3 rounded-lg text-sm overflow-x-auto"><code>git branch feature/nouvelle-fonction\ngit checkout feature/nouvelle-fonction\n// ... travail sur la fonctionnalité ...\ngit add .\ngit commit -m "Ajout de la nouvelle fonctionnalité"\ngit checkout main\ngit merge feature/nouvelle-fonction\ngit branch -d feature/nouvelle-fonction</code></pre>
-            </div>
-          `
-        },
-        {
-          id: "git-history-undo",
-          title: "Historique et Annulation (log, reset, revert)",
-          duration: "40 min",
-          type: "essential",
-          content: `
-            <div class="space-y-4">
-              <p>Git offre de puissants outils pour explorer l'historique et annuler des modifications.</p>
-              <h4 class="text-blue-400 font-bold mt-4">Explorer l'Historique</h4>
-              <ul class="list-disc ml-5 space-y-1">
-                <li><strong><code>git log</code> :</strong> Affiche l'historique des commits.</li>
-                <li><strong><code>git log --oneline</code> :</strong> Version condensée de l'historique.</li>
-                <li><strong><code>git diff &lt;commit1&gt; &lt;commit2&gt;</code> :</strong> Compare deux commits.</li>
-              </ul>
-              <h4 class="text-blue-400 font-bold mt-4">Annuler des Modifications</h4>
-              <ul class="list-disc ml-5 space-y-1">
-                <li><strong><code>git reset --hard &lt;commit-hash&gt;</code> :</strong> Déplace la branche vers un commit précédent, supprimant les commits ultérieurs (à utiliser avec prudence !).</li>
-                <li><strong><code>git revert &lt;commit-hash&gt;</code> :</strong> Crée un nouveau commit qui annule les modifications d'un commit précédent (plus sûr pour les dépôts partagés).</li>
-                <li><strong><code>git restore &lt;fichier&gt;</code> :</strong> Annule les modifications non validées d'un fichier.</li>
-              </ul>
-            </div>
-          `
-        },
-        {
-          id: "git-ignore",
-          title: "Ignorer des Fichiers (.gitignore)",
-          duration: "10 min",
-          type: "practice",
-          content: `
-            <div class="space-y-4">
-              <p>Le fichier <code>.gitignore</code> permet à Git de savoir quels fichiers ou répertoires il doit ignorer et ne pas suivre.</p>
-              <h4 class="text-blue-400 font-bold mt-4">Exemples de fichiers à ignorer</h4>
-              <ul class="list-disc ml-5 space-y-1">
-                <li>Fichiers de configuration locaux (ex: <code>.env</code>)</li>
-                <li>Dépendances de modules (ex: <code>node_modules/</code>, <code>vendor/</code>)</li>
-                <li>Fichiers générés automatiquement (ex: fichiers de build, logs)</li>
-                <li>Fichiers temporaires du système d'exploitation (ex: <code>.DS_Store</code>)</li>
-              </ul>
-              <h4 class="text-blue-400 font-bold mt-4">Contenu d'un .gitignore</h4>
-              <pre class="bg-slate-900 p-3 rounded-lg text-sm overflow-x-auto"><code># Ignorer le dossier node_modules\nnode_modules/\n\n# Ignorer les fichiers de log\n*.log\n\n# Ignorer les fichiers de configuration sensibles\n.env\n\n# Ignorer les fichiers macOS\n.DS_Store</code></pre>
-            </div>
-          `
-        }
-      ]
-    },
-    {
-      title: "Introduction à GitHub",
-      topics: [
-        {
-          id: "github-intro",
-          title: "Qu'est-ce que GitHub ?",
-          duration: "20 min",
-          type: "theory",
-          content: `
-            <div class="space-y-4">
-              <p><strong>GitHub</strong> est une plateforme web d'hébergement de dépôts Git. C'est le plus grand service d'hébergement de code source au monde, utilisé pour le développement de logiciels et le contrôle de version.</p>
-              <h4 class="text-blue-400 font-bold mt-4">Fonctionnalités Clés</h4>
-              <ul class="list-disc ml-5 space-y-1">
-                <li><strong>Hébergement de dépôts :</strong> Stocke vos projets Git en ligne.</li>
-                <li><strong>Collaboration :</strong> Facilite le travail d'équipe avec des outils comme les Pull Requests.</li>
-                <li><strong>Gestion de projet :</strong> Issues, Projects, Wikis pour organiser le travail.</li>
-                <li><strong>Intégration continue :</strong> GitHub Actions pour l'automatisation des workflows.</li>
-                <li><strong>Communauté :</strong> Des millions de projets open source et de développeurs.</li>
-              </ul>
-              <p>GitHub est devenu un standard de l'industrie pour le partage et la collaboration sur le code.</p>
-            </div>
-          `
-        },
-        {
-          id: "github-create-repo",
-          title: "Créer un Dépôt GitHub",
-          duration: "15 min",
-          type: "practice",
-          content: `
-            <div class="space-y-4">
-              <p>Créer un dépôt sur GitHub est la première étape pour partager votre code ou démarrer un nouveau projet en ligne.</p>
-              <h4 class="text-blue-400 font-bold mt-4">Étapes pour créer un dépôt</h4>
-              <ol class="list-decimal ml-5 space-y-1">
-                <li>Connectez-vous à votre compte GitHub.</li>
-                <li>Cliquez sur le bouton "New" (Nouveau) dans la barre latérale gauche ou sur l'icône '+' en haut à droite.</li>
-                <li>Donnez un nom à votre dépôt (ex: <code>mon-super-projet</code>).</li>
-                <li>Ajoutez une description (optionnel).</li>
-                <li>Choisissez Public ou Private.</li>
-                <li>Vous pouvez initialiser le dépôt avec un README, un .gitignore ou une licence (souvent fait localement).</li>
-                <li>Cliquez sur "Create repository".</li>
-              </ol>
-              <p>Une fois créé, GitHub vous donnera les instructions pour lier votre dépôt local à ce nouveau dépôt distant.</p>
-            </div>
-          `
-        },
-        {
-          id: "github-clone-push",
-          title: "Cloner et Pousser (clone, push)",
-          duration: "25 min",
-          type: "essential",
-          content: `
-            <div class="space-y-4">
-              <p>Pour travailler sur un projet GitHub, vous devez le cloner localement. Une fois vos modifications faites, vous les "poussez" vers GitHub.</p>
-              <h4 class="text-blue-400 font-bold mt-4">Cloner un dépôt</h4>
-              <pre class="bg-slate-900 p-3 rounded-lg text-sm overflow-x-auto"><code>git clone https://github.com/utilisateur/mon-projet.git</code></pre>
-              <p>Cela télécharge une copie complète du dépôt sur votre machine locale.</p>
-              <h4 class="text-blue-400 font-bold mt-4">Pousser les modifications</h4>
-              <pre class="bg-slate-900 p-3 rounded-lg text-sm overflow-x-auto"><code>git add .\ngit commit -m "Mes dernières modifications"\ngit push origin main</code></pre>
-              <p><code>git push origin main</code> envoie vos commits locaux de la branche <code>main</code> vers le dépôt distant nommé <code>origin</code> (par défaut GitHub).</p>
-            </div>
-          `
-        }
-      ]
-    },
-    {
-      title: "Collaboration sur GitHub",
-      topics: [
-        {
-          id: "github-pull-requests",
-          title: "Pull Requests (PR)",
-          duration: "35 min",
-          type: "theory",
-          content: `
-            <div class="space-y-4">
-              <p>Une <strong>Pull Request (PR)</strong> est le cœur de la collaboration sur GitHub. C'est une proposition de fusion de vos modifications d'une branche vers une autre (généralement <code>main</code>).</p>
-              <h4 class="text-blue-400 font-bold mt-4">Cycle de vie d'une PR</h4>
-              <ol class="list-decimal ml-5 space-y-1">
-                <li>Vous créez une nouvelle branche pour votre fonctionnalité/correction.</li>
-                <li>Vous effectuez vos modifications et les commitez.</li>
-                <li>Vous poussez votre branche vers GitHub.</li>
-                <li>Vous ouvrez une Pull Request depuis votre branche vers la branche cible.</li>
-                <li>D'autres développeurs révisent votre code, commentent et suggèrent des changements.</li>
-                <li>Après approbation, la PR est fusionnée dans la branche cible.</li>
-              </ol>
-              <p>Les PRs sont essentielles pour maintenir la qualité du code et coordonner le travail d'équipe.</p>
-            </div>
-          `
-        },
-        {
-          id: "github-fork-contribute",
-          title: "Forking et Contribution",
-          duration: "30 min",
-          type: "practice",
-          content: `
-            <div class="space-y-4">
-              <p>Le <strong>forking</strong> est une manière de contribuer à des projets open source sur GitHub. Cela crée une copie personnelle d'un dépôt sur votre compte.</p>
-              <h4 class="text-blue-400 font-bold mt-4">Processus de Forking</h4>
-              <ol class="list-decimal ml-5 space-y-1">
-                <li>Sur la page du dépôt original, cliquez sur le bouton "Fork".</li>
-                <li>Cela crée une copie du dépôt sous votre compte GitHub.</li>
-                <li>Clonez votre fork localement : <code>git clone https://github.com/votre-utilisateur/projet-forke.git</code>.</li>
-                <li>Ajoutez l'original comme "upstream" distant : <code>git remote add upstream https://github.com/original/projet.git</code>.</li>
-                <li>Faites vos modifications, commitez et poussez vers votre fork.</li>
-                <li>Ouvrez une Pull Request depuis votre fork vers le dépôt original.</li>
-              </ol>
-              <p>Cela permet de proposer des modifications sans avoir les droits d'écriture directs sur le dépôt original.</p>
-            </div>
-          `
-        },
-        {
-          id: "github-conflict-resolution",
-          title: "Gestion des Conflits",
-          duration: "25 min",
-          type: "essential",
-          content: `
-            <div class="space-y-4">
-              <p>Les conflits de fusion (merge conflicts) se produisent lorsque deux branches ont modifié la même partie d'un fichier de manière incompatible.</p>
-              <h4 class="text-blue-400 font-bold mt-4">Résoudre un Conflit</h4>
-              <ol class="list-decimal ml-5 space-y-1">
-                <li>Git vous indiquera les fichiers en conflit.</li>
-                <li>Ouvrez ces fichiers dans votre éditeur. Vous verrez des marqueurs comme <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;</code>, <code>=======</code>, <code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;</code>.</li>
-                <li>Décidez quelle version du code conserver (la vôtre, celle de l'autre, ou une combinaison).</li>
-                <li>Supprimez les marqueurs de conflit.</li>
-                <li>Enregistrez le fichier.</li>
-                <li>Ajoutez le fichier résolu : <code>git add &lt;fichier-resolu&gt;</code>.</li>
-                <li>Commitez la résolution : <code>git commit -m "Résolution de conflit"</code>.</li>
-              </ol>
-              <p>La pratique est essentielle pour maîtriser la résolution de conflits.</p>
-            </div>
-          `
-        }
-      ]
-    },
-    {
-      title: "Fonctionnalités Avancées de GitHub",
-      topics: [
-        {
-          id: "github-issues-projects",
-          title: "Issues et Projets",
-          duration: "20 min",
-          type: "theory",
-          content: `
-            <div class="space-y-4">
-              <p>GitHub offre des outils intégrés pour la gestion de projet et le suivi des tâches.</p>
-              <h4 class="text-blue-400 font-bold mt-4">Issues (Problèmes)</h4>
-              <ul class="list-disc ml-5 space-y-1">
-                <li>Utilisées pour suivre les bugs, les demandes de fonctionnalités, les questions, etc.</li>
-                <li>Peuvent être assignées à des membres de l'équipe, étiquetées, et liées à des Pull Requests.</li>
-                <li>Un excellent moyen de centraliser la communication autour des tâches spécifiques.</li>
-              </ul>
-              <h4 class="text-blue-400 font-bold mt-4">Projects (Projets)</h4>
-              <ul class="list-disc ml-5 space-y-1">
-                <li>Tableaux Kanban personnalisables pour organiser les Issues et les Pull Requests.</li>
-                <li>Permettent de visualiser l'avancement du projet et de gérer les workflows.</li>
-                <li>Idéal pour les équipes qui suivent des méthodologies agiles.</li>
-              </ul>
-            </div>
-          `
-        },
-        {
-          id: "github-actions",
-          title: "GitHub Actions",
-          duration: "25 min",
-          type: "theory",
-          content: `
-            <div class="space-y-4">
-              <p><strong>GitHub Actions</strong> est une plateforme d'intégration continue et de livraison continue (CI/CD) qui vous permet d'automatiser vos workflows de développement directement depuis votre dépôt GitHub.</p>
-              <h4 class="text-blue-400 font-bold mt-4">Cas d'utilisation</h4>
-              <ul class="list-disc ml-5 space-y-1">
-                <li>Exécuter des tests automatisés à chaque push.</li>
-                <li>Déployer votre application sur un serveur.</li>
-                <li>Construire et publier des packages.</li>
-                <li>Automatiser des tâches de maintenance de dépôt.</li>
-              </ul>
-              <h4 class="text-blue-400 font-bold mt-4">Fonctionnement</h4>
-              <p>Les workflows sont définis dans des fichiers YAML (<code>.github/workflows/mon-workflow.yml</code>) et sont déclenchés par des événements (push, pull request, etc.).</p>
-            </div>
-          `
-        },
-        {
-          id: "github-pages",
-          title: "Pages GitHub",
-          duration: "15 min",
-          type: "practice",
-          content: `
-            <div class="space-y-4">
-              <p><strong>GitHub Pages</strong> est un service d'hébergement statique gratuit qui prend les fichiers directement depuis un dépôt GitHub, exécute un processus de build si nécessaire, et publie un site web.</p>
-              <h4 class="text-blue-400 font-bold mt-4">Utilisations typiques</h4>
-              <ul class="list-disc ml-5 space-y-1">
-                <li>Sites web personnels ou de portfolio.</li>
-                <li>Documentation de projets.</li>
-                <li>Blogs (avec Jekyll).</li>
-                <li>Pages de destination pour des projets open source.</li>
-              </ul>
-              <h4 class="text-blue-400 font-bold mt-4">Mise en place</h4>
-              <ol class="list-decimal ml-5 space-y-1">
-                <li>Créez un dépôt nommé <code>votre-utilisateur.github.io</code> pour un site personnel, ou une branche <code>gh-pages</code> pour un site de projet.</li>
-                <li>Poussez votre contenu HTML, CSS, JS.</li>
-                <li>Votre site sera accessible à <code>https://votre-utilisateur.github.io</code> ou <code>https://votre-utilisateur.github.io/nom-du-depot</code>.</li>
-              </ol>
-            </div>
-          `
-        }
-      ]
-    }
-  ];
-
-  const totalTopics = courseSections.reduce((acc, section) => acc + section.topics.length, 0);
-  const progress = Math.round((completedTopics.size / totalTopics) * 100);
+  const lessonsByCategory = useMemo(() => {
+    const grouped = {};
+    categories.forEach(cat => {
+      grouped[cat] = filteredLessons.filter(l => l.category === cat);
+    });
+    return grouped;
+  }, [filteredLessons]);
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200 font-sans selection:bg-blue-500/30">
-      {/* Top Progress Bar */}
-      <div className="sticky top-0 z-50 w-full h-1.5 bg-slate-900">
-        <motion.div
-          className="h-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]"
-          initial={{ width: 0 }}
-          animate={{ width: `${progress}%` }}
-        />
-      </div>
-
-      <div className="max-w-4xl mx-auto px-6 py-12">
-        {/* Back Button */}
-        <button
-          onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-12 group"
-        >
-          <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-          <span className="text-sm font-bold uppercase tracking-widest">Retour aux cours</span>
-        </button>
-
-        {/* Header */}
-        <header className="mb-20">
-          <div className="flex items-center gap-4 mb-6">
-            <div className="p-3 rounded-2xl bg-purple-400/10 text-purple-400 border border-purple-400/20">
-              <GitBranch size={32} />
+    <div className="flex h-screen bg-gray-950 font-sans text-white overflow-hidden selection:bg-blue-500/30">
+      
+      {/* SIDEBAR */}
+      <motion.aside 
+        initial={false}
+        animate={{ width: isSidebarOpen ? 280 : 0 }}
+        className="flex flex-col border-r border-blue-900/30 bg-slate-900 overflow-hidden relative z-20"
+      >
+        <div className="flex items-center justify-between px-4 py-3 bg-gray-950 border-b border-blue-900/30">
+          <div className="flex items-center gap-2">
+            <div className="bg-blue-800 p-1 rounded text-white">
+              <FaGitAlt size={16} />
             </div>
-            <div>
-              <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight">
-                Git & <span className="text-purple-500">GitHub</span>
-              </h1>
-              <p className="text-slate-400 font-medium mt-1">Maîtrisez le contrôle de version et la collaboration.</p>
-            </div>
+            <span className="font-bold text-sm tracking-tight uppercase text-blue-400">Git & GitHub</span>
           </div>
+          <button className="text-gray-500 hover:text-white transition-colors">
+            <Settings size={16} />
+          </button>
+        </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-10">
-            <div className="p-4 rounded-2xl bg-slate-900/50 border border-white/5">
-              <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Progression</div>
-              <div className="text-2xl font-black text-white">{progress}%</div>
-            </div>
-            <div className="p-4 rounded-2xl bg-slate-900/50 border border-white/5">
-              <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Modules</div>
-              <div className="text-2xl font-black text-white">{courseSections.length}</div>
-            </div>
-            <div className="p-4 rounded-2xl bg-slate-900/50 border border-white/5">
-              <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Durée totale</div>
-              <div className="text-2xl font-black text-white">~6h</div>
-            </div>
-            <div className="p-4 rounded-2xl bg-slate-900/50 border border-white/5">
-              <div className="text-slate-500 text-[10px] font-black uppercase tracking-widest mb-1">Niveau</div>
-              <div className="text-2xl font-black text-white">Lvl 1</div>
+        <div className="p-2 bg-gray-950">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={14} />
+            <input
+              type="text"
+              placeholder="Rechercher..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-slate-800 border border-blue-900/20 rounded py-1.5 pl-9 pr-3 text-xs focus:outline-none focus:border-blue-500 transition-all placeholder:text-gray-600"
+            />
+          </div>
+        </div>
+
+        <nav className="flex-1 overflow-y-auto custom-scrollbar">
+          {categories.map(cat => (
+            lessonsByCategory[cat] && lessonsByCategory[cat].length > 0 && (
+              <div key={cat} className="mt-2">
+                <div className="px-4 py-1.5 text-[10px] font-bold text-blue-400/70 uppercase tracking-widest flex items-center justify-between">
+                  <span>{cat}</span>
+                </div>
+                <ul className="mt-1">
+                  {lessonsByCategory[cat].map((lesson) => (
+                    <li key={lesson.title}>
+                      <button
+                        onClick={() => setSelectedLesson(lesson)}
+                        className={`w-full text-left px-4 py-1.5 text-xs transition-colors flex items-center gap-3 group ${
+                          selectedLesson?.title === lesson.title 
+                            ? 'bg-blue-900/50 text-white border-l-2 border-blue-500' 
+                            : 'text-gray-400 hover:bg-slate-800 hover:text-gray-200'
+                        }`}
+                      >
+                        {React.createElement(lesson.icon, { size: 14, className: selectedLesson?.title === lesson.title ? 'text-blue-400' : lesson.color })}
+                        <span className="truncate flex-1">{lesson.title}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
+          ))}
+        </nav>
+
+        <div className="p-2 border-t border-blue-900/30 bg-gray-950 flex items-center justify-around text-gray-500">
+          <button title="Aide" className="hover:text-blue-400 transition-colors"><Info size={14} /></button>
+          <button title="Contact" className="hover:text-blue-400 transition-colors"><MessageSquare size={14} /></button>
+          <button title="Github" className="hover:text-blue-400 transition-colors"><FaGithub size={14} /></button>
+        </div>
+      </motion.aside>
+
+      {/* MAIN CONTENT */}
+      <div className="flex-1 flex flex-col min-w-0 bg-gray-950 relative">
+        <header className="h-10 border-b border-blue-900/30 flex items-center justify-between px-4 bg-slate-900/30 backdrop-blur-sm z-10">
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="p-1 hover:bg-slate-800 rounded text-gray-500 hover:text-white transition-colors"
+            >
+              {isSidebarOpen ? <X size={16} /> : <Menu size={16} />}
+            </button>
+            <div className="flex items-center gap-2 text-[11px] text-gray-500 uppercase tracking-wider">
+              <span className="hover:text-blue-400 cursor-pointer transition-colors">Git & GitHub</span>
+              {selectedLesson && (
+                <>
+                  <ChevronRight size={12} className="text-gray-700" />
+                  <span className="text-blue-400 font-bold">{selectedLesson.category}</span>
+                  <ChevronRight size={12} className="text-gray-700" />
+                  <span className="text-white lowercase">{selectedLesson.title}</span>
+                </>
+              )}
             </div>
           </div>
         </header>
 
-        {/* Course Roadmap Style */}
-        <div className="relative space-y-16">
-          {courseSections.map((section, sIdx) => (
-            <div key={section.title} className="relative">
-              {/* Vertical Path Line */}
-              {sIdx !== courseSections.length - 1 && (
-                <div className="absolute left-6 top-12 bottom-0 w-0.5 bg-slate-800" />
-              )}
-
-              <div className="flex items-center gap-6 mb-8">
-                <div className="w-12 h-12 rounded-2xl bg-purple-600 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-purple-600/20 z-10">
-                  {sIdx + 1}
-                </div>
-                <h2 className="text-2xl font-black text-white tracking-tight">{section.title}</h2>
-              </div>
-
-              <div className="ml-6 md:ml-12 space-y-4">
-                {section.topics.map((topic) => (
-                  <div key={topic.id} className="relative">
-                    <motion.div
-                      whileHover={{ x: 8 }}
-                      onClick={() => toggleExpand(topic.id)}
-                      className={`
-                        group flex items-center justify-between p-5 rounded-2xl border transition-all duration-300 cursor-pointer
-                        ${completedTopics.has(topic.id)
-                          ? 'bg-green-500/5 border-green-500/30'
-                          : 'bg-slate-900/40 border-white/5 hover:border-purple-500/50 hover:bg-slate-900/60'}
-                        ${expandedTopic === topic.id ? 'border-purple-500/50 bg-slate-900/60 rounded-b-none' : ''}
-                      `}
-                    >
-                      <div className="flex items-center gap-4">
-                        <button
-                          onClick={(e) => toggleTopic(topic.id, e)}
-                          className={`
-                            w-6 h-6 rounded-lg border-2 flex items-center justify-center transition-all
-                            ${completedTopics.has(topic.id)
-                              ? 'bg-green-500 border-green-500 text-white'
-                              : 'border-slate-700 group-hover:border-purple-500'}
-                          `}
-                        >
-                          {completedTopics.has(topic.id) && <CheckCircle2 size={14} />}
-                        </button>
-
-                        <div>
-                          <h3 className={`font-bold transition-colors ${completedTopics.has(topic.id) ? 'text-slate-400 line-through' : 'text-slate-200 group-hover:text-white'}`}>
-                            {topic.title}
-                          </h3>
-                          <div className="flex items-center gap-3 mt-1">
-                            <span className="flex items-center gap-1 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                              <Clock size={10} /> {topic.duration}
-                            </span>
-                            <span className={`text-[9px] px-2 py-0.5 rounded-md font-black uppercase tracking-widest ${
-                              topic.type === 'essential' ? 'bg-red-500/10 text-red-400' :
-                              topic.type === 'practice' ? 'bg-blue-500/10 text-blue-400' : 'bg-slate-800 text-slate-500'
-                            }`}>
-                              {topic.type}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-xl bg-white/5 text-slate-400 transition-all ${expandedTopic === topic.id ? 'rotate-180 text-purple-500' : ''}`}>
-                          <ChevronDown size={20} />
-                        </div>
-                      </div>
-                    </motion.div>
-
-                    {/* Expandable Theory Content */}
-                    <AnimatePresence>
-                      {expandedTopic === topic.id && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: "easeInOut" }}
-                          className="overflow-hidden bg-slate-900/60 border-x border-b border-purple-500/50 rounded-b-2xl"
-                        >
-                          <div className="p-6 pt-2 text-slate-300 leading-relaxed text-sm">
-                            <div className="flex items-center gap-2 mb-4 text-purple-400">
-                              <BookOpen size={16} />
-                              <span className="text-[10px] font-black uppercase tracking-widest">Théorie du module</span>
-                            </div>
-                            <div
-                              className="prose prose-invert max-w-none"
-                              dangerouslySetInnerHTML={{ __html: topic.content }}
-                            />
-                            <div className="mt-6 flex justify-end">
-                              <button
-                                onClick={(e) => toggleTopic(topic.id, e)}
-                                className={`
-                                  px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2
-                                  ${completedTopics.has(topic.id)
-                                    ? 'bg-green-500/20 text-green-400 border border-green-500/30'
-                                    : 'bg-purple-600 hover:bg-purple-500 text-white shadow-lg shadow-purple-600/20'}
-                                `}
-                              >
-                                {completedTopics.has(topic.id) ? (
-                                  <><CheckCircle2 size={14} /> Terminé</>
-                                ) : (
-                                  <><PlayCircle size={14} /> Marquer comme lu</>
-                                )}
-                              </button>
-                            </div>
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-12">
+          <AnimatePresence mode="wait">
+            {selectedLesson ? (
+              <motion.article
+                key={selectedLesson.title}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="max-w-3xl"
+              >
+                <div className="border-b border-blue-900/30 pb-6 mb-8">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className={`h-12 w-12 rounded bg-blue-950 border border-blue-900/50 flex items-center justify-center ${selectedLesson.color}`}>
+                      {React.createElement(selectedLesson.icon, { size: 24 })}
+                    </div>
+                    <div>
+                      <h1 className="text-3xl font-bold text-white tracking-tight">{selectedLesson.title}</h1>
+                      <p className="text-xs text-blue-400 font-mono mt-1">module: {selectedLesson.category.toLowerCase()}</p>
+                    </div>
                   </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+                </div>
 
-        {/* Final Achievement */}
-        <div className="mt-32 p-12 rounded-[3rem] bg-gradient-to-br from-purple-600/20 to-pink-600/10 border border-purple-500/20 text-center relative overflow-hidden group">
-          <div className="absolute -top-10 -right-10 opacity-10 group-hover:rotate-12 transition-transform duration-700">
-            <Trophy size={200} />
-          </div>
-          <h3 className="text-3xl font-black text-white mb-4">Prêt pour la suite ?</h3>
-          <p className="text-slate-400 max-w-md mx-auto mb-8 font-medium">
-            Vous avez maintenant les bases solides pour contribuer à des projets open source et gérer votre propre code.
-          </p>
-          <button className="px-8 py-4 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-2xl transition-all shadow-lg shadow-purple-600/20 flex items-center gap-2 mx-auto">
-            Explorer des Projets <ChevronRight size={20} />
-          </button>
+                <div className="space-y-8">
+                  <section>
+                    <h2 className="text-lg font-bold text-blue-400 mb-3 flex items-center gap-2">
+                      <BookOpen size={18} /> Concepts Clés
+                    </h2>
+                    <p className="text-gray-400 leading-relaxed text-sm">
+                      {selectedLesson.course}
+                    </p>
+                  </section>
+
+                  <section>
+                    <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                      <Terminal size={18} className="text-blue-400" /> Terminal / Code
+                    </h2>
+                    <div className="bg-gray-900 border border-blue-900/30 rounded p-4 font-mono text-[11px] text-gray-300">
+                      <pre className="whitespace-pre-wrap">{selectedLesson.code}</pre>
+                    </div>
+                  </section>
+
+                  <section className="bg-slate-900/50 border border-blue-900/30 rounded-lg p-6">
+                    <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                      <PenTool size={18} className="text-blue-300" /> Exercice Pratique
+                    </h2>
+                    <div className="bg-gray-950/50 border border-blue-900/20 p-4 rounded text-xs text-gray-300 leading-relaxed">
+                      {selectedLesson.exercise}
+                    </div>
+                  </section>
+                </div>
+              </motion.article>
+            ) : (
+              <div className="h-full flex flex-col items-center justify-center text-center max-w-md mx-auto">
+                <div className="w-20 h-20 rounded-full bg-slate-900 border border-blue-900/30 flex items-center justify-center mb-6">
+                  <FaGitAlt size={40} className="text-blue-500/50" />
+                </div>
+                <h2 className="text-xl font-bold text-white mb-2">Git & GitHub Documentation</h2>
+                <p className="text-gray-500 text-sm mb-8">
+                  Maîtrisez le contrôle de version et la collaboration moderne. Sélectionnez un module dans la barre latérale pour commencer.
+                </p>
+                <div className="flex flex-wrap justify-center gap-3">
+                  {[FaGitAlt, FaGithub, GitBranch, GitMerge].map((Icon, i) => (
+                    <Icon key={i} className="text-xl text-gray-700 hover:text-blue-400 transition-colors cursor-pointer" />
+                  ))}
+                </div>
+              </div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 5px;
+          height: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #1e293b;
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #334155;
+        }
+      `}} />
     </div>
   );
-};
-
-export default GithubCourses;
+}

@@ -31,6 +31,11 @@ import Meta from "./page/CompagnieQustions/Meta/meta";
 import Apple from "./page/CompagnieQustions/Apple/Apple";
 import Microsoft from "./page/CompagnieQustions/Microsoft/Microsoft";
 
+import Reactintermediaire from "./page/Software_developer/Frontend/Intermediaire/ReactIntermediare";
+import BaseTypeScript from "./page/Software_developer/Frontend/Intermediaire/BaseTypescript";
+import NodeJsIntermediare from "./page/Software_developer/Frontend/Intermediaire/Nodejs&Expess";
+import CloudawsIntermediare from "./page/Software_developer/Frontend/Intermediaire/cloudaws";
+
 
 
 
@@ -61,11 +66,18 @@ export default function App() {
           <Route path = "/introbase" element = {<IntroBaseDeDonnee/>}/>
           <Route path = "/resourcecourcesbackend" element = {<ResourceCoursBackend/>}/>
           <Route path = "/resourcecoursfullstack" element = {<ResourceCoursFullstack/>}/>
+
+          
           <Route path ="/google" element = {<Google/>} />
           <Route path ="/amazon" element = {<Amazon/>} />
           <Route path ="/meta" element = {<Meta/>} />
           <Route path ="/apple" element = {<Apple/>} />
           <Route path ="/microsoft" element = {<Microsoft/>} />
+
+          <Route path ="/reactintermediaire" element = {<Reactintermediaire/>} />
+          <Route path ="/basetypescript" element = {<BaseTypeScript/>} />
+          <Route path ="/nodejsintermediaire" element = {<NodeJsIntermediare/>} />
+          <Route path ="/cloudawsintermediaire" element = {<CloudawsIntermediare/>} />
 
         </Route>
       </Routes>
