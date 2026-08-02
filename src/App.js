@@ -1,6 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import Analytics from "./Analytic";
 
+import { useState, useEffect } from "react";
+
 import Layout from "./Layout/Layout";
 
 import ImpactSection from "./page/Home";
@@ -36,10 +38,27 @@ import BaseTypeScript from "./page/Software_developer/Frontend/Intermediaire/Bas
 import NodeJsIntermediare from "./page/Software_developer/Frontend/Intermediaire/Nodejs&Expess";
 import CloudawsIntermediare from "./page/Software_developer/Frontend/Intermediaire/cloudaws";
 
+import LunaLoadingScreen from './page/LunaLoadingScreen';
+
 
 
 
 export default function App() {
+
+   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Le chargement s'arrête après 4.5 secondes (temps de l'animation)
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 4500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <LunaLoadingScreen />;
+  }
+
   return (
     <>
       <Analytics />
@@ -67,7 +86,7 @@ export default function App() {
           <Route path = "/resourcecourcesbackend" element = {<ResourceCoursBackend/>}/>
           <Route path = "/resourcecoursfullstack" element = {<ResourceCoursFullstack/>}/>
 
-          
+
           <Route path ="/google" element = {<Google/>} />
           <Route path ="/amazon" element = {<Amazon/>} />
           <Route path ="/meta" element = {<Meta/>} />

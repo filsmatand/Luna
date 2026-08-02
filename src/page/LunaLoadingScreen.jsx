@@ -3,15 +3,16 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 
 /**
- * LunaLoadingScreen - Page de chargement pour Luna Development
- * Effet : Une lune qui se remplit d'un liquide blanc lumineux.
+ * LunaLoadingScreen - Version "Aesthetic Photo"
+ * Forme : Croissant de lune volumineux orienté à droite, fidèle à la photo.
+ * Animation : Remplissage liquide très lent (10s) et complet.
  */
 export default function LunaLoadingScreen() {
   const navigate = useNavigate();
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    // Simulation du chargement : de 0 à 100% en 4 secondes
+    // Chargement très lent : 0 à 100% en 10 secondes (100ms par %)
     const interval = setInterval(() => {
       setProgress((prev) => {
         if (prev >= 100) {
@@ -20,113 +21,140 @@ export default function LunaLoadingScreen() {
         }
         return prev + 1;
       });
-    }, 40);
+    }, 100); 
 
-    // Redirection une fois le chargement terminé
     if (progress === 100) {
       const timer = setTimeout(() => {
-        navigate("/dashboard"); // Remplacez par votre route de destination
-      }, 500);
+        navigate("/"); // Remplacez par votre route d'accueil
+      }, 1200);
       return () => clearTimeout(timer);
     }
 
     return () => clearInterval(interval);
   }, [progress, navigate]);
 
-  return (
-    <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-gray-950 font-sans text-white overflow-hidden">
-      
-      {/* CONTENEUR DE LA LUNE */}
-      <div className="relative w-48 h-48 md:w-64 md:h-64 mb-8">
-        
-        {/* LUNE DE FOND (VIDE) */}
-        <div className="absolute inset-0 rounded-full border-2 border-white/10 shadow-[0_0_50px_rgba(255,255,255,0.05)]"></div>
-        
-        {/* LUNE QUI SE REMPLIT (MASQUE) */}
-        <div className="absolute inset-0 rounded-full overflow-hidden border-2 border-white/20">
-          
-          {/* LIQUIDE (EAU BLANCHE) */}
-          <motion.div
-            initial={{ y: "100%" }}
-            animate={{ y: (100 - progress) + "%" }}
-            transition={{ ease: "linear", duration: 0.1 }}
-            className="absolute inset-0 bg-white shadow-[0_0_30px_rgba(255,255,255,0.8)]"
-          >
-            {/* EFFET DE VAGUE SUR LE DESSUS DU LIQUIDE */}
-            <motion.div 
-              animate={{ 
-                x: ["-25%", "0%"],
-                rotate: [0, 2, -2, 0]
-              }}
-              transition={{ 
-                x: { repeat: Infinity, duration: 2, ease: "linear" },
-                rotate: { repeat: Infinity, duration: 3, ease: "easeInOut" }
-              }}
-              className="absolute -top-4 left-[-50%] w-[200%] h-8 bg-white rounded-[40%] opacity-90"
-            />
-            <motion.div 
-              animate={{ 
-                x: ["0%", "-25%"],
-                rotate: [0, -2, 2, 0]
-              }}
-              transition={{ 
-                x: { repeat: Infinity, duration: 3, ease: "linear" },
-                rotate: { repeat: Infinity, duration: 2, ease: "easeInOut" }
-              }}
-              className="absolute -top-6 left-[-50%] w-[200%] h-10 bg-white/50 rounded-[45%] opacity-50"
-            />
-          </motion.div>
-        </div>
+  // Tracé SVG d'un croissant volumineux orienté à droite (Waxing Crescent)
+  // Basé sur l'esthétique de la photo fournie.
+  // Le dos (convexe) est à gauche, le creux (concave) est à droite.
+  const crescentPath = "M 50 5 A 45 45 0 0 0 50 95 A 32 45 0 0 1 50 5 Z";
 
-        {/* LUEUR EXTÉRIEURE DYNAMIQUE */}
+  return (
+    <div className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#020617] font-sans text-white overflow-hidden">
+      
+      {/* CONTENEUR DU CROISSANT DE LUNE VOLUMINEUX */}
+      <div className="relative w-48 h-48 md:w-64 md:h-64 mb-16">
+        
+        {/* SVG POUR LE DESSIN ET LE MASQUAGE */}
+        <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_0_40px_rgba(255,255,255,0.25)]">
+          <defs>
+            {/* Masque de découpe pour la forme exacte de la photo */}
+            <clipPath id="crescentMask">
+              <path d={crescentPath} />
+            </clipPath>
+          </defs>
+
+          {/* SILHOUETTE DE FOND (Lueur très faible) */}
+          <path 
+            d={crescentPath} 
+            fill="rgba(255,255,255,0.05)" 
+            stroke="rgba(255,255,255,0.1)" 
+            strokeWidth="0.5"
+          />
+
+          {/* GROUPE MASQUÉ POUR LE LIQUIDE BLANC */}
+          <g clipPath="url(#crescentMask)">
+            {/* LE LIQUIDE QUI MONTE LENTEMENT */}
+            <motion.g
+              initial={{ y: 100 }}
+              animate={{ y: 100 - progress }}
+              transition={{ ease: "linear", duration: 0.1 }}
+            >
+              {/* CORPS DU LIQUIDE BLANC PUR */}
+              <rect x="0" y="0" width="100" height="100" fill="white" />
+              
+              {/* EFFET DE VAGUES LÉGÈRES */}
+              <motion.path
+                d="M-100 0 Q-75 -4 -50 0 T0 0 T50 0 T100 0 T150 0 T200 0 V20 H-100 Z"
+                fill="white"
+                animate={{ x: [-100, 0] }}
+                transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
+              />
+              <motion.path
+                d="M-100 0 Q-75 -6 -50 0 T0 0 T50 0 T100 0 T150 0 T200 0 V20 H-100 Z"
+                fill="rgba(255,255,255,0.3)"
+                animate={{ x: [0, -100] }}
+                transition={{ repeat: Infinity, duration: 4, ease: "linear" }}
+                style={{ y: -1 }}
+              />
+            </motion.g>
+          </g>
+        </svg>
+
+        {/* AURA LUMINEUSE ÉVOLUTIVE */}
         <motion.div 
-          animate={{ opacity: [0.2, 0.5, 0.2] }}
-          transition={{ repeat: Infinity, duration: 2 }}
-          className="absolute inset-[-20px] rounded-full bg-white/5 blur-3xl -z-10"
+          animate={{ 
+            opacity: [0.05, 0.15, 0.05],
+            scale: [1, 1.1, 1]
+          }}
+          transition={{ repeat: Infinity, duration: 5 }}
+          className="absolute inset-0 rounded-full bg-white/5 blur-[60px] -z-10"
         />
       </div>
 
-      {/* TEXTE ET PROGRESSION */}
-      <div className="text-center">
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-2xl md:text-3xl font-black tracking-[0.3em] uppercase mb-2"
+      {/* TITRE MINIMALISTE HAUT DE GAMME */}
+      <div className="flex flex-col items-center gap-6">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.6 }}
+          transition={{ duration: 3 }}
+          className="flex flex-col items-center"
         >
-          Luna <span className="text-white/50">Development</span>
-        </motion.h1>
-        
-        <div className="flex items-center justify-center gap-4 mt-4">
-          <div className="w-32 h-[1px] bg-white/10 relative overflow-hidden">
+          <h2 className="text-[8px] md:text-[9px] font-extralight uppercase text-white tracking-[1.2em] mb-2">
+            Luna
+          </h2>
+          <h1 className="text-[10px] md:text-[12px] font-medium uppercase text-white tracking-[0.6em]">
+            Development
+          </h1>
+        </motion.div>
+
+        {/* PROGRESSION DISCRÈTE */}
+        <div className="flex flex-col items-center gap-2">
+          <div className="w-32 h-[1px] bg-white/5 relative overflow-hidden">
             <motion.div 
-              initial={{ x: "-100%" }}
-              animate={{ x: (progress - 100) + "%" }}
-              className="absolute inset-0 bg-white"
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: progress / 100 }}
+              className="absolute inset-0 bg-white/20 origin-left"
             />
           </div>
-          <span className="text-[10px] font-mono text-white/40 tracking-widest">
+          <span className="text-[7px] font-mono text-white/10 uppercase tracking-[0.5em]">
             {progress}%
           </span>
         </div>
       </div>
 
-      {/* DÉTAILS DÉCORATIFS (ÉTOILES) */}
-      {[...Array(20)].map((_, i) => (
-        <motion.div
-          key={i}
-          initial={{ opacity: Math.random() }}
-          animate={{ opacity: [0.2, 1, 0.2] }}
-          transition={{ repeat: Infinity, duration: 2 + Math.random() * 3 }}
-          className="absolute w-[1px] h-[1px] bg-white rounded-full"
-          style={{
-            top: Math.random() * 100 + "%",
-            left: Math.random() * 100 + "%",
-          }}
-        />
-      ))}
+      {/* AMBIANCE STELLAIRE PROFONDE */}
+      <div className="absolute inset-0 pointer-events-none opacity-20">
+        {[...Array(20)].map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{ opacity: [0, 1, 0] }}
+            transition={{ 
+              repeat: Infinity, 
+              duration: 4 + Math.random() * 5,
+              delay: Math.random() * 10
+            }}
+            className="absolute w-px h-px bg-white"
+            style={{
+              top: Math.random() * 100 + "%",
+              left: Math.random() * 100 + "%",
+            }}
+          />
+        ))}
+      </div>
 
       <style dangerouslySetInnerHTML={{ __html: `
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400;500&display=swap');
+        body { background-color: #020617; margin: 0; cursor: wait; }
       `}} />
     </div>
   );

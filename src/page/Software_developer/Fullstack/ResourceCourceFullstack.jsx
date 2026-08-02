@@ -1,28 +1,33 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { 
   Code2, Terminal, Database, GitBranch, Sparkles, GraduationCap, 
   Cloud, Zap, TrendingUp, Cpu, ServerCog, HardDrive, Globe, 
-  Lock, Lightbulb, Box, Layers, Workflow, Activity, Smartphone,
-  Brain, Bot, Layout, Server, ShieldCheck, Search
+  Lock, Lightbulb, Search, ChevronRight, ExternalLink, Menu, X,
+  Settings, Info, MessageSquare, ArrowLeft, Layers, Activity, Workflow, Box, ShieldCheck,
+  Smartphone, Brain, Bot, Layout, Server
 } from "lucide-react";
 import { 
-  FaHtml5, FaCss3Alt, FaJs, FaReact, FaPython, FaNodeJs, FaAws, FaDocker 
+  FaHtml5, FaCss3Alt, FaJs, FaReact, FaPython, FaNodeJs, FaAws, FaDocker, FaGithub
 } from "react-icons/fa";
 import { 
   SiTailwindcss, SiTypescript, SiNextdotjs, SiKubernetes, SiPostgresql, 
   SiPrisma, SiGraphql, SiVercel 
 } from "react-icons/si";
 
+// --- DONNÉES FULLSTACK (STRUCTURE HARMONISÉE) ---
 const modules = [
-  // --- NIVEAU DÉBUTANT (Fondations Solides) ---
+  // --- NIVEAU DÉBUTANT ---
   {
     title: "Fondamentaux du Web Moderne",
     description: "Maîtriser HTML5 sémantique, CSS3 (Grid/Flexbox) et les bases de l'accessibilité web.",
     icon: Globe,
     level: "Débutant",
     path: "/web-fundamentals",
+    keyPoints: ["HTML5 Sémantique", "CSS Grid & Flexbox", "Accessibilité (A11y)", "Responsive Design"],
+    startCode: "<!-- Structure Sémantique -->\n<main>\n  <article>\n    <h1>Titre Article</h1>\n    <p>Contenu...</p>\n  </article>\n</main>",
+    exercise: "Créez une mise en page responsive avec une barre latérale et un contenu principal en utilisant CSS Grid."
   },
   {
     title: "JavaScript ES2026+",
@@ -30,6 +35,9 @@ const modules = [
     icon: Terminal,
     level: "Débutant",
     path: "/javascript-mastery",
+    keyPoints: ["ES6+ Syntax", "Asynchronisme (Async/Await)", "Manipulation du DOM", "Fetch API"],
+    startCode: "// Programmation Asynchrone Moderne\nconst fetchData = async () => {\n  const res = await fetch('https://api.luna.dev/data');\n  const data = await res.json();\n  console.log(data);\n};",
+    exercise: "Utilisez l'API Fetch pour récupérer une liste d'utilisateurs et les afficher dans le DOM."
   },
   {
     title: "React & Next.js Essentials",
@@ -37,6 +45,9 @@ const modules = [
     icon: FaReact,
     level: "Débutant",
     path: "/react-next-basics",
+    keyPoints: ["Composants & Props", "Hooks (useState, useEffect)", "App Router Navigation", "Server vs Client Components"],
+    startCode: "// Next.js Server Component\nexport default async function Page() {\n  const data = await getData();\n  return <main>{data.title}</main>;\n}",
+    exercise: "Créez un compteur interactif en utilisant le hook useState dans un Client Component."
   },
   {
     title: "Tailwind CSS & Design Systems",
@@ -44,6 +55,9 @@ const modules = [
     icon: SiTailwindcss,
     level: "Débutant",
     path: "/tailwind-design",
+    keyPoints: ["Utility-First CSS", "Design Tokens", "Dark Mode Implementation", "Custom Configurations"],
+    startCode: "<div className=\"flex items-center justify-between p-4 bg-slate-900 rounded-xl shadow-lg\">\n  <h2 className=\"text-white font-bold\">Card Title</h2>\n</div>",
+    exercise: "Reproduisez un bouton 'Glassmorphism' en utilisant uniquement des classes Tailwind CSS."
   },
   {
     title: "Git, GitHub & Open Source",
@@ -51,6 +65,9 @@ const modules = [
     icon: GitBranch,
     level: "Débutant",
     path: "/git-collaboration",
+    keyPoints: ["Version Control", "Pull Request Workflow", "Resolving Conflicts", "GitHub Actions Intro"],
+    startCode: "git checkout -b feature/new-module\ngit add .\ngit commit -m \"feat: add new dashboard\"\ngit push origin feature/new-module",
+    exercise: "Simulez une Pull Request et expliquez comment résoudre un conflit de fusion simple."
   },
   {
     title: "Bases de Données SQL (PostgreSQL)",
@@ -58,15 +75,21 @@ const modules = [
     icon: Database,
     level: "Débutant",
     path: "/sql-intro",
+    keyPoints: ["Relationnel vs NoSQL", "CRUD Operations", "Table Schemas", "Foreign Keys"],
+    startCode: "CREATE TABLE posts (\n  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),\n  title TEXT NOT NULL,\n  content TEXT,\n  author_id UUID REFERENCES users(id)\n);",
+    exercise: "Écrivez une requête SQL pour récupérer tous les articles d'un auteur spécifique."
   },
 
-  // --- NIVEAU INTERMÉDIAIRE (Développement Full Stack) ---
+  // --- NIVEAU INTERMÉDIAIRE ---
   {
     title: "TypeScript pour le Full Stack",
     description: "Sécuriser vos applications avec le typage statique côté client et serveur.",
     icon: SiTypescript,
     level: "Intermédiaire",
     path: "/typescript-fullstack",
+    keyPoints: ["Interfaces & Types", "Generics", "API Response Typing", "Strict Mode Benefits"],
+    startCode: "interface User {\n  id: string;\n  email: string;\n  role: 'admin' | 'user';\n}\n\nconst getUser = (id: string): Promise<User> => { ... };",
+    exercise: "Créez une interface pour un produit et utilisez-la pour typer une fonction de filtrage."
   },
   {
     title: "Backend avec Node.js & Bun",
@@ -74,6 +97,9 @@ const modules = [
     icon: FaNodeJs,
     level: "Intermédiaire",
     path: "/backend-runtimes",
+    keyPoints: ["Runtime Differences", "Stream Processing", "File System API", "Security Best Practices"],
+    startCode: "// Bun.serve - Ultra rapide\nBun.serve({\n  fetch(req) {\n    return new Response(\"Welcome to Luna Backend!\");\n  },\n});",
+    exercise: "Implémentez un middleware de logging qui enregistre le temps de réponse de chaque requête."
   },
   {
     title: "Next.js Avancé (RSC & Actions)",
@@ -81,6 +107,9 @@ const modules = [
     icon: SiNextdotjs,
     level: "Intermédiaire",
     path: "/nextjs-advanced",
+    keyPoints: ["React Server Components", "Server Actions", "Incremental Static Regeneration", "Streaming & Suspense"],
+    startCode: "// Server Action\nasync function createPost(formData: FormData) {\n  'use server';\n  const title = formData.get('title');\n  await db.post.create({ data: { title } });\n}",
+    exercise: "Utilisez une Server Action pour gérer la soumission d'un formulaire sans API route séparée."
   },
   {
     title: "ORMs (Prisma / Drizzle)",
@@ -88,6 +117,9 @@ const modules = [
     icon: SiPrisma,
     level: "Intermédiaire",
     path: "/orm-databases",
+    keyPoints: ["Schema Definition", "Type Safety", "Migrations", "Query Optimization"],
+    startCode: "const user = await prisma.user.findUnique({\n  where: { email: 'user@luna.dev' },\n  include: { posts: true }\n});",
+    exercise: "Définissez une relation 'One-to-Many' dans un schéma Prisma et générez la migration."
   },
   {
     title: "Authentification & Sécurité",
@@ -95,6 +127,9 @@ const modules = [
     icon: Lock,
     level: "Intermédiaire",
     path: "/auth-security",
+    keyPoints: ["OAuth & Providers", "JWT vs Sessions", "RBAC (Role-Based Access)", "CSRF & XSS Protection"],
+    startCode: "import { auth } from \"@/auth\";\n\nexport default async function ProtectedPage() {\n  const session = await auth();\n  if (!session) return <div>Accès refusé</div>;\n}",
+    exercise: "Configurez une route protégée qui redirige l'utilisateur s'il n'est pas connecté."
   },
   {
     title: "API Design (REST & GraphQL)",
@@ -102,15 +137,21 @@ const modules = [
     icon: Zap,
     level: "Intermédiaire",
     path: "/api-architecture",
+    keyPoints: ["Endpoint Versioning", "GraphQL Resolvers", "Error Handling", "Documentation (Swagger)"],
+    startCode: "type Query {\n  me: User\n  posts(limit: Int): [Post]\n}",
+    exercise: "Concevez un endpoint REST pour la gestion des favoris d'un utilisateur."
   },
 
-  // --- NIVEAU EXPERT (Ingénierie de Haut Niveau) ---
+  // --- NIVEAU EXPERT ---
   {
     title: "IA & LLM Integration",
     description: "Intégrer l'IA générative (OpenAI, Anthropic) via Vercel AI SDK et bases vectorielles.",
     icon: Brain,
     level: "Expert",
     path: "/ai-integration",
+    keyPoints: ["Vercel AI SDK", "Prompt Engineering", "Vector Databases (Pinecone)", "RAG (Retrieval Augmented Gen)"],
+    startCode: "import { streamText } from 'ai';\nimport { openai } from '@ai-sdk/openai';\n\nconst { textStream } = await streamText({\n  model: openai('gpt-4o'),\n  prompt: 'Explique le Fullstack...',\n});",
+    exercise: "Créez un composant de chat simple qui utilise le streaming pour afficher les réponses de l'IA."
   },
   {
     title: "Architecture Microservices",
@@ -118,6 +159,9 @@ const modules = [
     icon: ServerCog,
     level: "Expert",
     path: "/microservices-expert",
+    keyPoints: ["Event-Driven Architecture", "API Gateways", "Message Brokers (Kafka)", "Service Mesh"],
+    startCode: "// Communication inter-services\nawait kafka.send({\n  topic: 'order-processed',\n  messages: [{ value: JSON.stringify(order) }]\n});",
+    exercise: "Schématisez la communication entre un service Auth et un service Notification via RabbitMQ."
   },
   {
     title: "DevOps, Docker & K8s",
@@ -125,6 +169,9 @@ const modules = [
     icon: SiKubernetes,
     level: "Expert",
     path: "/devops-mastery",
+    keyPoints: ["Docker Multi-stage Builds", "Kubernetes Orchestration", "CI/CD Pipelines", "Infrastructure as Code"],
+    startCode: "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: fullstack-app\nspec:\n  replicas: 5",
+    exercise: "Écrivez un Dockerfile optimisé pour une application Next.js en production."
   },
   {
     title: "Cloud Native & Serverless (AWS)",
@@ -132,6 +179,9 @@ const modules = [
     icon: FaAws,
     level: "Expert",
     path: "/cloud-native",
+    keyPoints: ["Edge Computing", "Serverless Functions", "Global Distribution", "Cold Starts Optimization"],
+    startCode: "// AWS Lambda Handler\nexport const handler = async (event) => {\n  return { statusCode: 200, body: \"Luna Cloud!\" };\n};",
+    exercise: "Déployez une fonction Edge qui personnalise le contenu selon la géolocalisation de l'utilisateur."
   },
   {
     title: "Performance & Observabilité",
@@ -139,6 +189,9 @@ const modules = [
     icon: TrendingUp,
     level: "Expert",
     path: "/web-performance",
+    keyPoints: ["Core Web Vitals", "Real User Monitoring", "Distributed Tracing", "Performance Budgets"],
+    startCode: "import * as Sentry from \"@sentry/nextjs\";\n\nSentry.init({\n  dsn: \"https://luna@sentry.io/123\",\n  tracesSampleRate: 1.0,\n});",
+    exercise: "Utilisez Chrome DevTools pour identifier et corriger un problème de Layout Shift (CLS)."
   },
   {
     title: "Real-time & WebSockets",
@@ -146,170 +199,276 @@ const modules = [
     icon: Activity,
     level: "Expert",
     path: "/real-time-systems",
-  },
+    keyPoints: ["WebSocket Protocol", "Pub/Sub Patterns", "Conflict Resolution", "Scalable Real-time"],
+    startCode: "io.on('connection', (socket) => {\n  socket.on('message', (msg) => {\n    io.emit('broadcast', msg);\n  });\n});",
+    exercise: "Implémentez un système de présence qui affiche quels utilisateurs sont en ligne en temps réel."
+  }
 ];
 
-export default function FullStackMastery() {
+const levels = ["Débutant", "Intermédiaire", "Expert"];
+
+export default function FullstackDashboard() {
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedModule, setSelectedModule] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
+  const filteredModules = useMemo(() => {
+    return modules.filter(m => 
+      m.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      m.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [searchQuery]);
+
+  const modulesByLevel = useMemo(() => {
+    const grouped = {};
+    levels.forEach(level => {
+      grouped[level] = filteredModules.filter(m => m.level === level);
+    });
+    return grouped;
+  }, [filteredModules]);
 
   return (
-    <div className="min-h-screen px-4 md:px-24 bg-gray-950 font-sans text-slate-100 selection:bg-blue-500/30">
+    <div className="flex h-screen bg-gray-950 font-sans text-white overflow-hidden selection:bg-blue-500/30">
       
-      {/* --- HERO SECTION --- */}
-      <div className="mx-auto px-4 pt-20 mb-16 max-w-5xl text-center">
-        {/* Badge */}
-        <motion.div 
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center gap-2 rounded-full border border-blue-500/30 bg-blue-950/50 px-5 py-2 text-sm font-semibold text-blue-400 mb-8"
-        >
-          <Sparkles size={18} />
-          Parcours Full Stack 2026
-        </motion.div>
-
-        <motion.h1 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-4xl md:text-7xl font-black mb-6 tracking-tight leading-tight"
-        >
-          Devenez un Développeur <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Full Stack</span> d'Élite
-        </motion.h1>
-        
-        <p className="text-gray-400 text-lg md:text-xl max-w-3xl mx-auto mb-12">
-          Maîtrisez l'ensemble de la pile technologique, de l'interface utilisateur intuitive aux infrastructures cloud complexes et à l'intelligence artificielle.
-        </p>
-
-        {/* Technologies Full Stack Icons */}
-        <div className="mt-10 flex flex-wrap justify-center gap-4">
-          {[
-            { name: "Next.js", icon: SiNextdotjs, color: "text-white" },
-            { name: "React", icon: FaReact, color: "text-cyan-400" },
-            { name: "TypeScript", icon: SiTypescript, color: "text-blue-500" },
-            { name: "Tailwind", icon: SiTailwindcss, color: "text-sky-400" },
-            { name: "Node.js", icon: FaNodeJs, color: "text-green-500" },
-            { name: "PostgreSQL", icon: SiPostgresql, color: "text-blue-400" },
-            { name: "AI Integration", icon: Brain, color: "text-emerald-400" },
-            { name: "AWS", icon: FaAws, color: "text-orange-400" }
-          ].map((tech) => (
-            <div key={tech.name} className="group flex items-center gap-3 rounded-2xl border border-gray-800 bg-zinc-900/50 px-6 py-3 text-white transition-all duration-300 hover:-translate-y-1 hover:border-blue-500/50 hover:bg-zinc-800 hover:shadow-2xl hover:shadow-blue-500/10">
-              <tech.icon className={`text-xl ${tech.color}`} />
-              <span className="font-bold text-sm">{tech.name}</span>
+      {/* SIDEBAR (STYLE HARMONISÉ) */}
+      <motion.aside 
+        initial={false}
+        animate={{ width: isSidebarOpen ? 280 : 0 }}
+        className="flex flex-col border-r border-blue-900/30 bg-slate-900 overflow-hidden relative z-20"
+      >
+        <div className="flex items-center justify-between px-4 py-3 bg-gray-950 border-b border-blue-900/30">
+          <div className="flex items-center gap-2">
+            <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-1 rounded text-white shadow-lg shadow-purple-500/20">
+              <Sparkles size={16} />
             </div>
+            <span className="font-bold text-sm tracking-tight uppercase text-blue-400">Fullstack Mastery</span>
+          </div>
+          <button className="text-gray-500 hover:text-white transition-colors">
+            <Settings size={16} />
+          </button>
+        </div>
+
+        <div className="p-2 bg-gray-950">
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={14} />
+            <input
+              type="text"
+              placeholder="Rechercher un module..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full bg-slate-800 border border-blue-900/20 rounded py-1.5 pl-9 pr-3 text-xs focus:outline-none focus:border-blue-500 transition-all placeholder:text-gray-600"
+            />
+          </div>
+        </div>
+
+        <nav className="flex-1 overflow-y-auto custom-scrollbar">
+          {levels.map(level => (
+            modulesByLevel[level] && modulesByLevel[level].length > 0 && (
+              <div key={level} className="mt-2">
+                <div className="px-4 py-1.5 text-[10px] font-bold text-blue-400/70 uppercase tracking-widest flex items-center justify-between">
+                  <span>{level}</span>
+                  <span className="text-gray-600">{modulesByLevel[level].length}</span>
+                </div>
+                <ul className="mt-1">
+                  {modulesByLevel[level].map((module) => (
+                    <li key={module.title}>
+                      <button
+                        onClick={() => setSelectedModule(module)}
+                        className={`w-full text-left px-4 py-1.5 text-xs transition-colors flex items-center gap-3 group ${
+                          selectedModule?.title === module.title 
+                            ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg' 
+                            : 'text-gray-400 hover:bg-slate-800 hover:text-gray-200'
+                        }`}
+                      >
+                        {React.createElement(module.icon, { size: 14, className: selectedModule?.title === module.title ? 'text-white' : 'text-gray-500' })}
+                        <span className="truncate flex-1">{module.title}</span>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )
           ))}
+        </nav>
+
+        <div className="p-2 border-t border-blue-900/30 bg-gray-950 flex items-center justify-around text-gray-500">
+          <button title="Aide" className="hover:text-blue-400 transition-colors"><Info size={14} /></button>
+          <button title="Contact" className="hover:text-blue-400 transition-colors"><MessageSquare size={14} /></button>
+          <button title="Github" className="hover:text-blue-400 transition-colors"><FaGithub size={14} /></button>
+        </div>
+      </motion.aside>
+
+      {/* MAIN CONTENT (STYLE HARMONISÉ) */}
+      <div className="flex-1 flex flex-col min-w-0 bg-gray-950 relative">
+        <header className="h-10 border-b border-blue-900/30 flex items-center justify-between px-4 bg-slate-900/30 backdrop-blur-sm z-10">
+          <div className="flex items-center gap-3">
+            <button 
+              onClick={() => navigate('/')} 
+              className="p-1 hover:bg-slate-800 rounded text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-2"
+              title="Retour à l'accueil"
+            >
+              <ArrowLeft size={16} />
+            </button>
+            <div className="h-4 w-[1px] bg-blue-900/50 mx-1"></div>
+            <button 
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="p-1 hover:bg-slate-800 rounded text-gray-500 hover:text-white transition-colors"
+            >
+              {isSidebarOpen ? <X size={16} /> : <Menu size={16} />}
+            </button>
+            <div className="flex items-center gap-2 text-[11px] text-gray-500 uppercase tracking-wider">
+              <span className="hover:text-blue-400 cursor-pointer transition-colors font-medium">Fullstack</span>
+              {selectedModule && (
+                <>
+                  <ChevronRight size={12} className="text-gray-700" />
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 font-bold">{selectedModule.level}</span>
+                  <ChevronRight size={12} className="text-gray-700" />
+                  <span className="text-white lowercase">{selectedModule.title}</span>
+                </>
+              )}
+            </div>
+          </div>
+          <div className="flex items-center gap-4 text-[11px]">
+            <a href="https://nextjs.org/docs" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-white flex items-center gap-1 transition-colors">
+              Docs <ExternalLink size={10} />
+            </a>
+          </div>
+        </header>
+
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-12">
+          <AnimatePresence mode="wait">
+            {selectedModule ? (
+              <motion.article
+                key={selectedModule.title}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="max-w-4xl"
+              >
+                <div className="border-b border-blue-900/30 pb-6 mb-8">
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="h-12 w-12 rounded bg-gradient-to-br from-blue-900/50 to-purple-900/50 border border-blue-900/50 flex items-center justify-center text-white shadow-inner">
+                      {React.createElement(selectedModule.icon, { size: 24 })}
+                    </div>
+                    <div>
+                      <h1 className="text-3xl font-bold text-white tracking-tight">{selectedModule.title}</h1>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span className="text-[10px] text-blue-400 font-mono uppercase tracking-widest bg-blue-900/20 px-2 py-0.5 rounded">level: {selectedModule.level.toLowerCase()}</span>
+                        <span className="text-[10px] text-gray-600 font-mono italic">Fullstack Engineering 2027</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="space-y-10">
+                  <section className="bg-slate-900/30 p-6 rounded-xl border border-blue-900/10">
+                    <h2 className="text-lg font-bold text-blue-400 mb-4 flex items-center gap-2">
+                      <Info size={20} /> Présentation du Module
+                    </h2>
+                    <p className="text-gray-300 leading-relaxed text-sm">
+                      {selectedModule.description}
+                    </p>
+                  </section>
+
+                  <section className="bg-slate-900/50 border border-blue-900/30 rounded-xl p-8 relative overflow-hidden group">
+                    <h2 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                      <Terminal size={20} className="text-purple-400" /> Maîtrise Technique
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {selectedModule.keyPoints.map((item, i) => (
+                        <div key={i} className="flex items-center gap-3 text-xs text-gray-400 bg-gray-950/50 p-3 rounded-lg border border-blue-900/10 hover:border-purple-500/30 transition-all">
+                          <div className="h-1.5 w-1.5 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.5)]" />
+                          {item}
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section>
+                    <h2 className="text-sm font-bold text-white mb-4 flex items-center gap-2 uppercase tracking-[0.2em]">
+                      <Code2 size={16} className="text-blue-400" /> Code Snippet
+                    </h2>
+                    <div className="bg-gray-900 border border-blue-900/30 rounded-xl p-6 font-mono text-[11px] text-blue-100/80 shadow-2xl relative overflow-hidden">
+                      <div className="absolute top-0 right-0 p-2 opacity-5"><Layers size={40} /></div>
+                      <pre className="whitespace-pre-wrap leading-relaxed">{selectedModule.startCode}</pre>
+                    </div>
+                  </section>
+
+                  <section className="bg-gradient-to-br from-purple-900/20 to-slate-900/50 border border-blue-900/30 rounded-xl p-8 relative overflow-hidden group">
+                    <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform"><Zap size={120} /></div>
+                    <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                      <Sparkles size={20} className="text-yellow-400" /> Challenge Pratique
+                    </h2>
+                    <div className="bg-gray-950/60 border border-blue-900/20 p-5 rounded-lg text-sm text-gray-300 leading-relaxed shadow-inner border-l-4 border-l-purple-500">
+                      {selectedModule.exercise}
+                    </div>
+                  </section>
+
+                  <div className="pt-6 flex gap-4">
+                    <button
+                      onClick={() => navigate(selectedModule.path)}
+                      className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white text-xs font-bold rounded-lg transition-all shadow-lg shadow-purple-600/20 active:scale-95"
+                    >
+                      Démarrer le module
+                    </button>
+                    <button className="px-8 py-3 bg-slate-800 hover:bg-slate-700 text-gray-300 text-xs font-bold rounded-lg transition-all border border-slate-700">
+                      Roadmap Fullstack
+                    </button>
+                  </div>
+                </div>
+              </motion.article>
+            ) : (
+              <div className="h-full flex flex-col items-center justify-center text-center max-w-md mx-auto">
+                <motion.div 
+                  animate={{ rotate: 360 }} 
+                  transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+                  className="w-24 h-24 rounded-3xl bg-slate-900 border border-blue-900/30 flex items-center justify-center mb-8 shadow-2xl shadow-purple-500/10"
+                >
+                  <Sparkles size={48} className="text-purple-500/50" />
+                </motion.div>
+                <h2 className="text-2xl font-bold text-white mb-3 tracking-tight">Fullstack Mastery 2027</h2>
+                <p className="text-gray-500 text-sm mb-10 leading-relaxed">
+                  L'écosystème complet pour devenir un ingénieur Fullstack d'élite. Sélectionnez un module pour explorer l'intégration du Front, du Back et de l'IA.
+                </p>
+                <div className="grid grid-cols-3 gap-4 w-full">
+                  <div className="p-3 bg-slate-900/50 rounded-lg border border-blue-900/10">
+                    <div className="text-blue-400 font-bold text-lg">18</div>
+                    <div className="text-[9px] text-gray-600 uppercase tracking-widest">Modules</div>
+                  </div>
+                  <div className="p-3 bg-slate-900/50 rounded-lg border border-blue-900/10">
+                    <div className="text-purple-400 font-bold text-lg">3</div>
+                    <div className="text-[9px] text-gray-600 uppercase tracking-widest">Niveaux</div>
+                  </div>
+                  <div className="p-3 bg-slate-900/50 rounded-lg border border-blue-900/10">
+                    <div className="text-emerald-400 font-bold text-lg">AI</div>
+                    <div className="text-[9px] text-gray-600 uppercase tracking-widest">Ready</div>
+                  </div>
+                </div>
+              </div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
-      {/* --- LEARNING PATH SECTION --- */}
-      <section className="px-4 pb-24">
-        <div className="mx-auto max-w-6xl">
-          {['Débutant', 'Intermédiaire', 'Expert'].map((level, levelIdx) => (
-            <div key={level} className="mb-24">
-              <div className="flex items-center gap-5 mb-12">
-                <div className={`h-14 w-14 rounded-2xl flex items-center justify-center text-white shadow-2xl ${
-                  level === 'Débutant' ? 'bg-blue-600 shadow-blue-600/20' :
-                  level === 'Intermédiaire' ? 'bg-purple-600 shadow-purple-600/20' :
-                  'bg-emerald-600 shadow-emerald-600/20'
-                }`}>
-                  <GraduationCap size={32} />
-                </div>
-                <div>
-                  <h3 className="text-4xl font-black text-white">{level}</h3>
-                  <p className="text-gray-500 font-medium">Phase {levelIdx + 1} : {
-                    level === 'Débutant' ? 'Construire les fondations' :
-                    level === 'Intermédiaire' ? 'Connecter le Front et le Back' :
-                    'Architecturer pour l\'échelle et l\'IA'
-                  }</p>
-                </div>
-              </div>
-
-              <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {modules.filter(module => module.level === level).map((module, index) => {
-                  const IconComponent = module.icon;
-
-                  return (
-                    <motion.div
-                      key={module.title}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="group relative rounded-3xl border border-gray-800 bg-gray-900/40 p-7 hover:border-blue-500/40 hover:bg-gray-800/40 transition-all duration-500"
-                    >
-                      {/* Floating Level Badge */}
-                      <div className="absolute top-7 right-7">
-                        <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border ${
-                          level === 'Débutant' ? 'border-blue-500/30 text-blue-400 bg-blue-500/5' :
-                          level === 'Intermédiaire' ? 'border-purple-500/30 text-purple-400 bg-purple-500/5' :
-                          'border-emerald-500/30 text-emerald-400 bg-emerald-500/5'
-                        }`}>
-                          {level}
-                        </span>
-                      </div>
-
-                      {/* Icon Circle */}
-                      <div className={`mb-8 flex h-14 w-14 items-center justify-center rounded-2xl transition-all duration-500 ${
-                        level === 'Débutant' ? 'bg-blue-950 text-blue-400 group-hover:bg-blue-600' :
-                        level === 'Intermédiaire' ? 'bg-purple-950 text-purple-400 group-hover:bg-purple-600' :
-                        'bg-emerald-950 text-emerald-400 group-hover:bg-emerald-600'
-                      } group-hover:text-white group-hover:rotate-6 group-hover:scale-110`}>
-                        {IconComponent && <IconComponent size={28} />}
-                      </div>
-
-                      {/* Content */}
-                      <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors">
-                        {module.title}
-                      </h3>
-                      <p className="text-gray-400 text-sm leading-relaxed mb-10 min-h-[60px]">
-                        {module.description}
-                      </p>
-
-                      {/* Interactive Button */}
-                      <button
-                        onClick={() => navigate(module.path)}
-                        className={`w-full inline-flex items-center justify-center gap-3 rounded-2xl border px-5 py-4 text-sm font-black text-white transition-all duration-300 ${
-                          level === 'Débutant' ? 'border-blue-900 hover:bg-blue-600 hover:border-blue-600' :
-                          level === 'Intermédiaire' ? 'border-purple-900 hover:bg-purple-600 hover:border-purple-600' :
-                          'border-emerald-900 hover:bg-emerald-600 hover:border-emerald-600'
-                        }`}
-                      >
-                        Démarrer le module
-                        <Zap size={18} className="fill-current" />
-                      </button>
-                    </motion.div>
-                  );
-                })}
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* --- FINAL CTA / FOOTER --- */}
-      <footer className="pb-32 text-center">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          className="relative inline-block p-[2px] rounded-3xl bg-gradient-to-r from-blue-600 via-purple-600 to-emerald-600 shadow-2xl shadow-purple-500/20"
-        >
-          <div className="bg-gray-950 rounded-[22px] px-16 py-12 md:px-24">
-            <h4 className="text-3xl md:text-4xl font-black mb-4 text-white">Prêt pour le voyage ?</h4>
-            <p className="text-gray-400 text-lg mb-10 max-w-md mx-auto">Rejoignez des milliers de développeurs et commencez votre ascension vers le Full Stack Élite.</p>
-            <div className="flex flex-col md:flex-row gap-4 justify-center">
-              <button className="px-10 py-4 bg-white text-black font-black rounded-2xl hover:bg-gray-200 transition-all transform hover:scale-105">
-                S'inscrire Maintenant
-              </button>
-              <button className="px-10 py-4 bg-gray-900 text-white border border-gray-800 font-black rounded-2xl hover:bg-gray-800 transition-all">
-                Voir la Roadmap 2026
-              </button>
-            </div>
-          </div>
-        </motion.div>
-      </footer>
-
-      <style jsx>{`
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        :root { font-family: 'Plus Jakarta Sans', sans-serif; }
-      `}</style>
+      <style dangerouslySetInnerHTML={{ __html: `
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 5px;
+          height: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #1e293b;
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #334155;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+      `}} />
     </div>
   );
 }
