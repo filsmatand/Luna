@@ -1,140 +1,276 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Search, 
-  ChevronDown, 
-  Eye, 
-  Star, 
-  PlayCircle, 
-  BookOpen, 
-  FileText,
-  Filter,
-  ArrowUpDown
+  Search, ChevronDown, Eye, Star, PlayCircle, BookOpen, 
+  FileText, Filter, ArrowUpDown, Layout, Code2, Globe, 
+  Cpu, Shield, Zap, TrendingUp, Settings, Info, 
+  MessageSquare, FaGithub, ExternalLink, Menu, X, ArrowLeft,
+  Sparkles, Database, GitBranch, Lock, Lightbulb,ServerCog, Bot
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 /**
- * Composant ResourcesGrid
- * Reproduit l'interface devtools.tech/resources/all
- * Caractéristiques : Barre de filtres avancée, grille de cartes avec métadonnées (vues, notes, type).
+ * LunaResourcesCenter - Plateforme de ressources pédagogiques premium.
+ * Design : Luna Development Aesthetic (Dark, Glassmorphism, Gradients).
+ * Fonctionnalités : Filtrage dynamique, Recherche, Sidebar intelligente.
  */
-export default function ResourcesGrid() {
+export default function LunaResourcesCenter() {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState("Toutes");
 
+  // BASE DE DONNÉES MASSIVE DE RESSOURCES
   const resources = [
-    { title: "Optimisation des performances Web pour les appareils à faible consommation d'énergie", views: 4, rating: 5, type: "Article" },
-    { title: "Suivi de la production et longue traîne", views: 55, rating: 4, type: "Vidéo" },
-    { title: "CDN d'images et infrastructure de livraison", views: 23, rating: 5, type: "Article" },
-    { title: "Donner la priorité aux images critiques", views: 16, rating: 4, type: "Blog" },
-    { title: "Chargement paresseux des images", views: 10, rating: 5, type: "Article" },
-    { title: "Images réactives : srcset, tailles et image", views: 13, rating: 4, type: "Vidéo" },
-    { title: "Réduire les octets d'image", views: 17, rating: 5, type: "Article" },
-    { title: "Mesurer les performances d'une image avec Core Web Vitals", views: 27, rating: 4, type: "Blog" },
-    { title: "Fondements : pourquoi l'optimisation des images est importante et comment les navigateurs chargent les images", views: 40, rating: 5, type: "Article" },
-    { title: "Expérience d'entretien frontend Cars24", views: 3597, rating: null, type: "Blog / Article" },
-    { title: "Comment ai-je été promu dans mon travail ?", views: 2192, rating: null, type: "Vidéo" },
-    { title: "Comment refactoriser de grandes bases de code ?", views: 1819, rating: null, type: "Vidéo" },
+    // --- WEB PERFORMANCE ---
+    { id: 1, title: "Optimisation des performances Web pour les appareils à faible consommation", views: 4200, rating: 5, type: "Article", category: "Performance", company: "Google" },
+    { id: 2, title: "CDN d'images et infrastructure de livraison moderne", views: 2300, rating: 5, type: "Article", category: "Performance", company: "Cloudflare" },
+    { id: 3, title: "Chargement paresseux (Lazy Loading) des images en 2027", views: 1050, rating: 5, type: "Article", category: "Performance", company: "Chrome" },
+    { id: 4, title: "Mesurer les Core Web Vitals avec précision", views: 2700, rating: 4, type: "Blog", category: "Performance", company: "Vercel" },
+    
+    // --- ARCHITECTURE & CODE ---
+    { id: 5, title: "Comment refactoriser de grandes bases de code sans douleur", views: 18190, rating: 5, type: "Vidéo", category: "Architecture", company: "Meta" },
+    { id: 6, title: "Design Patterns en JavaScript Moderne", views: 5500, rating: 4, type: "Vidéo", category: "Architecture", company: "Microsoft" },
+    { id: 7, title: "Micro-frontends : Stratégies de déploiement", views: 3200, rating: 5, type: "Article", category: "Architecture", company: "Amazon" },
+    { id: 8, title: "Clean Code : Principes SOLID appliqués au Frontend", views: 9400, rating: 5, type: "Article", category: "Architecture", company: "Apple" },
+
+    // --- CARRIÈRE & ENTRETIENS ---
+    { id: 9, title: "Expérience d'entretien frontend chez Cars24", views: 35970, rating: 4, type: "Blog", category: "Carrière", company: "Cars24" },
+    { id: 10, title: "Comment j'ai été promu Senior Engineer en 12 mois", views: 21920, rating: 5, type: "Vidéo", category: "Carrière", company: "Netflix" },
+    { id: 11, title: "Négocier son salaire de développeur en 2027", views: 15400, rating: 5, type: "Article", category: "Carrière", company: "Luna" },
+    { id: 12, title: "Préparer le System Design Interview", views: 28000, rating: 5, type: "Vidéo", category: "Carrière", company: "Google" },
+
+    // --- SÉCURITÉ & BACKEND ---
+    { id: 13, title: "Sécuriser vos APIs avec JWT et Refresh Tokens", views: 12500, rating: 5, type: "Article", category: "Sécurité", company: "Auth0" },
+    { id: 14, title: "Prévenir les failles OWASP Top 10 en Node.js", views: 8900, rating: 4, type: "Vidéo", category: "Sécurité", company: "Snyk" },
+    { id: 15, title: "Introduction à Rust pour les développeurs JS", views: 6700, rating: 5, type: "Blog", category: "Backend", company: "Mozilla" },
+    { id: 16, title: "Scaling Database with Sharding and Replication", views: 4500, rating: 5, type: "Article", category: "Backend", company: "AWS" },
+
+    // --- IA & FUTUR ---
+    { id: 17, title: "Intégrer les LLMs dans vos applications React", views: 34000, rating: 5, type: "Vidéo", category: "IA", company: "OpenAI" },
+    { id: 18, title: "Prompt Engineering pour les développeurs Frontend", views: 12000, rating: 4, type: "Article", category: "IA", company: "Anthropic" },
+    { id: 19, title: "WebAssembly : Le futur du Web haute performance", views: 9800, rating: 5, type: "Article", category: "Performance", company: "Figma" },
+    { id: 20, title: "Créer des agents autonomes avec Vercel AI SDK", views: 15000, rating: 5, type: "Vidéo", category: "IA", company: "Vercel" }
   ];
 
-  return (
-    <section className="items-center  min-h-screen  py-12 px-4 sm:px-8 lg:px-24  font-sans text-slate-900 bg-slate-950 text-slate-200 font-sans selection:bg-blue-500/30 ">
+  const categories = ["Toutes", "Performance", "Architecture", "Carrière", "Sécurité", "Backend", "IA"];
 
-      <div className="items-center lg:px-20  mx-auto max-w-7xl">
+  // LOGIQUE DE FILTRAGE
+  const filteredResources = useMemo(() => {
+    return resources.filter((item) => {
+      const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                            item.company.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesCategory = selectedCategory === "Toutes" || item.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [searchTerm, selectedCategory]);
+
+  return (
+    <div className="flex h-screen bg-[#020617] font-sans text-slate-200 overflow-hidden selection:bg-blue-500/30">
+      
+      {/* SIDEBAR (STYLE LUNA) */}
+      <motion.aside 
+        initial={false}
+        animate={{ width: isSidebarOpen ? 280 : 0 }}
+        className="flex flex-col border-r border-blue-900/20 bg-slate-900/50 backdrop-blur-xl overflow-hidden relative z-20"
+      >
+        <div className="flex items-center justify-between px-6 py-5 border-b border-blue-900/20">
+          <div className="flex items-center gap-3">
+            <div className="bg-gradient-to-br from-blue-600 to-indigo-600 p-1.5 rounded-lg text-white shadow-lg shadow-blue-500/20">
+              <Sparkles size={18} />
+            </div>
+            <span className="font-black text-sm tracking-widest uppercase text-blue-400">Luna Resources</span>
+          </div>
+        </div>
+
+        <nav className="flex-1 overflow-y-auto p-4 space-y-2 custom-scrollbar">
+          <div className="px-4 py-2 text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">Catégories</div>
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCategory(cat)}
+              className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold transition-all flex items-center gap-3 group ${
+                selectedCategory === cat 
+                  ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/20' 
+                  : 'text-slate-400 hover:bg-slate-800/50 hover:text-white'
+              }`}
+            >
+              {cat === "Toutes" ? <Layout size={16} /> : 
+               cat === "Performance" ? <Zap size={16} /> : 
+               cat === "Architecture" ? <Cpu size={16} /> : 
+               cat === "Carrière" ? <TrendingUp size={16} /> : 
+               cat === "Sécurité" ? <Shield size={16} /> : 
+               cat === "Backend" ? <ServerCog size={16} /> : <Bot size={16} />}
+              <span className="flex-1">{cat}</span>
+              {selectedCategory !== cat && (
+                <span className="text-[10px] text-slate-600 group-hover:text-slate-400">
+                  {resources.filter(r => r.category === cat || cat === "Toutes").length}
+                </span>
+              )}
+            </button>
+          ))}
+        </nav>
+
+        <div className="p-4 border-t border-blue-900/20 flex items-center justify-around text-slate-500">
+          <button className="hover:text-blue-400 transition-colors"><Info size={16} /></button>
+          <button className="hover:text-blue-400 transition-colors"><MessageSquare size={16} /></button>
+          <button className="hover:text-blue-400 transition-colors"><Settings size={16} /></button>
+        </div>
+      </motion.aside>
+
+      {/* MAIN CONTENT */}
+      <div className="flex-1 flex flex-col min-w-0 bg-[#020617] relative">
         
-        {/* Barre de Filtres & Recherche */}
-        <div className="items-center mb-10  flex-col gap-4">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        {/* HEADER */}
+        <header className="h-16 border-b border-blue-900/20 flex items-center justify-between px-6 bg-slate-900/20 backdrop-blur-md z-10">
+          <div className="flex items-center gap-4 flex-1">
+            <button 
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="p-2 hover:bg-slate-800 rounded-xl text-slate-400 hover:text-white transition-all"
+            >
+              {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
             
-            {/* Search Input */}
-            <div className="relative lg:col-span-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" size={16} />
+            <div className="relative w-full max-w-md group">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-500 transition-colors" size={16} />
               <input 
                 type="text" 
-                placeholder="Que voulez-vous chercher ?" 
-                className="w-full rounded-lg border border-slate-800 bg-[#1e293b]/50 py-2.5 pl-10 pr-4 text-sm outline-none focus:border-emerald-500/50 focus:ring-1 focus:ring-emerald-500/20 transition-all"
+                placeholder="Rechercher une ressource, un sujet ou une entreprise..." 
+                className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-2 pl-10 pr-4 text-xs text-white outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-slate-600"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-
-            {/* Selects */}
-            {[
-              { label: "Dificille", icon: <Filter size={14} /> },
-              { label: "Niveau", icon: <BookOpen size={14} /> },
-              { label: "Trier par", icon: <ArrowUpDown size={14} /> },
-            
-            ].map((filter, i) => (
-              <div key={i} className="relative group ">
-                <button className="flex w-full items-center justify-between rounded-lg border border-slate-800 bg-[#1e293b]/50 px-4 py-2.5 text-sm text-slate-400 hover:border-slate-700 hover:text-slate-200 transition-all">
-                  <span className="flex items-center gap-2">
-                    {filter.icon}
-                    {filter.label}
-                  </span>
-                  <ChevronDown size={14} className="group-hover:text-emerald-500 transition-colors" />
-                </button>
-              </div>
-            ))}
           </div>
-        </div>
 
-        {/* Grille des Ressources */}
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:gap-8">
-          {resources.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.05 }}
-              className="group flex flex-col justify-between rounded-2xl border border-blue-800 bg-slate-950 p-6 transition-all hover:border-slate-500/30 hover:bg-slate-950 hover:shadow-2xl hover:shadow-blue-900/10"
-            >
-              <div>
-                <h3 className="text-lg font-bold text-white leading-snug group-hover:text-slate-400 transition-colors line-clamp-2">
-                  {item.title}
-                </h3>
-                
-                <div className="mt-4 flex items-center gap-4 text-slate-500 text-xs font-medium">
-                  <div className="flex items-center gap-1.5">
-                    <Eye size={14} className="text-slate-800" />
-                    <span>{item.views}</span>
+          <div className="flex items-center gap-4">
+            <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
+              <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">Live Updates</span>
+            </div>
+            <button className="p-2 hover:bg-slate-800 rounded-xl text-slate-400 hover:text-white transition-all">
+              <Globe size={20} />
+            </button>
+          </div>
+        </header>
+
+        {/* CONTENT AREA */}
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-10">
+          
+          {/* HERO SECTION DANS LE CONTENU */}
+          <div className="mb-12">
+            <h1 className="text-3xl font-black text-white tracking-tight mb-2">
+              Centre de <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Ressources</span>
+            </h1>
+            <p className="text-slate-500 text-sm max-w-xl leading-relaxed">
+              Explorez notre bibliothèque exhaustive de connaissances techniques, optimisée pour les ingénieurs d'élite.
+            </p>
+          </div>
+
+          {/* GRILLE DES RESSOURCES */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+            <AnimatePresence mode="popLayout">
+              {filteredResources.map((item, index) => (
+                <motion.div
+                  layout
+                  key={item.id}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.2, delay: index * 0.05 }}
+                  className="group relative flex flex-col justify-between rounded-3xl border border-slate-800 bg-slate-900/20 p-6 transition-all hover:border-blue-500/40 hover:bg-slate-900/40 hover:shadow-2xl hover:shadow-blue-500/5 overflow-hidden"
+                >
+                  {/* Décoration de fond */}
+                  <div className="absolute -right-4 -top-4 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity">
+                    {item.type === "Vidéo" ? <PlayCircle size={120} /> : <FileText size={120} />}
                   </div>
-                  
-                  {item.rating && (
-                    <div className="flex items-center gap-1 text-amber-500">
-                      <Star size={14} fill="currentColor" />
-                      <span>{item.rating}</span>
+
+                  <div>
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="text-[9px] font-black text-blue-500 uppercase tracking-widest bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20">
+                        {item.company}
+                      </span>
+                      <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-800/50 text-[9px] font-bold text-slate-400 border border-slate-700/50">
+                        {item.type === "Vidéo" ? <PlayCircle size={10} /> : <FileText size={10} />}
+                        <span>{item.type}</span>
+                      </div>
                     </div>
-                  )}
 
-                  {item.type && (
-                    <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-slate-800/50 text-slate-400 border border-slate-700/50">
-                      {item.type.includes("Vidéo") ? <PlayCircle size={12} /> : <FileText size={12} />}
-                      <span>{item.type}</span>
+                    <h3 className="text-base font-bold text-white leading-tight group-hover:text-blue-400 transition-colors line-clamp-2 mb-4">
+                      {item.title}
+                    </h3>
+                    
+                    <div className="flex items-center gap-4 text-slate-500 text-[10px] font-bold font-mono">
+                      <div className="flex items-center gap-1.5">
+                        <Eye size={12} className="text-slate-700" />
+                        <span>{item.views.toLocaleString()}</span>
+                      </div>
+                      
+                      {item.rating && (
+                        <div className="flex items-center gap-1 text-amber-500/80">
+                          <Star size={12} fill="currentColor" />
+                          <span>{item.rating}.0</span>
+                        </div>
+                      )}
+
+                      <div className="text-slate-600 italic">
+                        #{item.category}
+                      </div>
                     </div>
-                  )}
-                </div>
-              </div>
+                  </div>
 
-              <div className="mt-8 flex items-center justify-between">
-                <button className="rounded-lg bg-white-600/10 px-6 py-2 text-sm font-bold text-white border border-emerald-500/20 transition-all hover:bg-blue-900 hover:text-white hover:shadow-lg hover:shadow-emerald-900/20">
-                  Explorer
-                </button>
-                
-                {/* Micro-décoration */}
-                <div className="h-0.5 w-0 bg-blue-500 transition-all duration-500 group-hover:w-16"></div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+                  <div className="mt-8 flex items-center justify-between">
+                    <button className="rounded-xl bg-blue-600 px-6 py-2 text-[10px] font-black text-white uppercase tracking-widest transition-all hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-600/20 active:scale-95">
+                      Explorer
+                    </button>
+                    
+                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all transform translate-x-4 group-hover:translate-x-0">
+                      <span className="text-[9px] font-bold text-slate-600">Détails</span>
+                      <ChevronDown size={14} className="-rotate-90 text-slate-600" />
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </div>
 
-        {/* Footer de section */}
-        <div className="mt-16 flex flex-col items-center gap-6">
-          <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-800 to-transparent"></div>
-          <button className="group flex items-center gap-2 rounded-full bg-white px-8 py-3 text-sm font-bold text-slate-900 transition-all hover:scale-105 active:scale-95">
-            Voir plus de ressources
-            <ChevronDown size={16} className="transition-transform group-hover:translate-y-1" />
-          </button>
+          {/* ÉTAT VIDE */}
+          {filteredResources.length === 0 && (
+            <div className="h-96 flex flex-col items-center justify-center text-center p-12 bg-slate-900/10 border-2 border-dashed border-slate-800 rounded-[40px]">
+              <Search size={48} className="text-slate-800 mb-4" />
+              <h3 className="text-xl font-black text-white mb-2 tracking-tight">Aucune ressource trouvée</h3>
+              <p className="text-slate-500 text-sm max-w-xs leading-relaxed">
+                Nous n'avons trouvé aucune ressource correspondant à "{searchTerm}" dans la catégorie "{selectedCategory}".
+              </p>
+              <button 
+                onClick={() => { setSearchTerm(""); setSelectedCategory("Toutes"); }}
+                className="mt-8 px-8 py-3 bg-blue-600/10 text-blue-500 hover:bg-blue-600/20 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all"
+              >
+                Réinitialiser la recherche
+              </button>
+            </div>
+          )}
         </div>
       </div>
-    </section>
+
+      <style dangerouslySetInnerHTML={{ __html: `
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 5px;
+          height: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #1e293b;
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #334155;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #020617; }
+      `}} />
+    </div>
   );
 }
