@@ -811,7 +811,7 @@ CREATE INDEX idx_name_email ON users(first_name, last_name);
 SHOW INDEX FROM users;
 
 -- Avantages :
--- Recherche : O(log N) au lieu de O(N)
+-- Recherche : O(log N)
 -- Tri : Plus rapide
 -- Jointures : Optimisées
 
@@ -1009,10 +1009,10 @@ def binarySearchRecursive(nums: list[int], target: int, left: int = 0, right: in
 
   if (selectedQuestion) {
     return (
-      <div className="min-h-screen lg:px-24 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-200 font-sans">
+      <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-200 font-sans px-4 sm:px-6 lg:px-24">
         {/* Header */}
-        <header className="border-b border-slate-800  backdrop-blur-xl sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+        <header className="border-b border-slate-800 backdrop-blur-xl sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
             <button 
               onClick={() => {
                 setSelectedQuestion(null);
@@ -1022,14 +1022,14 @@ def binarySearchRecursive(nums: list[int], target: int, left: int = 0, right: in
                 setIsRunning(false);
                 setSubmitted(false);
               }}
-              className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition font-bold"
+              className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition font-bold text-sm sm:text-base"
             >
               <ArrowLeft size={20} /> Retour
             </button>
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-2 bg-slate-800/50 px-4 py-2 rounded-lg border border-slate-700">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 w-full sm:w-auto">
+              <div className="flex items-center gap-2 bg-slate-800/50 px-3 sm:px-4 py-2 rounded-lg border border-slate-700">
                 <Clock size={18} className={isRunning ? "text-green-500 animate-pulse" : "text-slate-500"} />
-                <span className="font-mono font-bold text-lg">{formatTime(timer)}</span>
+                <span className="font-mono font-bold text-base sm:text-lg">{formatTime(timer)}</span>
               </div>
               <div className="flex gap-2">
                 <button 
@@ -1049,14 +1049,14 @@ def binarySearchRecursive(nums: list[int], target: int, left: int = 0, right: in
           </div>
         </header>
 
-        <main className="max-w-7xl mx-auto px-6 py-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <main className="max-w-7xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
             {/* Left Panel - Question */}
             <div className="space-y-6">
-              <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-8 shadow-2xl">
-                <div className="flex items-center justify-between mb-4">
-                  <h1 className="text-3xl font-black text-white">{selectedQuestion.title}</h1>
-                  <span className={`px-3 py-1 rounded-full text-xs font-bold ${
+              <div className="bg-slate-900/50 border border-slate-800 rounded-2xl p-4 sm:p-8 shadow-2xl">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0 mb-4">
+                  <h1 className="text-2xl sm:text-3xl font-black text-white">{selectedQuestion.title}</h1>
+                  <span className={`px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${
                     selectedQuestion.difficulty === 'Easy' ? 'bg-green-500/20 text-green-400 border border-green-500/30' :
                     selectedQuestion.difficulty === 'Medium' ? 'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30' :
                     'bg-red-500/20 text-red-400 border border-red-500/30'
@@ -1067,23 +1067,23 @@ def binarySearchRecursive(nums: list[int], target: int, left: int = 0, right: in
 
                 <div className="space-y-6">
                   <section>
-                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Description</h3>
-                    <p className="text-slate-300 leading-relaxed text-lg">{selectedQuestion.description}</p>
+                    <h3 className="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Description</h3>
+                    <p className="text-slate-300 leading-relaxed text-base sm:text-lg">{selectedQuestion.description}</p>
                   </section>
 
                   <section>
-                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Exemple</h3>
-                    <pre className="bg-slate-950 border border-slate-800 rounded-xl p-4 text-sm text-blue-300 overflow-x-auto">
+                    <h3 className="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Exemple</h3>
+                    <pre className="bg-slate-950 border border-slate-800 rounded-xl p-3 sm:p-4 text-xs sm:text-sm text-blue-300 overflow-x-auto">
                       {selectedQuestion.example}
                     </pre>
                   </section>
 
                   <section>
-                    <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Contraintes</h3>
+                    <h3 className="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Contraintes</h3>
                     <ul className="space-y-2">
                       {selectedQuestion.constraints.map((constraint, i) => (
-                        <li key={i} className="flex items-start gap-2 text-slate-400">
-                          <span className="text-blue-400 mt-1">•</span>
+                        <li key={i} className="flex items-start gap-2 text-slate-400 text-sm sm:text-base">
+                          <span className="text-blue-400 mt-1 flex-shrink-0">•</span>
                           <span>{constraint}</span>
                         </li>
                       ))}
@@ -1096,11 +1096,11 @@ def binarySearchRecursive(nums: list[int], target: int, left: int = 0, right: in
             {/* Right Panel - Code Editor */}
             <div className="space-y-6">
               <div className="bg-slate-900/50 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
-                <div className="bg-slate-800/50 border-b border-slate-800 px-6 py-4 flex justify-between items-center">
-                  <h3 className="font-bold text-slate-300">Votre Solution</h3>
+                <div className="bg-slate-800/50 border-b border-slate-800 px-4 sm:px-6 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                  <h3 className="font-bold text-slate-300 text-sm sm:text-base">Votre Solution</h3>
                   <button 
                     onClick={() => copyToClipboard(userCode)}
-                    className="flex items-center gap-2 text-xs font-bold text-blue-400 hover:text-blue-300 transition"
+                    className="flex items-center gap-2 text-xs font-bold text-blue-400 hover:text-blue-300 transition whitespace-nowrap"
                   >
                     {copied ? <Check size={14} /> : <Copy size={14} />}
                     {copied ? 'Copié' : 'Copier'}
@@ -1110,7 +1110,7 @@ def binarySearchRecursive(nums: list[int], target: int, left: int = 0, right: in
                   value={userCode}
                   onChange={(e) => setUserCode(e.target.value)}
                   placeholder="Écrivez votre code ici..."
-                  className="w-full h-96 bg-slate-950 text-blue-300 font-mono text-sm p-6 focus:outline-none resize-none"
+                  className="w-full h-64 sm:h-96 bg-slate-950 text-blue-300 font-mono text-xs sm:text-sm p-4 sm:p-6 focus:outline-none resize-none"
                 />
 
                 {/* <CodeEditor/> */}
@@ -1118,36 +1118,36 @@ def binarySearchRecursive(nums: list[int], target: int, left: int = 0, right: in
 
               <button 
                 onClick={handleSubmit}
-                className="w-full py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-black rounded-xl hover:from-blue-500 hover:to-blue-400 transition shadow-lg flex items-center justify-center gap-2"
+                className="w-full py-3 sm:py-4 bg-gradient-to-r from-blue-600 to-blue-500 text-white font-black rounded-xl hover:from-blue-500 hover:to-blue-400 transition shadow-lg flex items-center justify-center gap-2 text-sm sm:text-base"
               >
                 <Send size={18} /> Soumettre ma réponse
               </button>
 
               {submitted && (
-                <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-6 space-y-4">
-                  <div className="flex items-center gap-2 text-blue-400 font-bold">
+                <div className="bg-blue-500/10 border border-blue-500/30 rounded-xl p-4 sm:p-6 space-y-4">
+                  <div className="flex items-center gap-2 text-blue-400 font-bold text-sm sm:text-base">
                     <CheckCircle2 size={20} />
                     Réponse enregistrée !
                   </div>
                   <button 
                     onClick={() => setShowSolution(!showSolution)}
-                    className="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg transition flex items-center justify-center gap-2"
+                    className="w-full py-2 sm:py-3 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-lg transition flex items-center justify-center gap-2 text-sm sm:text-base"
                   >
                     {showSolution ? <EyeOff size={18} /> : <Eye size={18} />}
                     {showSolution ? 'Masquer' : 'Afficher'} la solution
                   </button>
 
                   {showSolution && (
-                    <div className="bg-slate-950 border border-slate-800 rounded-xl p-6 space-y-4">
+                    <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 sm:p-6 space-y-4">
                       <div>
-                        <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Solution Optimale</h4>
-                        <pre className="text-sm text-green-300 overflow-x-auto">
+                        <h4 className="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Solution Optimale</h4>
+                        <pre className="text-xs sm:text-sm text-green-300 overflow-x-auto">
                           {selectedQuestion.solution}
                         </pre>
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Explication</h4>
-                        <p className="text-slate-300 leading-relaxed">{selectedQuestion.explanation}</p>
+                        <h4 className="text-xs sm:text-sm font-bold text-slate-400 uppercase tracking-widest mb-3">Explication</h4>
+                        <p className="text-slate-300 leading-relaxed text-sm sm:text-base">{selectedQuestion.explanation}</p>
                       </div>
                     </div>
                   )}
@@ -1161,60 +1161,59 @@ def binarySearchRecursive(nums: list[int], target: int, left: int = 0, right: in
   }
 
   return (
-    <div className="min-h-screen lg:px-20 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-200 font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-200 font-sans px-4 sm:px-6">
       {/* Header */}
+      <header className="flex flex-col gap-6 sm:gap-4 pt-6 sm:pt-10">
+        <div className="space-y-2 sm:space-y-3">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Préparez votre entretien Google</h1>
+          <p className="text-gray-400 max-w-2xl text-base sm:text-lg">
+            Maîtrisez les 45+ questions les plus fréquentes chez Meta : Algorithmes, Comportemental et System Design.
+          </p>
+        </div>
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+          <div className="px-3 sm:px-4 py-2 bg-[#18191a] border border-gray-800 rounded-xl text-center">
+            <div className="text-xs text-gray-500 uppercase font-bold">Total</div>
+            <div className="text-lg sm:text-xl font-bold text-blue-500">45</div>
+          </div>
+          <div className="px-3 sm:px-4 py-2 bg-[#18191a] border border-gray-800 rounded-xl text-center">
+            <div className="text-xs text-gray-500 uppercase font-bold">Complétées</div>
+            <div className="text-lg sm:text-xl font-bold text-green-500">0</div>
+          </div>
+        </div>
+      </header>
 
-     <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 px-20 lg:px-20 pt-10">
-              <div className="space-y-2">
-                <h1 className="text-4xl font-extrabold text-white tracking-tight">Préparez votre entretien Google</h1>
-                <p className="text-gray-400 max-w-2xl text-lg">
-                  Maîtrisez les 45+ questions les plus fréquentes chez Meta : Algorithmes, Comportemental et System Design.
-                </p>
-              </div>
-              <div className="flex gap-2">
-                <div className="px-4 py-2 bg-[#18191a] border border-gray-800 rounded-xl text-center">
-                  <div className="text-xs text-gray-500 uppercase font-bold">Total</div>
-                  <div className="text-xl font-bold text-blue-500">45</div>
-                </div>
-                <div className="px-4 py-2 bg-[#18191a] border border-gray-800 rounded-xl text-center">
-                  <div className="text-xs text-gray-500 uppercase font-bold">Complétées</div>
-                  <div className="text-xl font-bold text-green-500">0</div>
-                </div>
-              </div>
-            </header>
-
-          <div className="px-20 lg:px-20 pt-10 grid grid-cols-1 md:grid-cols-4 gap-4">
-              {[
-                { label: 'Arrays & Strings', icon: Layout, color: 'text-blue-400', bg: 'bg-blue-400/10' },
-                { label: 'Trees & Graphs', icon: Share2, color: 'text-purple-400', bg: 'bg-purple-400/10' },
-                { label: 'System Design', icon: ShieldCheck, color: 'text-green-400', bg: 'bg-green-400/10' },
-                { label: 'Behavioral', icon: Users, color: 'text-orange-400', bg: 'bg-orange-400/10' }
-              ].map((item, i) => (
-                <div key={i} className={`${item.bg} p-4 rounded-2xl border border-gray-800/50 flex items-center gap-4 hover:scale-[1.02] transition-transform cursor-pointer`}>
-                  <item.icon className={`w-8 h-8 ${item.color}`} />
-                  <span className="font-bold text-gray-200">{item.label}</span>
-                </div>
-              ))}
-            </div>
+      <div className="pt-8 sm:pt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        {[
+          { label: 'Arrays & Strings', icon: Layout, color: 'text-blue-400', bg: 'bg-blue-400/10' },
+          { label: 'Trees & Graphs', icon: Share2, color: 'text-purple-400', bg: 'bg-purple-400/10' },
+          { label: 'System Design', icon: ShieldCheck, color: 'text-green-400', bg: 'bg-green-400/10' },
+          { label: 'Behavioral', icon: Users, color: 'text-orange-400', bg: 'bg-orange-400/10' }
+        ].map((item, i) => (
+          <div key={i} className={`${item.bg} p-3 sm:p-4 rounded-2xl border border-gray-800/50 flex items-center gap-3 sm:gap-4 hover:scale-[1.02] transition-transform cursor-pointer`}>
+            <item.icon className={`w-6 h-6 sm:w-8 sm:h-8 flex-shrink-0 ${item.color}`} />
+            <span className="font-bold text-gray-200 text-sm sm:text-base">{item.label}</span>
+          </div>
+        ))}
+      </div>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 py-12 lg:px-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <main className="max-w-7xl mx-auto py-8 sm:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {questions.map((question) => (
             <button
               key={question.id}
               onClick={() => setSelectedQuestion(question)}
-              className="group bg-slate-900/30 border border-slate-800/50 p-6 rounded-2xl text-left hover:border-blue-500/50 hover:bg-slate-900/60 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/5 relative overflow-hidden"
+              className="group bg-slate-900/30 border border-slate-800/50 p-4 sm:p-6 rounded-2xl text-left hover:border-blue-500/50 hover:bg-slate-900/60 transition-all duration-300 hover:shadow-2xl hover:shadow-blue-500/5 relative overflow-hidden"
             >
               <div className="absolute top-0 right-0 w-24 h-24 bg-blue-600/5 blur-3xl group-hover:bg-blue-600/10 transition-all"></div>
               
               <div className="relative space-y-4">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <h3 className="text-lg font-black text-white group-hover:text-blue-400 transition">{question.title}</h3>
+                <div className="flex flex-col sm:flex-row items-start justify-between gap-2">
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-base sm:text-lg font-black text-white group-hover:text-blue-400 transition line-clamp-2">{question.title}</h3>
                     <p className="text-xs text-slate-500 font-bold uppercase tracking-widest mt-1">{question.category}</p>
                   </div>
-                  <span className={`px-2 py-1 rounded text-xs font-bold whitespace-nowrap ml-2 ${
+                  <span className={`px-2 py-1 rounded text-xs font-bold whitespace-nowrap flex-shrink-0 ${
                     question.difficulty === 'Easy' ? 'bg-green-500/20 text-green-400' :
                     question.difficulty === 'Medium' ? 'bg-yellow-500/20 text-yellow-400' :
                     'bg-red-500/20 text-red-400'
@@ -1223,7 +1222,7 @@ def binarySearchRecursive(nums: list[int], target: int, left: int = 0, right: in
                   </span>
                 </div>
 
-                <p className="text-sm text-slate-400 line-clamp-2">{question.description}</p>
+                <p className="text-xs sm:text-sm text-slate-400 line-clamp-2">{question.description}</p>
 
                 <div className="flex items-center justify-between pt-2">
                   <div className="flex items-center gap-2 text-xs text-slate-500">

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -16,7 +16,7 @@ import {
   SiPrisma, SiGraphql, SiVercel 
 } from "react-icons/si";
 
-// --- DONNÉES FULLSTACK (STRUCTURE HARMONISÉE) ---
+// --- DONNÉES FULLSTACK ---
 const modules = [
   // --- NIVEAU DÉBUTANT ---
   {
@@ -212,6 +212,20 @@ export default function FullstackDashboard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedModule, setSelectedModule] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isMobile, setIsMobile] = useState(false);
+
+  // Détection de la taille de l'écran pour le responsive
+  useEffect(() => {
+    const handleResize = () => {
+      const mobile = window.innerWidth < 1024;
+      setIsMobile(mobile);
+      if (mobile) setIsSidebarOpen(false);
+      else setIsSidebarOpen(true);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const filteredModules = useMemo(() => {
     return modules.filter(m => 
@@ -231,13 +245,31 @@ export default function FullstackDashboard() {
   return (
     <div className="flex h-screen bg-gray-950 font-sans text-white overflow-hidden selection:bg-blue-500/30">
       
-      {/* SIDEBAR (STYLE HARMONISÉ) */}
+      {/* OVERLAY POUR MOBILE */}
+      <AnimatePresence>
+        {isMobile && isSidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsSidebarOpen(false)}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-30 lg:hidden"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* SIDEBAR RESPONSIVE */}
       <motion.aside 
         initial={false}
-        animate={{ width: isSidebarOpen ? 280 : 0 }}
-        className="flex flex-col border-r border-blue-900/30 bg-slate-900 overflow-hidden relative z-20"
+        animate={{ 
+          width: isSidebarOpen ? 280 : 0,
+          x: isMobile && !isSidebarOpen ? -280 : 0
+        }}
+        className={`flex flex-col border-r border-blue-900/30 bg-slate-900 overflow-hidden z-40 transition-all duration-300 ${
+          isMobile ? 'fixed inset-y-0 left-0 shadow-2xl shadow-blue-900/20' : 'relative'
+        }`}
       >
-        <div className="flex items-center justify-between px-4 py-3 bg-gray-950 border-b border-blue-900/30">
+        <div className="flex items-center justify-between px-4 py-3 bg-gray-950 border-b border-blue-900/30 shrink-0">
           <div className="flex items-center gap-2">
             <div className="bg-gradient-to-br from-blue-600 to-purple-600 p-1 rounded text-white shadow-lg shadow-purple-500/20">
               <Sparkles size={16} />
@@ -249,7 +281,7 @@ export default function FullstackDashboard() {
           </button>
         </div>
 
-        <div className="p-2 bg-gray-950">
+        <div className="p-2 bg-gray-950 shrink-0">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500" size={14} />
             <input
@@ -262,7 +294,7 @@ export default function FullstackDashboard() {
           </div>
         </div>
 
-        <nav className="flex-1 overflow-y-auto custom-scrollbar">
+        <nav className="flex-1 overflow-y-auto custom-scrollbar pb-4">
           {levels.map(level => (
             modulesByLevel[level] && modulesByLevel[level].length > 0 && (
               <div key={level} className="mt-2">
@@ -274,10 +306,13 @@ export default function FullstackDashboard() {
                   {modulesByLevel[level].map((module) => (
                     <li key={module.title}>
                       <button
-                        onClick={() => setSelectedModule(module)}
-                        className={`w-full text-left px-4 py-1.5 text-xs transition-colors flex items-center gap-3 group ${
+                        onClick={() => {
+                          setSelectedModule(module);
+                          if (isMobile) setIsSidebarOpen(false);
+                        }}
+                        className={`w-full text-left px-4 py-2 text-xs transition-colors flex items-center gap-3 group ${
                           selectedModule?.title === module.title 
-                            ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg' 
+                            ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg shadow-purple-600/20' 
                             : 'text-gray-400 hover:bg-slate-800 hover:text-gray-200'
                         }`}
                       >
@@ -292,51 +327,54 @@ export default function FullstackDashboard() {
           ))}
         </nav>
 
-        <div className="p-2 border-t border-blue-900/30 bg-gray-950 flex items-center justify-around text-gray-500">
+        <div className="p-2 border-t border-blue-900/30 bg-gray-950 flex items-center justify-around text-gray-500 shrink-0">
           <button title="Aide" className="hover:text-blue-400 transition-colors"><Info size={14} /></button>
           <button title="Contact" className="hover:text-blue-400 transition-colors"><MessageSquare size={14} /></button>
           <button title="Github" className="hover:text-blue-400 transition-colors"><FaGithub size={14} /></button>
         </div>
       </motion.aside>
 
-      {/* MAIN CONTENT (STYLE HARMONISÉ) */}
-      <div className="flex-1 flex flex-col min-w-0 bg-gray-950 relative">
-        <header className="h-10 border-b border-blue-900/30 flex items-center justify-between px-4 bg-slate-900/30 backdrop-blur-sm z-10">
-          <div className="flex items-center gap-3">
+      {/* MAIN CONTENT RESPONSIVE */}
+      <div className="flex-1 flex flex-col min-w-0 bg-gray-950 relative overflow-hidden">
+        <header className="h-12 sm:h-10 border-b border-blue-900/30 flex items-center justify-between px-4 bg-slate-900/30 backdrop-blur-sm z-10 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+            {/* BACK ARROW BUTTON */}
             <button 
               onClick={() => navigate('/')} 
-              className="p-1 hover:bg-slate-800 rounded text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-2"
+              className="p-1.5 hover:bg-slate-800 rounded text-blue-400 hover:text-blue-300 transition-colors flex items-center shrink-0"
               title="Retour à l'accueil"
             >
               <ArrowLeft size={16} />
             </button>
-            <div className="h-4 w-[1px] bg-blue-900/50 mx-1"></div>
+            <div className="h-4 w-[1px] bg-blue-900/50 mx-0.5 sm:mx-1 shrink-0"></div>
             <button 
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="p-1 hover:bg-slate-800 rounded text-gray-500 hover:text-white transition-colors"
+              className="p-1.5 hover:bg-slate-800 rounded text-gray-500 hover:text-white transition-colors shrink-0"
             >
               {isSidebarOpen ? <X size={16} /> : <Menu size={16} />}
             </button>
-            <div className="flex items-center gap-2 text-[11px] text-gray-500 uppercase tracking-wider">
-              <span className="hover:text-blue-400 cursor-pointer transition-colors font-medium">Fullstack</span>
+            
+            {/* Breadcrumbs responsive */}
+            <div className="flex items-center gap-1 sm:gap-2 text-[10px] sm:text-[11px] text-gray-500 uppercase tracking-wider truncate">
+              <span className="hidden sm:inline hover:text-blue-400 cursor-pointer transition-colors">Fullstack</span>
               {selectedModule && (
                 <>
-                  <ChevronRight size={12} className="text-gray-700" />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-400 font-bold">{selectedModule.level}</span>
-                  <ChevronRight size={12} className="text-gray-700" />
-                  <span className="text-white lowercase">{selectedModule.title}</span>
+                  <ChevronRight size={10} className="text-gray-700 hidden sm:inline" />
+                  <span className="text-blue-400 font-bold shrink-0">{selectedModule.level}</span>
+                  <ChevronRight size={10} className="text-gray-700" />
+                  <span className="text-white lowercase truncate">{selectedModule.title}</span>
                 </>
               )}
             </div>
           </div>
-          <div className="flex items-center gap-4 text-[11px]">
+          <div className="flex items-center gap-4 text-[10px] sm:text-[11px] shrink-0 ml-2">
             <a href="https://nextjs.org/docs" target="_blank" rel="noreferrer" className="text-gray-500 hover:text-white flex items-center gap-1 transition-colors">
-              Docs <ExternalLink size={10} />
+              <span className="hidden xs:inline">Docs</span> <ExternalLink size={10} />
             </a>
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-12">
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 lg:p-12">
           <AnimatePresence mode="wait">
             {selectedModule ? (
               <motion.article
@@ -344,41 +382,42 @@ export default function FullstackDashboard() {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -10 }}
-                className="max-w-4xl"
+                className="max-w-3xl mx-auto lg:mx-0"
               >
                 <div className="border-b border-blue-900/30 pb-6 mb-8">
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="h-12 w-12 rounded bg-gradient-to-br from-blue-900/50 to-purple-900/50 border border-blue-900/50 flex items-center justify-center text-white shadow-inner">
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-4">
+                    <div className="h-12 w-12 rounded bg-gradient-to-br from-blue-900 to-purple-900 border border-blue-900/50 flex items-center justify-center text-blue-400 shrink-0 shadow-inner">
                       {React.createElement(selectedModule.icon, { size: 24 })}
                     </div>
-                    <div>
-                      <h1 className="text-3xl font-bold text-white tracking-tight">{selectedModule.title}</h1>
+                    <div className="min-w-0">
+                      <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight truncate">{selectedModule.title}</h1>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="text-[10px] text-blue-400 font-mono uppercase tracking-widest bg-blue-900/20 px-2 py-0.5 rounded">level: {selectedModule.level.toLowerCase()}</span>
-                        <span className="text-[10px] text-gray-600 font-mono italic">Fullstack Engineering 2027</span>
+                        <p className="text-[10px] sm:text-xs text-blue-400 font-mono uppercase tracking-widest">level: {selectedModule.level}</p>
+                        <div className="h-1 w-1 rounded-full bg-gray-700" />
+                        <p className="text-[10px] sm:text-xs text-purple-400 font-mono uppercase tracking-widest">Fullstack Mastery</p>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="space-y-10">
-                  <section className="bg-slate-900/30 p-6 rounded-xl border border-blue-900/10">
-                    <h2 className="text-lg font-bold text-blue-400 mb-4 flex items-center gap-2">
-                      <Info size={20} /> Présentation du Module
+                <div className="space-y-8">
+                  <section>
+                    <h2 className="text-base sm:text-lg font-bold text-blue-400 mb-3 flex items-center gap-2">
+                      <Info size={18} /> Description du module
                     </h2>
-                    <p className="text-gray-300 leading-relaxed text-sm">
+                    <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
                       {selectedModule.description}
                     </p>
                   </section>
 
-                  <section className="bg-slate-900/50 border border-blue-900/30 rounded-xl p-8 relative overflow-hidden group">
-                    <h2 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
-                      <Terminal size={20} className="text-purple-400" /> Maîtrise Technique
+                  <section className="bg-slate-900/50 border border-blue-900/30 rounded-xl p-4 sm:p-6 shadow-2xl">
+                    <h2 className="text-base sm:text-lg font-bold text-white mb-4 flex items-center gap-2">
+                      <Terminal size={18} className="text-blue-400" /> Objectifs d'apprentissage
                     </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                       {selectedModule.keyPoints.map((item, i) => (
-                        <div key={i} className="flex items-center gap-3 text-xs text-gray-400 bg-gray-950/50 p-3 rounded-lg border border-blue-900/10 hover:border-purple-500/30 transition-all">
-                          <div className="h-1.5 w-1.5 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.5)]" />
+                        <div key={i} className="flex items-center gap-2 text-xs text-gray-400">
+                          <div className="h-1.5 w-1.5 rounded-full bg-purple-500 shrink-0" />
                           {item}
                         </div>
                       ))}
@@ -386,65 +425,56 @@ export default function FullstackDashboard() {
                   </section>
 
                   <section>
-                    <h2 className="text-sm font-bold text-white mb-4 flex items-center gap-2 uppercase tracking-[0.2em]">
-                      <Code2 size={16} className="text-blue-400" /> Code Snippet
+                    <h2 className="text-base sm:text-lg font-bold text-white mb-4 flex items-center gap-2">
+                      <Code2 size={18} className="text-blue-400" /> Exemple de code source
                     </h2>
-                    <div className="bg-gray-900 border border-blue-900/30 rounded-xl p-6 font-mono text-[11px] text-blue-100/80 shadow-2xl relative overflow-hidden">
-                      <div className="absolute top-0 right-0 p-2 opacity-5"><Layers size={40} /></div>
-                      <pre className="whitespace-pre-wrap leading-relaxed">{selectedModule.startCode}</pre>
+                    <div className="bg-gray-900 border border-blue-900/30 rounded-lg p-4 font-mono text-[10px] sm:text-[11px] text-gray-300 overflow-x-auto shadow-inner">
+                      <pre className="whitespace-pre">{selectedModule.startCode}</pre>
                     </div>
                   </section>
 
-                  <section className="bg-gradient-to-br from-purple-900/20 to-slate-900/50 border border-blue-900/30 rounded-xl p-8 relative overflow-hidden group">
-                    <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:scale-110 transition-transform"><Zap size={120} /></div>
-                    <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                      <Sparkles size={20} className="text-yellow-400" /> Challenge Pratique
-                    </h2>
-                    <div className="bg-gray-950/60 border border-blue-900/20 p-5 rounded-lg text-sm text-gray-300 leading-relaxed shadow-inner border-l-4 border-l-purple-500">
-                      {selectedModule.exercise}
+                  <section className="bg-purple-950/10 border border-purple-900/20 rounded-xl p-4 sm:p-6 relative overflow-hidden group">
+                    <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                      <Sparkles size={120} className="text-purple-400" />
                     </div>
+                    <h2 className="text-base sm:text-lg font-bold text-purple-400 mb-3 flex items-center gap-2">
+                      <Zap size={18} /> Défi Pratique
+                    </h2>
+                    <p className="text-gray-300 text-xs sm:text-sm leading-relaxed italic relative z-10">
+                      "{selectedModule.exercise}"
+                    </p>
                   </section>
 
-                  <div className="pt-6 flex gap-4">
+                  <div className="pt-10 flex flex-col sm:flex-row gap-4">
                     <button
                       onClick={() => navigate(selectedModule.path)}
-                      className="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white text-xs font-bold rounded-lg transition-all shadow-lg shadow-purple-600/20 active:scale-95"
+                      className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white text-xs font-black uppercase tracking-widest rounded-xl transition-all shadow-xl shadow-purple-600/20 active:scale-95"
                     >
-                      Démarrer le module
+                      Commencer l'apprentissage
                     </button>
-                    <button className="px-8 py-3 bg-slate-800 hover:bg-slate-700 text-gray-300 text-xs font-bold rounded-lg transition-all border border-slate-700">
-                      Roadmap Fullstack
+                    <button className="w-full sm:w-auto px-8 py-3 bg-slate-800 hover:bg-slate-700 text-gray-300 text-xs font-black uppercase tracking-widest rounded-xl transition-all border border-slate-700 active:scale-95">
+                      Ressources externes
                     </button>
                   </div>
                 </div>
               </motion.article>
             ) : (
-              <div className="h-full flex flex-col items-center justify-center text-center max-w-md mx-auto">
-                <motion.div 
-                  animate={{ rotate: 360 }} 
-                  transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-                  className="w-24 h-24 rounded-3xl bg-slate-900 border border-blue-900/30 flex items-center justify-center mb-8 shadow-2xl shadow-purple-500/10"
-                >
-                  <Sparkles size={48} className="text-purple-500/50" />
-                </motion.div>
-                <h2 className="text-2xl font-bold text-white mb-3 tracking-tight">Fullstack Mastery 2027</h2>
-                <p className="text-gray-500 text-sm mb-10 leading-relaxed">
-                  L'écosystème complet pour devenir un ingénieur Fullstack d'élite. Sélectionnez un module pour explorer l'intégration du Front, du Back et de l'IA.
-                </p>
-                <div className="grid grid-cols-3 gap-4 w-full">
-                  <div className="p-3 bg-slate-900/50 rounded-lg border border-blue-900/10">
-                    <div className="text-blue-400 font-bold text-lg">18</div>
-                    <div className="text-[9px] text-gray-600 uppercase tracking-widest">Modules</div>
-                  </div>
-                  <div className="p-3 bg-slate-900/50 rounded-lg border border-blue-900/10">
-                    <div className="text-purple-400 font-bold text-lg">3</div>
-                    <div className="text-[9px] text-gray-600 uppercase tracking-widest">Niveaux</div>
-                  </div>
-                  <div className="p-3 bg-slate-900/50 rounded-lg border border-blue-900/10">
-                    <div className="text-emerald-400 font-bold text-lg">AI</div>
-                    <div className="text-[9px] text-gray-600 uppercase tracking-widest">Ready</div>
-                  </div>
+              <div className="h-full flex flex-col items-center justify-center text-center p-8">
+                <div className="w-20 h-20 bg-gradient-to-br from-blue-900/40 to-purple-900/40 rounded-3xl flex items-center justify-center mb-6 border border-blue-500/20 shadow-2xl">
+                  <Sparkles size={40} className="text-blue-400" />
                 </div>
+                <h2 className="text-2xl font-bold text-white mb-2">Luna Fullstack Academy</h2>
+                <p className="text-gray-500 text-sm max-w-sm">
+                  Devenez un développeur Fullstack accompli en explorant nos modules du Frontend à l'Infrastructure Cloud.
+                </p>
+                {isMobile && !isSidebarOpen && (
+                  <button 
+                    onClick={() => setIsSidebarOpen(true)}
+                    className="mt-6 px-8 py-2.5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full text-xs font-bold text-white shadow-lg shadow-purple-600/30"
+                  >
+                    Parcourir les modules
+                  </button>
+                )}
               </div>
             )}
           </AnimatePresence>
@@ -453,8 +483,7 @@ export default function FullstackDashboard() {
 
       <style dangerouslySetInnerHTML={{ __html: `
         .custom-scrollbar::-webkit-scrollbar {
-          width: 5px;
-          height: 5px;
+          width: 4px;
         }
         .custom-scrollbar::-webkit-scrollbar-track {
           background: transparent;
@@ -466,8 +495,11 @@ export default function FullstackDashboard() {
         .custom-scrollbar::-webkit-scrollbar-thumb:hover {
           background: #334155;
         }
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-        body { font-family: 'Inter', sans-serif; }
+        @media (max-width: 640px) {
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 0px;
+          }
+        }
       `}} />
     </div>
   );

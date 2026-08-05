@@ -280,35 +280,34 @@ def mergeKLists(lists):
   
 
   return (
-    <div className="min-h-screen bg-[#0f1111] text-gray-100 font-sans">
+    <div className="min-h-screen bg-[#0f1111] text-gray-100 font-sans px-4 sm:px-6">
       {/* Navigation */}
      
 
-      <main className="max-w-7xl mx-auto p-6">
+      <main className="max-w-7xl mx-auto py-6">
 
       
 
-
-             <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 px-20 lg:px-20 pt-10">
-              <div className="space-y-2">
-                <h1 className="text-4xl font-extrabold text-white tracking-tight">Préparez votre entretien Amazon</h1>
-               <p className="text-gray-400 max-w-2xl">
+             <header className="flex flex-col gap-6 sm:gap-4 pt-6 sm:pt-10">
+              <div className="space-y-2 sm:space-y-3">
+                <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">Préparez votre entretien Amazon</h1>
+               <p className="text-gray-400 max-w-2xl text-base sm:text-lg">
                 Maîtrisez les algorithmes et les 16 Principes de Leadership (LP) d'Amazon avec des questions réelles posées en entretien.
               </p>
               </div>
-              <div className="flex gap-2">
-                <div className="px-4 py-2 bg-[#18191a] border border-gray-800 rounded-xl text-center">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3">
+                <div className="px-3 sm:px-4 py-2 bg-[#18191a] border border-gray-800 rounded-xl text-center">
                   <div className="text-xs text-gray-500 uppercase font-bold">Total</div>
-                  <div className="text-xl font-bold text-blue-500">45</div>
+                  <div className="text-lg sm:text-xl font-bold text-blue-500">45</div>
                 </div>
-                <div className="px-4 py-2 bg-[#18191a] border border-gray-800 rounded-xl text-center">
+                <div className="px-3 sm:px-4 py-2 bg-[#18191a] border border-gray-800 rounded-xl text-center">
                   <div className="text-xs text-gray-500 uppercase font-bold">Complétées</div>
-                  <div className="text-xl font-bold text-green-500">0</div>
+                  <div className="text-lg sm:text-xl font-bold text-green-500">0</div>
                 </div>
               </div>
             </header>
 
-          <div className="mb-10 px-20 lg:px-20 pt-10 grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="mb-8 sm:mb-10 pt-8 sm:pt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
             
               {[
                 // { label: 'Arrays & Strings', icon: Layout, color: 'text-blue-400', bg: 'bg-blue-400/10' },
@@ -320,27 +319,27 @@ def mergeKLists(lists):
                 <button 
                  key={cat} 
                  onClick={() => setActiveTab(item.label.toLowerCase())}
-                 className={`${item.bg} p-4 rounded-2xl border border-gray-800/50 flex items-center gap-4 hover:scale-[1.02] transition-transform cursor-pointer `}>
-                  <item.icon className={`w-8 h-8 ${item.color}`} />
-                  <span className="font-bold text-gray-200">{item.label}</span>
+                 className={`${item.bg} p-3 sm:p-4 rounded-2xl border border-gray-800/50 flex items-center gap-3 sm:gap-4 hover:scale-[1.02] transition-transform cursor-pointer `}>
+                  <item.icon className={`w-6 h-6 sm:w-8 sm:h-8 flex-shrink-0 ${item.color}`} />
+                  <span className="font-bold text-gray-200 text-sm sm:text-base">{item.label}</span>
                  
                 </button>
               ))}
             </div>
 
         {!selectedQuestion ? (
-          <div className="space-y-8 lg:px-20 ">
+          <div className="space-y-6 sm:space-y-8">
 
           
 
             <div className="bg-[#1e2329] rounded-xl border border-gray-800 overflow-hidden">
-              <div className="p-6 border-b border-gray-800 flex items-center justify-between bg-[#232f3e]">
-                <h2 className="text-lg font-semibold flex items-center gap-2">
+              <div className="p-4 sm:p-6 border-b border-gray-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-[#232f3e]">
+                <h2 className="text-base sm:text-lg font-semibold flex items-center gap-2">
                   <Truck className="w-5 h-5 text-[#ff9900]" />
                   Banque de Questions Amazon
                 </h2>
-                <div className="flex gap-2">
-                  <select className="bg-gray-800 border-gray-700 rounded-md px-3 py-1 text-sm outline-none focus:ring-1 focus:ring-[#ff9900]">
+                <div className="flex gap-2 w-full sm:w-auto">
+                  <select className="bg-gray-800 border border-gray-700 rounded-md px-2 sm:px-3 py-1 text-xs sm:text-sm outline-none focus:ring-1 focus:ring-[#ff9900] w-full sm:w-auto">
                     <option>Toutes les difficultés</option>
                     <option>Facile</option>
                     <option>Moyen</option>
@@ -350,27 +349,27 @@ def mergeKLists(lists):
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left">
-                  <thead className="text-xs uppercase text-gray-500 bg-[#1e2329]">
+                <table className="w-full text-left text-xs sm:text-sm">
+                  <thead className="uppercase text-gray-500 bg-[#1e2329]">
                     <tr>
-                      <th className="px-6 py-4 font-medium">Statut</th>
-                      <th className="px-6 py-4 font-medium">Titre</th>
-                      <th className="px-6 py-4 font-medium">Catégorie</th>
-                      <th className="px-6 py-4 font-medium">Difficulté</th>
-                      <th className="px-6 py-4 font-medium text-right">Action</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 font-medium">Statut</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 font-medium">Titre</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 font-medium hidden sm:table-cell">Catégorie</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 font-medium hidden md:table-cell">Difficulté</th>
+                      <th className="px-3 sm:px-6 py-3 sm:py-4 font-medium text-right">Action</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-800">
                     {questions.map((q) => (
                       <tr key={q.id} className="hover:bg-gray-800/30 transition-colors group">
-                        <td className="px-6 py-4">
-                          <CheckCircle2 className="w-5 h-5 text-gray-700 group-hover:text-green-500/50 transition-colors" />
+                        <td className="px-3 sm:px-6 py-3 sm:py-4">
+                          <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700 group-hover:text-green-500/50 transition-colors" />
                         </td>
-                        <td className="px-6 py-4 font-medium text-gray-200">{q.title}</td>
-                        <td className="px-6 py-4">
+                        <td className="px-3 sm:px-6 py-3 sm:py-4 font-medium text-gray-200 text-xs sm:text-sm">{q.title}</td>
+                        <td className="px-3 sm:px-6 py-3 sm:py-4 hidden sm:table-cell">
                           <span className="px-2 py-1 bg-gray-800 rounded text-xs text-gray-400">{q.category}</span>
                         </td>
-                        <td className="px-6 py-4">
+                        <td className="px-3 sm:px-6 py-3 sm:py-4 hidden md:table-cell">
                           <span className={`text-xs font-bold ${
                             q.difficulty === 'Facile' ? 'text-green-400' : 
                             q.difficulty === 'Moyen' ? 'text-[#ff9900]' : 'text-red-400'
@@ -378,7 +377,7 @@ def mergeKLists(lists):
                             {q.difficulty}
                           </span>
                         </td>
-                        <td className="px-6 py-4 text-right">
+                        <td className="px-3 sm:px-6 py-3 sm:py-4 text-right">
                           <button 
                             onClick={() => {
                               setSelectedQuestion(q);
@@ -386,7 +385,7 @@ def mergeKLists(lists):
                               setTimer(0);
                               setIsRunning(true);
                             }}
-                            className="text-sm font-medium  bg-orange-400/10 rounded rounded-lg text-[#ff9900] hover:text-[#e47911] transition-colors px-5 py-2">
+                            className="text-xs sm:text-sm font-medium bg-orange-400/10 rounded-lg text-[#ff9900] hover:text-[#e47911] transition-colors px-3 sm:px-5 py-1 sm:py-2 whitespace-nowrap">
                             S'entraîner →
                           </button>
                         </td>
@@ -399,40 +398,40 @@ def mergeKLists(lists):
           </div>
         ) : (
 
-          <div className="lg:px-20 grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-140px )]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 min-h-[calc(100vh-200px)]">
             {/* Left Column: Description */}
-            <div className="bg-[#1e2329] rounded-xl border border-gray-800 flex flex-col overflow-hidden ">
-              <div className="p-4 border-b border-gray-800 flex items-center justify-between bg-[#232f3e]">
+            <div className="bg-[#1e2329] rounded-xl border border-gray-800 flex flex-col overflow-hidden">
+              <div className="p-3 sm:p-4 border-b border-gray-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-[#232f3e]">
                 <button 
                   onClick={() => setSelectedQuestion(null)}
                   className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-gray-400"
                 >
                   <ArrowLeft className="w-5 h-5" />
                 </button>
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2 text-[#ff9900] font-mono text-lg">
-                    <Clock className="w-5 h-5" />
+                <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
+                  <div className="flex items-center gap-2 text-[#ff9900] font-mono text-base sm:text-lg">
+                    <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
                     {formatTime(timer)}
                   </div>
                   <button 
                     onClick={() => setIsRunning(!isRunning)}
                     className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
                   >
-                    {isRunning ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+                    {isRunning ? <Pause className="w-4 h-4 sm:w-5 sm:h-5" /> : <Play className="w-4 h-4 sm:w-5 sm:h-5" />}
                   </button>
                   <button 
                     onClick={() => setTimer(0)}
                     className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
                   >
-                    <RotateCcw className="w-5 h-5" />
+                    <RotateCcw className="w-4 h-4 sm:w-5 sm:h-5" />
                   </button>
                 </div>
               </div>
               
-              <div className="p-6 overflow-y-auto space-y-6 flex-1 custom-scrollbar">
-                <div className="flex items-center gap-3">
-                  <h2 className="text-2xl font-bold text-white">{selectedQuestion.title}</h2>
-                  <span className={`px-2 py-1 rounded text-xs font-bold ${
+              <div className="p-4 sm:p-6 overflow-y-auto space-y-4 sm:space-y-6 flex-1 custom-scrollbar">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3">
+                  <h2 className="text-xl sm:text-2xl font-bold text-white">{selectedQuestion.title}</h2>
+                  <span className={`px-2 py-1 rounded text-xs font-bold whitespace-nowrap ${
                     selectedQuestion.difficulty === 'Facile' ? 'bg-green-500/10 text-green-400' : 
                     selectedQuestion.difficulty === 'Moyen' ? 'bg-[#ff9900]/10 text-[#ff9900]' : 'bg-red-500/10 text-red-400'
                   }`}>
@@ -441,18 +440,18 @@ def mergeKLists(lists):
                 </div>
 
                 <div className="prose prose-invert max-w-none">
-                  <p className="text-gray-300 leading-relaxed">{selectedQuestion.description}</p>
+                  <p className="text-gray-300 leading-relaxed text-sm sm:text-base">{selectedQuestion.description}</p>
                   
-                  <div className="bg-black/30 rounded-lg p-4 mt-4 font-mono text-sm border border-gray-800">
+                  <div className="bg-black/30 rounded-lg p-3 sm:p-4 mt-4 font-mono text-xs sm:text-sm border border-gray-800">
                     <h4 className="text-gray-500 mb-2 uppercase text-xs font-bold tracking-wider">Exemple :</h4>
-                    <pre className="text-gray-200 whitespace-pre-wrap">{selectedQuestion.example}</pre>
+                    <pre className="text-gray-200 whitespace-pre-wrap text-xs sm:text-sm">{selectedQuestion.example}</pre>
                   </div>
 
                   <div className="mt-6">
-                    <h4 className="text-sm font-bold text-gray-400 uppercase mb-3 tracking-wider">Contraintes :</h4>
+                    <h4 className="text-xs sm:text-sm font-bold text-gray-400 uppercase mb-3 tracking-wider">Contraintes :</h4>
                     <ul className="space-y-2">
                       {selectedQuestion.constraints.map((c, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-gray-400">
+                        <li key={i} className="flex items-start gap-2 text-xs sm:text-sm text-gray-400">
                           <AlertCircle className="w-4 h-4 mt-0.5 text-[#ff9900] shrink-0" />
                           {c}
                         </li>
@@ -463,15 +462,15 @@ def mergeKLists(lists):
 
                 {showSolution && (
                   <div className="mt-8 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
-                      <h4 className="text-green-400 font-bold mb-2 flex items-center gap-2">
-                        <CheckCircle2 className="w-5 h-5" />
+                    <div className="p-3 sm:p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+                      <h4 className="text-green-400 font-bold mb-2 flex items-center gap-2 text-sm sm:text-base">
+                        <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
                         Explication de la Solution
                       </h4>
-                      <p className="text-sm text-gray-300">{selectedQuestion.explanation}</p>
+                      <p className="text-xs sm:text-sm text-gray-300">{selectedQuestion.explanation}</p>
                     </div>
                     <div className="relative group">
-                      <div className="absolute right-4 top-4 z-10">
+                      <div className="absolute right-2 sm:right-4 top-2 sm:top-4 z-10">
                         <button 
                           onClick={handleCopyCode}
                           className="p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all border border-gray-700"
@@ -479,7 +478,7 @@ def mergeKLists(lists):
                           {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-gray-400" />}
                         </button>
                       </div>
-                      <pre className="bg-black p-6 rounded-xl border border-gray-800 font-mono text-sm text-gray-300 overflow-x-auto">
+                      <pre className="bg-black p-3 sm:p-6 rounded-xl border border-gray-800 font-mono text-xs sm:text-sm text-gray-300 overflow-x-auto">
                         <code>{selectedQuestion.solution}</code>
                       </pre>
                     </div>
@@ -490,15 +489,15 @@ def mergeKLists(lists):
 
             {/* Right Column: Editor */}
             <div className="bg-[#1e2329] rounded-xl border border-gray-800 flex flex-col overflow-hidden">
-              <div className="p-4 border-b border-gray-800 flex items-center justify-between bg-[#232f3e]">
-                <div className="flex items-center gap-2 text-sm font-medium text-gray-400">
+              <div className="p-3 sm:p-4 border-b border-gray-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 bg-[#232f3e]">
+                <div className="flex items-center gap-2 text-xs sm:text-sm font-medium text-gray-400">
                   <Code className="w-4 h-4" />
                   Code Editor
                 </div>
                 <div className="flex items-center gap-2">
                   <button 
                     onClick={() => setShowSolution(!showSolution)}
-                    className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium hover:bg-gray-700 rounded-lg transition-colors"
+                    className="flex items-center gap-2 px-2 sm:px-3 py-1 sm:py-1.5 text-xs sm:text-sm font-medium hover:bg-gray-700 rounded-lg transition-colors whitespace-nowrap"
                   >
                     {showSolution ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                     {showSolution ? 'Masquer' : 'Voir Solution'}
@@ -511,18 +510,18 @@ def mergeKLists(lists):
                   value={userCode}
                   onChange={(e) => setUserCode(e.target.value)}
                   placeholder="# Écrivez votre solution ici..."
-                  className="w-full h-full bg-transparent p-6 font-mono text-sm outline-none resize-none text-gray-300 placeholder-gray-600"
+                  className="w-full h-full bg-transparent p-4 sm:p-6 font-mono text-xs sm:text-sm outline-none resize-none text-gray-300 placeholder-gray-600"
                 />
               </div>
 
-              <div className="p-4 border-t border-gray-800 bg-[#232f3e] flex items-center justify-between">
+              <div className="p-3 sm:p-4 border-t border-gray-800 bg-[#232f3e] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
                 <div className="text-xs text-gray-500">
-                  Appuyez sur <kbd className="px-1.5 py-0.5 bg-gray-800 rounded border border-gray-700">Ctrl + Enter</kbd> pour soumettre
+                  Appuyez sur <kbd className="px-1.5 py-0.5 bg-gray-800 rounded border border-gray-700 text-xs">Ctrl + Enter</kbd> pour soumettre
                 </div>
                 <button 
                   onClick={handleSubmit}
                   disabled={submitted}
-                  className={`flex items-center gap-2 px-6 py-2 rounded-lg font-bold transition-all ${
+                  className={`flex items-center gap-2 px-4 sm:px-6 py-2 rounded-lg font-bold transition-all whitespace-nowrap text-sm ${
                     submitted 
                     ? 'bg-green-500 text-white' 
                     : 'bg-[#ff9900] hover:bg-[#e47911] text-black shadow-lg shadow-[#ff9900]/20'
@@ -530,12 +529,12 @@ def mergeKLists(lists):
                 >
                   {submitted ? (
                     <>
-                      <CheckCircle2 className="w-5 h-5" />
+                      <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5" />
                       Soumis !
                     </>
                   ) : (
                     <>
-                      <Send className="w-5 h-5" />
+                      <Send className="w-4 h-4 sm:w-5 sm:h-5" />
                       Soumettre
                     </>
                   )}

@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import img1 from "../../assets/ent1.png";
 import img2 from "../../assets/ent2.png";
@@ -17,14 +17,12 @@ const companies = [
   { name: "Meta", logo: img6, path: "meta" },
   { name: "Microsoft", logo: img7, path: "microsoft" },
    { name: "Apple", logo: img8, path: "apple" },
-   { name: "Snap", logo: img9, path: "/company/snap" },
-  { name: "LunaTech", logo: img3, path: "/company/LunaTech" },
-  { name: "Google", logo: img1, path: "/company/Google" },
-  { name: "PhotoShop", logo: img5, path: "/company/PhotoShop" },
-  
+  { name: "Netflix", logo: img9, path: "netflix" },
+
 ];
 
 export default function CompanyQuestionsSection() {
+  const navigate = useNavigate();
   return (
     <section className="bg-slate-950 py-16 px-4 sm:px-6 lg:px-8 text-white">
 
@@ -39,10 +37,10 @@ export default function CompanyQuestionsSection() {
 
           {companies.map((company, index) => (
 
-            <Link
+            <div
               key={index}
-              to={company.path}
-              className="group"
+              onClick={() => navigate("/payment", { state: { from: company.path } })}
+              className="group cursor-pointer"
             >
 
               <div
@@ -73,7 +71,7 @@ export default function CompanyQuestionsSection() {
 
               </div>
 
-            </Link>
+            </div>
 
           ))}
 
@@ -105,4 +103,4 @@ export default function CompanyQuestionsSection() {
 
     </section>
   );
-}
+} 

@@ -5,7 +5,7 @@ import {
 } from 'lucide-react';
 import { FaFacebook, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
 
-const DashboardMeta = () => {
+const DashboardMetaResponsive = () => {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [userCode, setUserCode] = useState('');
   const [showSolution, setShowSolution] = useState(false);
@@ -346,7 +346,7 @@ def findKthLargest(nums, k):
       difficulty: "Facile",
       category: "Algorithmes",
       description: "Trouvez la longueur du plus long chemin entre deux nœuds quelconques d'un arbre.",
-      example: "Entrée: [1,2,3,4,5] -> 3",
+      example: "Peut passer ou non par la racine.",
       constraints: ["Nombre de nœuds [1, 10^4]"],
       solution: `def diameterOfBinaryTree(root):
     res = 0
@@ -358,145 +358,155 @@ def findKthLargest(nums, k):
         return 1 + max(left, right)
     dfs(root)
     return res`,
-      explanation: "Le diamètre à un nœud est la somme des hauteurs de ses sous-arbres gauche et droit."
+      explanation: "À chaque nœud, calculez la hauteur des sous-arbres gauche et droit. Le diamètre passant par ce nœud est gauche + droite."
     },
     {
       id: 18,
-      title: "Top K Frequent Elements",
+      title: "Group Anagrams",
       difficulty: "Moyen",
       category: "Algorithmes",
-      description: "Retournez les k éléments les plus fréquents.",
-      example: "[1,1,1,2,2,3], k=2 -> [1,2]",
-      constraints: ["k est valide"],
-      solution: `import collections, heapq
-def topKFrequent(nums, k):
-    count = collections.Counter(nums)
-    return heapq.nlargest(k, count.keys(), key=count.get)`,
-      explanation: "Comptez les fréquences puis utilisez un tas (Heap) ou un tri par seaux (Bucket Sort) pour extraire les k plus fréquents."
+      description: "Regroupez les chaînes qui sont des anagrammes les unes des autres.",
+      example: "[\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"] -> [[\"bat\"],[\"nat\",\"tan\"],[\"ate\",\"eat\",\"tea\"]]",
+      constraints: ["O(N * K log K) ou O(N * K)"],
+      solution: `def groupAnagrams(strs):
+    res = collections.defaultdict(list)
+    for s in strs:
+        count = [0] * 26
+        for c in s:
+            count[ord(c) - ord('a')] += 1
+        res[tuple(count)].append(s)
+    return res.values()`,
+      explanation: "Utilisez un tableau de comptage de 26 lettres comme clé de dictionnaire pour regrouper les anagrammes."
     },
     {
       id: 19,
-      title: "Find Peak Element",
+      title: "Binary Tree Level Order Traversal",
       difficulty: "Moyen",
       category: "Algorithmes",
-      description: "Trouvez un élément 'pic' (plus grand que ses voisins).",
-      example: "[1,2,3,1] -> index 2",
-      constraints: ["O(log n) attendu"],
-      solution: `def findPeakElement(nums):
-    l, r = 0, len(nums) - 1
-    while l < r:
-        m = (l + r) // 2
-        if nums[m] < nums[m+1]: l = m + 1
-        else: r = m
-    return l`,
-      explanation: "Utilisez la recherche binaire : si le milieu monte vers la droite, il y a un pic à droite."
+      description: "Retournez le parcours par niveau des valeurs des nœuds d'un arbre binaire.",
+      example: "BFS par niveau.",
+      constraints: ["Nombre de nœuds [0, 2000]"],
+      solution: `def levelOrder(root):
+    if not root: return []
+    res, queue = [], collections.deque([root])
+    while queue:
+        level = []
+        for _ in range(len(queue)):
+            node = queue.popleft()
+            level.append(node.val)
+            if node.left: queue.append(node.left)
+            if node.right: queue.append(node.right)
+        res.append(level)
+    return res`,
+      explanation: "Utilisez une file (Queue) pour un parcours en largeur (BFS), en traitant tous les nœuds d'un niveau avant de passer au suivant."
     },
     {
       id: 20,
+      title: "Verifying an Alien Dictionary",
+      difficulty: "Facile",
+      category: "Algorithmes",
+      description: "Vérifiez si une liste de mots est triée selon un ordre alphabétique étranger.",
+      example: "words = [\"hello\",\"leetcode\"], order = \"hlabc...\"",
+      constraints: ["Ordre donné est une permutation de 26 lettres"],
+      solution: `def isAlienSorted(words, order):
+    orderIdx = {c: i for i, c in enumerate(order)}
+    for i in range(len(words) - 1):
+        w1, w2 = words[i], words[i+1]
+        for j in range(len(w1)):
+            if j == len(w2): return False
+            if w1[j] != w2[j]:
+                if orderIdx[w1[j]] > orderIdx[w2[j]]: return False
+                break
+    return True`,
+      explanation: "Comparez les mots adjacents caractère par caractère en utilisant le dictionnaire de l'ordre étranger."
+    },
+    {
+      id: 21,
       title: "Random Pick with Weight",
       difficulty: "Moyen",
       category: "Algorithmes",
-      description: "Étant donné un tableau de poids, implémentez une fonction qui choisit un index aléatoirement proportionnellement à son poids.",
-      example: "w = [1,3] -> index 0 (25%), index 1 (75%)",
-      constraints: ["Poids positifs"],
-      solution: `import random, bisect
-class Solution:
+      description: "Choisissez aléatoirement un index i avec une probabilité proportionnelle à w[i].",
+      example: "w = [1, 3] -> Index 0 (25%), Index 1 (75%)",
+      constraints: ["1 <= w.length <= 10^4"],
+      solution: `class Solution:
     def __init__(self, w):
         self.prefix_sums = []
         cur = 0
-        for x in w:
-            cur += x
+        for weight in w:
+            cur += weight
             self.prefix_sums.append(cur)
         self.total = cur
     def pickIndex(self):
         target = random.random() * self.total
-        return bisect.bisect_right(self.prefix_sums, target)`,
-      explanation: "Créez des sommes préfixes pour diviser un segment total. Générez un nombre aléatoire et utilisez la recherche binaire pour trouver l'index correspondant."
-    },
-    {
-      id: 21,
-      title: "Buildings With an Ocean View",
-      difficulty: "Moyen",
-      category: "Algorithmes",
-      description: "Retournez les indices des bâtiments qui ont une vue sur l'océan (à droite), c'est-à-dire qu'aucun bâtiment à leur droite n'est plus grand ou égal.",
-      example: "heights = [4,2,3,1] -> [0,2,3]",
-      constraints: ["O(n)"],
-      solution: `def findBuildings(heights):
-    res = []
-    max_h = -1
-    for i in range(len(heights)-1, -1, -1):
-        if heights[i] > max_h:
-            res.append(i)
-            max_h = heights[i]
-    return res[::-1]`,
-      explanation: "Parcourez de droite à gauche en gardant en mémoire la hauteur maximale vue jusqu'à présent."
+        return bisect.bisect_left(self.prefix_sums, target)`,
+      explanation: "Créez des sommes préfixes. Générez un nombre aléatoire entre 0 et le total, puis utilisez la recherche binaire pour trouver l'index correspondant."
     },
     {
       id: 22,
-      title: "Minimum Add to Make Parentheses Valid",
+      title: "String to Integer (atoi)",
       difficulty: "Moyen",
       category: "Algorithmes",
-      description: "Nombre minimum de parenthèses à ajouter pour rendre la chaîne valide.",
-      example: "\"()))\" -> 2",
-      constraints: ["s contient '(' et ')'"],
-      solution: `def minAddToMakeValid(s):
-    open_cnt = close_cnt = 0
-    for c in s:
-        if c == '(': open_cnt += 1
-        elif open_cnt > 0: open_cnt -= 1
-        else: close_cnt += 1
-    return open_cnt + close_cnt`,
-      explanation: "Suivez le solde des parenthèses ouvrantes. Si une fermante arrive sans ouvrante, incrémentez le compteur de corrections nécessaires."
+      description: "Implémentez la fonction qui convertit une chaîne en un entier 32 bits signé.",
+      example: "\"   -42\" -> -42",
+      constraints: ["Gérer les débordements (Overflow)"],
+      solution: `def myAtoi(s):
+    s = s.strip()
+    if not s: return 0
+    sign = -1 if s[0] == "-" else 1
+    if s[0] in "+-": s = s[1:]
+    res, i = 0, 0
+    while i < len(s) and s[i].isdigit():
+        res = res * 10 + int(s[i])
+        i += 1
+    res = max(-2**31, min(sign * res, 2**31 - 1))
+    return res`,
+      explanation: "Nettoyez les espaces, gérez le signe, convertissez les chiffres et saturez le résultat aux limites de 32 bits."
     },
     {
       id: 23,
-      title: "Next Permutation",
+      title: "Continuous Subarray Sum",
       difficulty: "Moyen",
       category: "Algorithmes",
-      description: "Réorganisez les nombres pour obtenir la permutation suivante dans l'ordre lexicographique.",
-      example: "[1,2,3] -> [1,3,2]",
-      constraints: ["En place"],
-      solution: `def nextPermutation(nums):
-    i = len(nums) - 2
-    while i >= 0 and nums[i] >= nums[i+1]: i -= 1
-    if i >= 0:
-        j = len(nums) - 1
-        while nums[j] <= nums[i]: j -= 1
-        nums[i], nums[j] = nums[j], nums[i]
-    nums[i+1:] = reversed(nums[i+1:])`,
-      explanation: "Trouvez le premier élément qui décroît de droite à gauche, échangez-le avec le plus petit élément plus grand à sa droite, puis inversez la fin du tableau."
+      description: "Trouvez s'il existe un sous-tableau de taille >= 2 dont la somme est un multiple de k.",
+      example: "[23, 2, 4, 6, 7], k = 6 -> True (2+4=6)",
+      constraints: ["0 <= nums[i]"],
+      solution: `def checkSubarraySum(nums, k):
+    remainder = {0: -1}
+    total = 0
+    for i, n in enumerate(nums):
+        total += n
+        r = total % k
+        if r not in remainder:
+            remainder[r] = i
+        elif i - remainder[r] > 1:
+            return True
+    return False`,
+      explanation: "Utilisez le modulo. Si le même reste apparaît deux fois, la somme entre ces deux indices est un multiple de k."
     },
     {
       id: 24,
-      title: "Accounts Merge",
-      difficulty: "Moyen",
+      title: "Valid Number",
+      difficulty: "Difficile",
       category: "Algorithmes",
-      description: "Fusionnez les comptes ayant des emails communs.",
-      example: "[[\"John\",\"a@m.com\",\"b@m.com\"], [\"John\",\"c@m.com\",\"a@m.com\"]]",
-      constraints: ["Emails uniques par personne"],
-      solution: `def accountsMerge(accounts):
-    parent = {}
-    def find(i):
-        if parent[i] == i: return i
-        parent[i] = find(parent[i])
-        return parent[i]
-    def union(i, j):
-        parent[find(i)] = find(j)
-    
-    email_to_name = {}
-    for acc in accounts:
-        name = acc[0]
-        for email in acc[1:]:
-            if email not in parent: parent[email] = email
-            email_to_name[email] = name
-            union(email, acc[1])
-    
-    groups = collections.defaultdict(list)
-    for email in parent:
-        groups[find(email)].append(email)
-    
-    return [[email_to_name[root]] + sorted(emails) for root, emails in groups.items()]`,
-      explanation: "Utilisez l'algorithme Union-Find pour regrouper les emails appartenant au même compte."
+      description: "Déterminez si une chaîne est un nombre décimal valide.",
+      example: "\"0\", \"-1.1\", \"2e10\" -> True",
+      constraints: ["Nombreux cas particuliers"],
+      solution: `def isNumber(s):
+    digit, dec, exp, sign = False, False, False, False
+    for c in s:
+        if c.isdigit(): digit = True
+        elif c in "+-":
+            if sign or digit or dec: return False
+            sign = True
+        elif c in "eE":
+            if exp or not digit: return False
+            exp, digit, dec, sign = True, False, False, False
+        elif c == ".":
+            if dec or exp: return False
+            dec = True
+        else: return False
+    return digit`,
+      explanation: "Utilisez des drapeaux pour suivre la présence de chiffres, points décimaux, exposants et signes."
     },
     {
       id: 25,
@@ -855,63 +865,65 @@ R : "Migration réussie avec 0ms de downtime et amélioration de 20% de la laten
   };
 
   return (
-    <div className="min-h-screen bg-[#060606] text-gray-100 font-sans lg:px-20">
+    <div className="min-h-screen bg-[#060606] text-gray-100 font-sans px-4 sm:px-6 md:px-10 lg:px-20">
       
-      <main className="max-w-7xl mx-auto p-6 lg:px-20">
+      <main className="max-w-7xl mx-auto py-6 sm:py-10">
         {!selectedQuestion ? (
           <div className="space-y-8">
-            <header className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-              <div className="space-y-2">
-                <h1 className="text-4xl font-extrabold text-white tracking-tight">Préparez votre entretien Meta</h1>
-                <p className="text-gray-400 max-w-2xl text-lg">
+            <header className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+              <div className="space-y-3">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+                  Préparez votre entretien Meta
+                </h1>
+                <p className="text-gray-400 max-w-2xl text-base sm:text-lg">
                   Maîtrisez les 45+ questions les plus fréquentes chez Meta : Algorithmes, Comportemental et System Design.
                 </p>
               </div>
-              <div className="flex gap-2">
-                <div className="px-4 py-2 bg-[#18191a] border border-gray-800 rounded-xl text-center">
-                  <div className="text-xs text-gray-500 uppercase font-bold">Total</div>
-                  <div className="text-xl font-bold text-blue-500">45</div>
+              <div className="flex gap-3 sm:gap-4">
+                <div className="flex-1 sm:flex-none px-4 sm:px-6 py-3 bg-[#18191a] border border-gray-800 rounded-2xl text-center">
+                  <div className="text-[10px] sm:text-xs text-gray-500 uppercase font-bold tracking-wider">Total</div>
+                  <div className="text-xl sm:text-2xl font-bold text-blue-500">45</div>
                 </div>
-                <div className="px-4 py-2 bg-[#18191a] border border-gray-800 rounded-xl text-center">
-                  <div className="text-xs text-gray-500 uppercase font-bold">Complétées</div>
-                  <div className="text-xl font-bold text-green-500">0</div>
+                <div className="flex-1 sm:flex-none px-4 sm:px-6 py-3 bg-[#18191a] border border-gray-800 rounded-2xl text-center">
+                  <div className="text-[10px] sm:text-xs text-gray-500 uppercase font-bold tracking-wider">Complétées</div>
+                  <div className="text-xl sm:text-2xl font-bold text-green-500">0</div>
                 </div>
               </div>
             </header>
 
             {/* Quick Access Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
                 { label: 'Arrays & Strings', icon: Layout, color: 'text-blue-400', bg: 'bg-blue-400/10' },
                 { label: 'Trees & Graphs', icon: Share2, color: 'text-purple-400', bg: 'bg-purple-400/10' },
                 { label: 'System Design', icon: ShieldCheck, color: 'text-green-400', bg: 'bg-green-400/10' },
                 { label: 'Behavioral', icon: Users, color: 'text-orange-400', bg: 'bg-orange-400/10' }
               ].map((item, i) => (
-                <div key={i} className={`${item.bg} p-4 rounded-2xl border border-gray-800/50 flex items-center gap-4 hover:scale-[1.02] transition-transform cursor-pointer`}>
-                  <item.icon className={`w-8 h-8 ${item.color}`} />
+                <div key={i} className={`${item.bg} p-5 rounded-2xl border border-gray-800/50 flex items-center gap-4 hover:scale-[1.02] transition-transform cursor-pointer group`}>
+                  <item.icon className={`w-8 h-8 ${item.color} group-hover:scale-110 transition-transform`} />
                   <span className="font-bold text-gray-200">{item.label}</span>
                 </div>
               ))}
             </div>
 
             {/* Questions Table */}
-            <div className="bg-[#18191a] rounded-2xl border border-gray-800 overflow-hidden shadow-2xl">
-              <div className="p-6 border-b border-gray-800 flex items-center justify-between bg-[#1c1e21]">
+            <div className="bg-[#18191a] rounded-2xl sm:rounded-3xl border border-gray-800 overflow-hidden shadow-2xl">
+              <div className="p-5 sm:p-6 border-b border-gray-800 flex flex-col sm:flex-row items-start sm:items-center justify-between bg-[#1c1e21] gap-4">
                 <div className="flex items-center gap-3">
                   <MessageCircle className="w-6 h-6 text-blue-500" />
-                  <h2 className="text-xl font-bold">Liste des Questions Meta</h2>
+                  <h2 className="text-lg sm:text-xl font-bold">Liste des Questions Meta</h2>
                 </div>
-                <div className="flex gap-3">
+                <div className="w-full sm:w-auto">
                   <input 
                     type="text" 
                     placeholder="Rechercher..." 
-                    className="bg-[#242526] border-gray-700 rounded-xl px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition-all w-64"
+                    className="w-full sm:w-64 bg-[#242526] border-gray-700 rounded-xl px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                   />
                 </div>
               </div>
               <div className="overflow-x-auto">
-                <table className="w-full text-left">
-                  <thead className="text-xs uppercase text-gray-500 bg-[#1c1e21]">
+                <table className="w-full text-left min-w-[600px]">
+                  <thead className="text-[10px] sm:text-xs uppercase text-gray-500 bg-[#1c1e21]">
                     <tr>
                       <th className="px-6 py-4 font-bold">Titre</th>
                       <th className="px-6 py-4 font-bold">Catégorie</th>
@@ -923,15 +935,15 @@ R : "Migration réussie avec 0ms de downtime et amélioration de 20% de la laten
                     {questions.map((q) => (
                       <tr key={q.id} className="hover:bg-gray-800/20 transition-colors group">
                         <td className="px-6 py-4">
-                          <div className="font-bold text-gray-200 group-hover:text-blue-400 transition-colors">{q.title}</div>
+                          <div className="font-bold text-gray-200 group-hover:text-blue-400 transition-colors text-sm sm:text-base">{q.title}</div>
                         </td>
                         <td className="px-6 py-4">
-                          <span className="px-3 py-1 bg-gray-800/50 rounded-full text-[10px] font-bold text-gray-400 border border-gray-700 uppercase tracking-wider">
+                          <span className="px-3 py-1 bg-gray-800/50 rounded-full text-[9px] sm:text-[10px] font-bold text-gray-400 border border-gray-700 uppercase tracking-wider whitespace-nowrap">
                             {q.category}
                           </span>
                         </td>
                         <td className="px-6 py-4">
-                          <span className={`text-xs font-extrabold ${
+                          <span className={`text-[10px] sm:text-xs font-extrabold ${
                             q.difficulty === 'Facile' ? 'text-green-400' : 
                             q.difficulty === 'Moyen' ? 'text-blue-400' : 'text-red-400'
                           }`}>
@@ -946,7 +958,7 @@ R : "Migration réussie avec 0ms de downtime et amélioration de 20% de la laten
                               setTimer(0);
                               setIsRunning(true);
                             }}
-                            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl transition-all shadow-lg shadow-blue-600/20"
+                            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-[10px] sm:text-xs font-bold rounded-xl transition-all shadow-lg shadow-blue-600/20"
                           >
                             Démarrer
                           </button>
@@ -959,22 +971,22 @@ R : "Migration réussie avec 0ms de downtime et amélioration de 20% de la laten
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-160px)]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:h-[calc(100vh-160px)]">
             {/* Description Panel */}
-            <div className="bg-[#18191a] rounded-3xl border border-gray-800 flex flex-col overflow-hidden shadow-2xl">
-              <div className="p-4 border-b border-gray-800 flex items-center justify-between bg-[#1c1e21]">
+            <div className="bg-[#18191a] rounded-3xl border border-gray-800 flex flex-col overflow-hidden shadow-2xl h-[500px] lg:h-auto">
+              <div className="p-4 border-b border-gray-800 flex items-center justify-between bg-[#1c1e21] shrink-0">
                 <button 
                   onClick={() => setSelectedQuestion(null)}
-                  className="p-2 hover:bg-gray-800 rounded-xl transition-colors text-gray-400 flex items-center gap-2 text-sm font-bold"
+                  className="p-2 hover:bg-gray-800 rounded-xl transition-colors text-gray-400 flex items-center gap-2 text-xs sm:text-sm font-bold"
                 >
                   <ArrowLeft className="w-4 h-4" />
-                  Retour
+                  <span className="hidden sm:inline">Retour</span>
                 </button>
-                <div className="flex items-center gap-4">
-                  <div className="px-4 py-1.5 bg-black rounded-full border border-gray-800 text-blue-500 font-mono text-lg font-bold">
+                <div className="flex items-center gap-2 sm:gap-4">
+                  <div className="px-3 sm:px-4 py-1.5 bg-black rounded-full border border-gray-800 text-blue-500 font-mono text-base sm:text-lg font-bold">
                     {formatTime(timer)}
                   </div>
-                  <div className="flex gap-1">
+                  <div className="flex gap-0.5 sm:gap-1">
                     <button onClick={() => setIsRunning(!isRunning)} className="p-2 hover:bg-gray-800 rounded-xl text-gray-400">
                       {isRunning ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
                     </button>
@@ -985,7 +997,7 @@ R : "Migration réussie avec 0ms de downtime et amélioration de 20% de la laten
                 </div>
               </div>
               
-              <div className="p-8 overflow-y-auto space-y-8 flex-1 custom-scrollbar">
+              <div className="p-6 sm:p-8 overflow-y-auto space-y-8 flex-1 custom-scrollbar">
                 <div className="space-y-4">
                   <div className="flex items-center gap-3">
                     <span className="px-3 py-1 bg-blue-500/10 text-blue-500 text-[10px] font-black rounded-full border border-blue-500/20 uppercase">
@@ -998,24 +1010,24 @@ R : "Migration réussie avec 0ms de downtime et amélioration de 20% de la laten
                       {selectedQuestion.difficulty}
                     </span>
                   </div>
-                  <h2 className="text-3xl font-black text-white leading-tight">{selectedQuestion.title}</h2>
+                  <h2 className="text-2xl sm:text-3xl font-black text-white leading-tight">{selectedQuestion.title}</h2>
                 </div>
 
                 <div className="space-y-6">
                   <div className="prose prose-invert max-w-none">
-                    <p className="text-gray-300 text-lg leading-relaxed">{selectedQuestion.description}</p>
+                    <p className="text-gray-300 text-base sm:text-lg leading-relaxed">{selectedQuestion.description}</p>
                   </div>
                   
-                  <div className="bg-black/50 rounded-2xl p-6 border border-gray-800 space-y-3">
-                    <h4 className="text-blue-500 text-xs font-black uppercase tracking-widest">Exemple</h4>
-                    <pre className="text-gray-300 font-mono text-sm whitespace-pre-wrap">{selectedQuestion.example}</pre>
+                  <div className="bg-black/50 rounded-2xl p-5 sm:p-6 border border-gray-800 space-y-3">
+                    <h4 className="text-blue-500 text-[10px] font-black uppercase tracking-widest">Exemple</h4>
+                    <pre className="text-gray-300 font-mono text-xs sm:text-sm whitespace-pre-wrap">{selectedQuestion.example}</pre>
                   </div>
 
                   <div className="space-y-4">
-                    <h4 className="text-gray-500 text-xs font-black uppercase tracking-widest">Contraintes</h4>
+                    <h4 className="text-gray-500 text-[10px] font-black uppercase tracking-widest">Contraintes</h4>
                     <div className="grid grid-cols-1 gap-2">
                       {selectedQuestion.constraints.map((c, i) => (
-                        <div key={i} className="flex items-center gap-3 text-sm text-gray-400 bg-gray-800/30 p-3 rounded-xl border border-gray-800/50">
+                        <div key={i} className="flex items-center gap-3 text-xs sm:text-sm text-gray-400 bg-gray-800/30 p-3 rounded-xl border border-gray-800/50">
                           <AlertCircle className="w-4 h-4 text-blue-500 shrink-0" />
                           {c}
                         </div>
@@ -1027,10 +1039,10 @@ R : "Migration réussie avec 0ms de downtime et amélioration de 20% de la laten
                 {showSolution && (
                   <div className="mt-12 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
                     <div className="p-6 bg-blue-500/5 border border-blue-500/20 rounded-2xl">
-                      <h4 className="text-blue-400 font-black mb-3 flex items-center gap-2 uppercase text-xs tracking-widest">
+                      <h4 className="text-blue-400 font-black mb-3 flex items-center gap-2 uppercase text-[10px] tracking-widest">
                         Approche Technique
                       </h4>
-                      <p className="text-gray-300 leading-relaxed">{selectedQuestion.explanation}</p>
+                      <p className="text-gray-300 text-sm sm:text-base leading-relaxed">{selectedQuestion.explanation}</p>
                     </div>
                     <div className="relative group">
                       <button 
@@ -1039,7 +1051,7 @@ R : "Migration réussie avec 0ms de downtime et amélioration de 20% de la laten
                       >
                         {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-gray-400" />}
                       </button>
-                      <pre className="bg-black p-8 rounded-3xl border border-gray-800 font-mono text-sm text-blue-100/80 overflow-x-auto shadow-2xl">
+                      <pre className="bg-black p-6 sm:p-8 rounded-3xl border border-gray-800 font-mono text-xs sm:text-sm text-blue-100/80 overflow-x-auto shadow-2xl">
                         <code>{selectedQuestion.solution}</code>
                       </pre>
                     </div>
@@ -1049,15 +1061,15 @@ R : "Migration réussie avec 0ms de downtime et amélioration de 20% de la laten
             </div>
 
             {/* Editor Panel */}
-            <div className="bg-[#18191a] rounded-3xl border border-gray-800 flex flex-col overflow-hidden shadow-2xl">
-              <div className="p-4 border-b border-gray-800 flex items-center justify-between bg-[#1c1e21]">
-                <div className="flex items-center gap-2 text-xs font-black text-gray-500 uppercase tracking-widest">
+            <div className="bg-[#18191a] rounded-3xl border border-gray-800 flex flex-col overflow-hidden shadow-2xl h-[500px] lg:h-auto">
+              <div className="p-4 border-b border-gray-800 flex items-center justify-between bg-[#1c1e21] shrink-0">
+                <div className="flex items-center gap-2 text-[10px] font-black text-gray-500 uppercase tracking-widest">
                   <Code className="w-4 h-4" />
                   Code Editor
                 </div>
                 <button 
                   onClick={() => setShowSolution(!showSolution)}
-                  className={`flex items-center gap-2 px-4 py-2 text-xs font-bold rounded-xl transition-all border ${
+                  className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-[10px] sm:text-xs font-bold rounded-xl transition-all border ${
                     showSolution ? 'bg-blue-500/10 border-blue-500/20 text-blue-400' : 'bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700'
                   }`}
                 >
@@ -1066,23 +1078,23 @@ R : "Migration réussie avec 0ms de downtime et amélioration de 20% de la laten
                 </button>
               </div>
               
-              <div className="flex-1 relative bg-black">
+              <div className="flex-1 relative bg-black overflow-hidden">
                 <textarea
                   value={userCode}
                   onChange={(e) => setUserCode(e.target.value)}
                   placeholder="// Écrivez votre code ici..."
-                  className="w-full h-full bg-transparent p-8 font-mono text-sm outline-none resize-none text-blue-100/90 placeholder-gray-800"
+                  className="w-full h-full bg-transparent p-6 sm:p-8 font-mono text-xs sm:text-sm outline-none resize-none text-blue-100/90 placeholder-gray-800"
                 />
               </div>
 
-              <div className="p-6 border-t border-gray-800 bg-[#1c1e21] flex items-center justify-between">
-                <div className="text-[10px] text-gray-600 font-bold uppercase tracking-tighter">
+              <div className="p-5 sm:p-6 border-t border-gray-800 bg-[#1c1e21] flex items-center justify-between shrink-0">
+                <div className="text-[9px] sm:text-[10px] text-gray-600 font-bold uppercase tracking-tighter">
                   Prêt pour la revue de code Meta
                 </div>
                 <button 
                   onClick={handleSubmit}
                   disabled={submitted}
-                  className={`flex items-center gap-3 px-8 py-3 rounded-2xl font-black text-sm transition-all transform active:scale-95 ${
+                  className={`flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-2.5 sm:py-3 rounded-2xl font-black text-xs sm:text-sm transition-all transform active:scale-95 ${
                     submitted 
                     ? 'bg-green-500 text-white' 
                     : 'bg-blue-600 hover:bg-blue-500 text-white shadow-xl shadow-blue-600/30'
@@ -1108,7 +1120,12 @@ R : "Migration réussie avec 0ms de downtime et amélioration de 20% de la laten
 
       <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar {
-          width: 8px;
+          width: 6px;
+        }
+        @media (min-width: 640px) {
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+          }
         }
         .custom-scrollbar::-webkit-scrollbar-track {
           background: transparent;
@@ -1125,4 +1142,4 @@ R : "Migration réussie avec 0ms de downtime et amélioration de 20% de la laten
   );
 };
 
-export default DashboardMeta;
+export default DashboardMetaResponsive;

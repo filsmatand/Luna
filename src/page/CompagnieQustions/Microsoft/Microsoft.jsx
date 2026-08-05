@@ -1,11 +1,11 @@
-import React, { useState, useEffect,useMemo} from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
   ArrowLeft, Play, Pause, RotateCcw, Eye, EyeOff, Send, 
   Clock, Code, CheckCircle2, AlertCircle, Copy, Check,
-  ShoppingBag, Truck, Users, Database,ShieldCheck,Share2,Layout
+  ShoppingBag, Truck, Users, Database, ShieldCheck, Share2, Layout
 } from 'lucide-react';
 
-const DashboardMicrosoft = () => {
+const DashboardMicrosoftResponsive = () => {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
   const [userCode, setUserCode] = useState('');
   const [showSolution, setShowSolution] = useState(false);
@@ -271,76 +271,62 @@ def mergeKLists(lists):
     setTimeout(() => setSubmitted(false), 3000);
   };
 
-   const filteredQuestions = useMemo(() => {
-      return questions.filter(q => 
-        (activeTab === 'all' || q.category.toLowerCase() === activeTab.toLowerCase()) 
-       
-      );
-    }, [activeTab, activeRole, searchQuery]);
-  
+  const filteredQuestions = useMemo(() => {
+    return questions.filter(q => 
+      (activeTab === 'all' || q.category.toLowerCase() === activeTab.toLowerCase()) 
+    );
+  }, [activeTab]);
 
   return (
-    <div className="min-h-screen bg-[#0f1111] text-gray-100 font-sans">
-      {/* Navigation */}
-     
-
-      <main className="max-w-7xl mx-auto p-6">
-
-      
-
-
-             <header className="flex flex-col md:flex-row md:items-end justify-between gap-4 px-20 lg:px-20 pt-10">
-              <div className="space-y-2">
-                <h1 className="text-4xl font-extrabold text-white tracking-tight">Préparez votre entretien Amazon</h1>
-               <p className="text-gray-400 max-w-2xl">
-                Maîtrisez les algorithmes et les 16 Principes de Leadership (LP) d'Amazon avec des questions réelles posées en entretien.
-              </p>
-              </div>
-              <div className="flex gap-2">
-                <div className="px-4 py-2 bg-[#18191a] border border-gray-800 rounded-xl text-center">
-                  <div className="text-xs text-gray-500 uppercase font-bold">Total</div>
-                  <div className="text-xl font-bold text-blue-500">45</div>
-                </div>
-                <div className="px-4 py-2 bg-[#18191a] border border-gray-800 rounded-xl text-center">
-                  <div className="text-xs text-gray-500 uppercase font-bold">Complétées</div>
-                  <div className="text-xl font-bold text-green-500">0</div>
-                </div>
-              </div>
-            </header>
-
-          <div className="mb-10 px-20 lg:px-20 pt-10 grid grid-cols-1 md:grid-cols-4 gap-4">
-            
-              {[
-                // { label: 'Arrays & Strings', icon: Layout, color: 'text-blue-400', bg: 'bg-blue-400/10' },
-                { label: 'Algorithmes', icon: Share2, color: 'text-purple-400', bg: 'bg-purple-400/10' },
-                { label: 'System Design', icon: ShieldCheck, color: 'text-green-400', bg: 'bg-green-400/10' },
-                { label: 'Behavioral (LP)"', icon: Users, color: 'text-orange-400', bg: 'bg-orange-400/10' }
-              ].map((item, cat) => (
-                 
-                <button 
-                 key={cat} 
-                 onClick={() => setActiveTab(item.label.toLowerCase())}
-                 className={`${item.bg} p-4 rounded-2xl border border-gray-800/50 flex items-center gap-4 hover:scale-[1.02] transition-transform cursor-pointer `}>
-                  <item.icon className={`w-8 h-8 ${item.color}`} />
-                  <span className="font-bold text-gray-200">{item.label}</span>
-                 
-                </button>
-              ))}
+    <div className="min-h-screen bg-[#0f1111] text-gray-100 font-sans px-4 sm:px-6 md:px-10 lg:px-20">
+      <main className="max-w-7xl mx-auto py-6 sm:py-10">
+        <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 pt-4 sm:pt-10">
+          <div className="space-y-3">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight">
+              Préparez votre entretien Amazon
+            </h1>
+            <p className="text-gray-400 max-w-2xl text-base sm:text-lg">
+              Maîtrisez les algorithmes et les 16 Principes de Leadership (LP) d'Amazon avec des questions réelles posées en entretien.
+            </p>
+          </div>
+          <div className="flex gap-3 sm:gap-4">
+            <div className="flex-1 sm:flex-none px-4 sm:px-6 py-3 bg-[#18191a] border border-gray-800 rounded-2xl text-center">
+              <div className="text-[10px] sm:text-xs text-gray-500 uppercase font-bold tracking-wider">Total</div>
+              <div className="text-xl sm:text-2xl font-bold text-blue-500">45</div>
             </div>
+            <div className="flex-1 sm:flex-none px-4 sm:px-6 py-3 bg-[#18191a] border border-gray-800 rounded-2xl text-center">
+              <div className="text-[10px] sm:text-xs text-gray-500 uppercase font-bold tracking-wider">Complétées</div>
+              <div className="text-xl sm:text-2xl font-bold text-green-500">0</div>
+            </div>
+          </div>
+        </header>
+
+        <div className="my-8 sm:my-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {[
+            { label: 'Algorithmes', icon: Share2, color: 'text-purple-400', bg: 'bg-purple-400/10' },
+            { label: 'System Design', icon: ShieldCheck, color: 'text-green-400', bg: 'bg-green-400/10' },
+            { label: 'Behavioral (LP)', icon: Users, color: 'text-orange-400', bg: 'bg-orange-400/10' }
+          ].map((item, idx) => (
+            <button 
+              key={idx} 
+              onClick={() => setActiveTab(item.label.toLowerCase())}
+              className={`${item.bg} p-5 rounded-2xl border border-gray-800/50 flex items-center gap-4 hover:scale-[1.02] transition-transform cursor-pointer group`}>
+              <item.icon className={`w-8 h-8 ${item.color} group-hover:scale-110 transition-transform`} />
+              <span className="font-bold text-gray-200 text-sm sm:text-base">{item.label}</span>
+            </button>
+          ))}
+        </div>
 
         {!selectedQuestion ? (
-          <div className="space-y-8 lg:px-20 ">
-
-          
-
-            <div className="bg-[#1e2329] rounded-xl border border-gray-800 overflow-hidden">
-              <div className="p-6 border-b border-gray-800 flex items-center justify-between bg-[#232f3e]">
-                <h2 className="text-lg font-semibold flex items-center gap-2">
+          <div className="space-y-8">
+            <div className="bg-[#1e2329] rounded-2xl sm:rounded-3xl border border-gray-800 overflow-hidden shadow-2xl">
+              <div className="p-5 sm:p-6 border-b border-gray-800 flex flex-col sm:flex-row items-start sm:items-center justify-between bg-[#232f3e] gap-4">
+                <h2 className="text-lg sm:text-xl font-bold flex items-center gap-2">
                   <Truck className="w-5 h-5 text-[#ff9900]" />
                   Banque de Questions Amazon
                 </h2>
-                <div className="flex gap-2">
-                  <select className="bg-gray-800 border-gray-700 rounded-md px-3 py-1 text-sm outline-none focus:ring-1 focus:ring-[#ff9900]">
+                <div className="w-full sm:w-auto">
+                  <select className="w-full sm:w-auto bg-gray-800 border-gray-700 rounded-xl px-4 py-2 text-sm outline-none focus:ring-2 focus:ring-[#ff9900] transition-all">
                     <option>Toutes les difficultés</option>
                     <option>Facile</option>
                     <option>Moyen</option>
@@ -350,28 +336,28 @@ def mergeKLists(lists):
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full text-left">
-                  <thead className="text-xs uppercase text-gray-500 bg-[#1e2329]">
+                <table className="w-full text-left min-w-[700px]">
+                  <thead className="text-[10px] sm:text-xs uppercase text-gray-500 bg-[#1e2329]">
                     <tr>
-                      <th className="px-6 py-4 font-medium">Statut</th>
-                      <th className="px-6 py-4 font-medium">Titre</th>
-                      <th className="px-6 py-4 font-medium">Catégorie</th>
-                      <th className="px-6 py-4 font-medium">Difficulté</th>
-                      <th className="px-6 py-4 font-medium text-right">Action</th>
+                      <th className="px-6 py-4 font-bold">Statut</th>
+                      <th className="px-6 py-4 font-bold">Titre</th>
+                      <th className="px-6 py-4 font-bold">Catégorie</th>
+                      <th className="px-6 py-4 font-bold">Difficulté</th>
+                      <th className="px-6 py-4 font-bold text-right">Action</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-gray-800">
-                    {questions.map((q) => (
+                    {filteredQuestions.map((q) => (
                       <tr key={q.id} className="hover:bg-gray-800/30 transition-colors group">
                         <td className="px-6 py-4">
                           <CheckCircle2 className="w-5 h-5 text-gray-700 group-hover:text-green-500/50 transition-colors" />
                         </td>
-                        <td className="px-6 py-4 font-medium text-gray-200">{q.title}</td>
+                        <td className="px-6 py-4 font-bold text-gray-200 text-sm sm:text-base">{q.title}</td>
                         <td className="px-6 py-4">
-                          <span className="px-2 py-1 bg-gray-800 rounded text-xs text-gray-400">{q.category}</span>
+                          <span className="px-3 py-1 bg-gray-800 rounded-full text-[10px] sm:text-[11px] text-gray-400 border border-gray-700 whitespace-nowrap">{q.category}</span>
                         </td>
                         <td className="px-6 py-4">
-                          <span className={`text-xs font-bold ${
+                          <span className={`text-[10px] sm:text-xs font-extrabold ${
                             q.difficulty === 'Facile' ? 'text-green-400' : 
                             q.difficulty === 'Moyen' ? 'text-[#ff9900]' : 'text-red-400'
                           }`}>
@@ -386,7 +372,7 @@ def mergeKLists(lists):
                               setTimer(0);
                               setIsRunning(true);
                             }}
-                            className="text-sm font-medium  bg-orange-400/10 rounded rounded-lg text-[#ff9900] hover:text-[#e47911] transition-colors px-5 py-2">
+                            className="text-[10px] sm:text-xs font-bold bg-orange-400/10 rounded-xl text-[#ff9900] hover:bg-orange-400/20 transition-all px-4 py-2 border border-orange-400/20">
                             S'entraîner →
                           </button>
                         </td>
@@ -398,62 +384,63 @@ def mergeKLists(lists):
             </div>
           </div>
         ) : (
-
-          <div className="lg:px-20 grid grid-cols-1 lg:grid-cols-2 gap-6 h-[calc(100vh-140px )]">
-            {/* Left Column: Description */}
-            <div className="bg-[#1e2329] rounded-xl border border-gray-800 flex flex-col overflow-hidden ">
-              <div className="p-4 border-b border-gray-800 flex items-center justify-between bg-[#232f3e]">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:h-[calc(100vh-160px)]">
+            {/* Description Panel */}
+            <div className="bg-[#1e2329] rounded-3xl border border-gray-800 flex flex-col overflow-hidden shadow-2xl h-[500px] lg:h-auto">
+              <div className="p-4 border-b border-gray-800 flex items-center justify-between bg-[#232f3e] shrink-0">
                 <button 
                   onClick={() => setSelectedQuestion(null)}
-                  className="p-2 hover:bg-gray-700 rounded-lg transition-colors text-gray-400"
+                  className="p-2 hover:bg-gray-700 rounded-xl transition-colors text-gray-400"
                 >
                   <ArrowLeft className="w-5 h-5" />
                 </button>
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-2 text-[#ff9900] font-mono text-lg">
+                <div className="flex items-center gap-2 sm:gap-4">
+                  <div className="flex items-center gap-2 text-[#ff9900] font-mono text-base sm:text-lg font-bold">
                     <Clock className="w-5 h-5" />
                     {formatTime(timer)}
                   </div>
-                  <button 
-                    onClick={() => setIsRunning(!isRunning)}
-                    className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
-                  >
-                    {isRunning ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
-                  </button>
-                  <button 
-                    onClick={() => setTimer(0)}
-                    className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
-                  >
-                    <RotateCcw className="w-5 h-5" />
-                  </button>
+                  <div className="flex gap-0.5 sm:gap-1">
+                    <button 
+                      onClick={() => setIsRunning(!isRunning)}
+                      className="p-2 hover:bg-gray-700 rounded-xl transition-colors text-gray-400"
+                    >
+                      {isRunning ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
+                    </button>
+                    <button 
+                      onClick={() => setTimer(0)}
+                      className="p-2 hover:bg-gray-700 rounded-xl transition-colors text-gray-400"
+                    >
+                      <RotateCcw className="w-5 h-5" />
+                    </button>
+                  </div>
                 </div>
               </div>
               
-              <div className="p-6 overflow-y-auto space-y-6 flex-1 custom-scrollbar">
+              <div className="p-6 sm:p-8 overflow-y-auto space-y-8 flex-1 custom-scrollbar">
                 <div className="flex items-center gap-3">
-                  <h2 className="text-2xl font-bold text-white">{selectedQuestion.title}</h2>
-                  <span className={`px-2 py-1 rounded text-xs font-bold ${
-                    selectedQuestion.difficulty === 'Facile' ? 'bg-green-500/10 text-green-400' : 
-                    selectedQuestion.difficulty === 'Moyen' ? 'bg-[#ff9900]/10 text-[#ff9900]' : 'bg-red-500/10 text-red-400'
+                  <h2 className="text-2xl sm:text-3xl font-black text-white leading-tight">{selectedQuestion.title}</h2>
+                  <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase border ${
+                    selectedQuestion.difficulty === 'Facile' ? 'bg-green-500/10 text-green-400 border-green-500/20' : 
+                    selectedQuestion.difficulty === 'Moyen' ? 'bg-[#ff9900]/10 text-[#ff9900] border-[#ff9900]/20' : 'bg-red-500/10 text-red-400 border-red-500/20'
                   }`}>
                     {selectedQuestion.difficulty}
                   </span>
                 </div>
 
-                <div className="prose prose-invert max-w-none">
-                  <p className="text-gray-300 leading-relaxed">{selectedQuestion.description}</p>
+                <div className="prose prose-invert max-w-none space-y-6">
+                  <p className="text-gray-300 text-base sm:text-lg leading-relaxed">{selectedQuestion.description}</p>
                   
-                  <div className="bg-black/30 rounded-lg p-4 mt-4 font-mono text-sm border border-gray-800">
-                    <h4 className="text-gray-500 mb-2 uppercase text-xs font-bold tracking-wider">Exemple :</h4>
-                    <pre className="text-gray-200 whitespace-pre-wrap">{selectedQuestion.example}</pre>
+                  <div className="bg-black/30 rounded-2xl p-5 sm:p-6 border border-gray-800 space-y-3">
+                    <h4 className="text-gray-500 text-[10px] font-black uppercase tracking-widest">Exemple :</h4>
+                    <pre className="text-gray-200 font-mono text-xs sm:text-sm whitespace-pre-wrap">{selectedQuestion.example}</pre>
                   </div>
 
-                  <div className="mt-6">
-                    <h4 className="text-sm font-bold text-gray-400 uppercase mb-3 tracking-wider">Contraintes :</h4>
-                    <ul className="space-y-2">
+                  <div className="space-y-4">
+                    <h4 className="text-gray-500 text-[10px] font-black uppercase tracking-widest">Contraintes :</h4>
+                    <ul className="grid grid-cols-1 gap-2">
                       {selectedQuestion.constraints.map((c, i) => (
-                        <li key={i} className="flex items-start gap-2 text-sm text-gray-400">
-                          <AlertCircle className="w-4 h-4 mt-0.5 text-[#ff9900] shrink-0" />
+                        <li key={i} className="flex items-start gap-3 text-xs sm:text-sm text-gray-400 bg-gray-800/30 p-3 rounded-xl border border-gray-800/50">
+                          <AlertCircle className="w-4 h-4 text-[#ff9900] shrink-0 mt-0.5" />
                           {c}
                         </li>
                       ))}
@@ -462,24 +449,22 @@ def mergeKLists(lists):
                 </div>
 
                 {showSolution && (
-                  <div className="mt-8 space-y-4 animate-in fade-in slide-in-from-bottom-4 duration-500">
-                    <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
-                      <h4 className="text-green-400 font-bold mb-2 flex items-center gap-2">
-                        <CheckCircle2 className="w-5 h-5" />
+                  <div className="mt-12 space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
+                    <div className="p-6 bg-green-500/5 border border-green-500/20 rounded-2xl">
+                      <h4 className="text-green-400 font-black mb-3 flex items-center gap-2 uppercase text-[10px] tracking-widest">
+                        <CheckCircle2 className="w-4 h-4" />
                         Explication de la Solution
                       </h4>
-                      <p className="text-sm text-gray-300">{selectedQuestion.explanation}</p>
+                      <p className="text-gray-300 text-sm sm:text-base leading-relaxed">{selectedQuestion.explanation}</p>
                     </div>
                     <div className="relative group">
-                      <div className="absolute right-4 top-4 z-10">
-                        <button 
-                          onClick={handleCopyCode}
-                          className="p-2 bg-gray-800 hover:bg-gray-700 rounded-lg transition-all border border-gray-700"
-                        >
-                          {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-gray-400" />}
-                        </button>
-                      </div>
-                      <pre className="bg-black p-6 rounded-xl border border-gray-800 font-mono text-sm text-gray-300 overflow-x-auto">
+                      <button 
+                        onClick={handleCopyCode}
+                        className="absolute right-4 top-4 z-10 p-2 bg-gray-800 hover:bg-gray-700 rounded-xl transition-all border border-gray-700"
+                      >
+                        {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4 text-gray-400" />}
+                      </button>
+                      <pre className="bg-black p-6 sm:p-8 rounded-3xl border border-gray-800 font-mono text-xs sm:text-sm text-gray-300 overflow-x-auto shadow-2xl">
                         <code>{selectedQuestion.solution}</code>
                       </pre>
                     </div>
@@ -488,44 +473,47 @@ def mergeKLists(lists):
               </div>
             </div>
 
-            {/* Right Column: Editor */}
-            <div className="bg-[#1e2329] rounded-xl border border-gray-800 flex flex-col overflow-hidden">
-              <div className="p-4 border-b border-gray-800 flex items-center justify-between bg-[#232f3e]">
-                <div className="flex items-center gap-2 text-sm font-medium text-gray-400">
+            {/* Editor Panel */}
+            <div className="bg-[#1e2329] rounded-3xl border border-gray-800 flex flex-col overflow-hidden shadow-2xl h-[500px] lg:h-auto">
+              <div className="p-4 border-b border-gray-800 flex items-center justify-between bg-[#232f3e] shrink-0">
+                <div className="flex items-center gap-2 text-[10px] font-black text-gray-500 uppercase tracking-widest">
                   <Code className="w-4 h-4" />
                   Code Editor
                 </div>
-                <div className="flex items-center gap-2">
-                  <button 
-                    onClick={() => setShowSolution(!showSolution)}
-                    className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium hover:bg-gray-700 rounded-lg transition-colors"
-                  >
-                    {showSolution ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                    {showSolution ? 'Masquer' : 'Voir Solution'}
-                  </button>
-                </div>
+                <button 
+                  onClick={() => setShowSolution(!showSolution)}
+                  className={`flex items-center gap-2 px-3 sm:px-4 py-2 text-[10px] sm:text-xs font-bold rounded-xl transition-all border ${
+                    showSolution ? 'bg-orange-500/10 border-orange-500/20 text-[#ff9900]' : 'bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700'
+                  }`}
+                >
+                  {showSolution ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  {showSolution ? 'Masquer' : 'Voir Solution'}
+                </button>
               </div>
               
-              <div className="flex-1 relative bg-[#0d1117]">
+              <div className="flex-1 relative bg-[#0d1117] overflow-hidden">
                 <textarea
                   value={userCode}
                   onChange={(e) => setUserCode(e.target.value)}
                   placeholder="# Écrivez votre solution ici..."
-                  className="w-full h-full bg-transparent p-6 font-mono text-sm outline-none resize-none text-gray-300 placeholder-gray-600"
+                  className="w-full h-full bg-transparent p-6 sm:p-8 font-mono text-xs sm:text-sm outline-none resize-none text-gray-300 placeholder-gray-700"
                 />
               </div>
 
-              <div className="p-4 border-t border-gray-800 bg-[#232f3e] flex items-center justify-between">
-                <div className="text-xs text-gray-500">
-                  Appuyez sur <kbd className="px-1.5 py-0.5 bg-gray-800 rounded border border-gray-700">Ctrl + Enter</kbd> pour soumettre
+              <div className="p-5 sm:p-6 border-t border-gray-800 bg-[#232f3e] flex items-center justify-between shrink-0">
+                <div className="hidden sm:block text-[10px] text-gray-500 font-bold uppercase tracking-tighter">
+                  Ctrl + Enter pour soumettre
+                </div>
+                <div className="sm:hidden text-[9px] text-gray-500 font-bold uppercase tracking-tighter">
+                  Prêt pour la revue
                 </div>
                 <button 
                   onClick={handleSubmit}
                   disabled={submitted}
-                  className={`flex items-center gap-2 px-6 py-2 rounded-lg font-bold transition-all ${
+                  className={`flex items-center gap-2 sm:gap-3 px-6 sm:px-8 py-2.5 sm:py-3 rounded-2xl font-black text-xs sm:text-sm transition-all transform active:scale-95 ${
                     submitted 
                     ? 'bg-green-500 text-white' 
-                    : 'bg-[#ff9900] hover:bg-[#e47911] text-black shadow-lg shadow-[#ff9900]/20'
+                    : 'bg-[#ff9900] hover:bg-[#e47911] text-black shadow-xl shadow-[#ff9900]/30'
                   }`}
                 >
                   {submitted ? (
@@ -545,8 +533,29 @@ def mergeKLists(lists):
           </div>
         )}
       </main>
+
+      <style jsx>{`
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 6px;
+        }
+        @media (min-width: 640px) {
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+          }
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: #333;
+          border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: #444;
+        }
+      `}</style>
     </div>
   );
 };
 
-export default DashboardMicrosoft;
+export default DashboardMicrosoftResponsive;

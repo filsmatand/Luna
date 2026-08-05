@@ -40,6 +40,9 @@ import CloudawsIntermediare from "./page/Software_developer/Frontend/Intermediai
 
 import LunaLoadingScreen from './page/LunaLoadingScreen';
 
+import Collaborateur from "./page/collaborateur"
+import PaymentGate from "./page/PaymentGate";
+
 
 
 
@@ -87,6 +90,7 @@ export default function App() {
           <Route path = "/resourcecoursfullstack" element = {<ResourceCoursFullstack/>}/>
 
 
+
           <Route path ="/google" element = {<Google/>} />
           <Route path ="/amazon" element = {<Amazon/>} />
           <Route path ="/meta" element = {<Meta/>} />
@@ -97,6 +101,9 @@ export default function App() {
           <Route path ="/basetypescript" element = {<BaseTypeScript/>} />
           <Route path ="/nodejsintermediaire" element = {<NodeJsIntermediare/>} />
           <Route path ="/cloudawsintermediaire" element = {<CloudawsIntermediare/>} />
+          <Route path="collaborateur" element = {<Collaborateur/>}/>
+
+          <Route path="/payment" element={<PaymentGate />} />
 
         </Route>
       </Routes>

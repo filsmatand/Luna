@@ -5,7 +5,7 @@ import {
   FileText, Filter, ArrowUpDown, Layout, Code2, Globe, 
   Cpu, Shield, Zap, TrendingUp, Settings, Info, 
   MessageSquare, FaGithub, ExternalLink, Menu, X, ArrowLeft,
-  Sparkles, Database, GitBranch, Lock, Lightbulb,ServerCog, Bot
+  Sparkles, Database, GitBranch, Lock, Lightbulb, ServerCog, Bot
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -13,11 +13,12 @@ import { useNavigate } from "react-router-dom";
  * LunaResourcesCenter - Plateforme de ressources pédagogiques premium.
  * Design : Luna Development Aesthetic (Dark, Glassmorphism, Gradients).
  * Fonctionnalités : Filtrage dynamique, Recherche, Sidebar intelligente.
+ * Responsive : Optimisé pour mobile, tablette et desktop.
  */
 export default function LunaResourcesCenter() {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Toutes");
 
   // BASE DE DONNÉES MASSIVE DE RESSOURCES
@@ -66,13 +67,16 @@ export default function LunaResourcesCenter() {
   }, [searchTerm, selectedCategory]);
 
   return (
-    <div className="flex h-screen bg-[#020617] font-sans text-slate-200 overflow-hidden selection:bg-blue-500/30">
+    <div className="flex flex-col lg:flex-row h-screen bg-[#020617] font-sans text-slate-200 overflow-hidden selection:bg-blue-500/30 relative">
       
-      {/* SIDEBAR (STYLE LUNA) */}
+      {/* SIDEBAR (STYLE LUNA) - RESPONSIVE */}
       <motion.aside 
         initial={false}
-        animate={{ width: isSidebarOpen ? 280 : 0 }}
-        className="flex flex-col border-r border-blue-900/20 bg-slate-900/50 backdrop-blur-xl overflow-hidden relative z-20"
+        animate={{ 
+          width: isSidebarOpen ? 280 : 0,
+          height: isSidebarOpen ? "auto" : 0
+        }}
+        className="fixed lg:static left-0 top-0 lg:top-auto h-screen lg:h-auto flex flex-col lg:w-[280px] lg:h-screen border-r border-b lg:border-b-0 border-blue-900/20 bg-slate-900/50 backdrop-blur-xl overflow-hidden z-50 lg:z-20"
       >
         <div className="flex items-center justify-between px-6 py-5 border-b border-blue-900/20">
           <div className="flex items-center gap-3">
@@ -88,7 +92,10 @@ export default function LunaResourcesCenter() {
           {categories.map((cat) => (
             <button
               key={cat}
-              onClick={() => setSelectedCategory(cat)}
+              onClick={() => {
+                setSelectedCategory(cat);
+                setIsSidebarOpen(false);
+              }}
               className={`w-full text-left px-4 py-3 rounded-xl text-xs font-bold transition-all flex items-center gap-3 group ${
                 selectedCategory === cat 
                   ? 'bg-blue-600 text-white shadow-xl shadow-blue-600/20' 
@@ -118,24 +125,32 @@ export default function LunaResourcesCenter() {
         </div>
       </motion.aside>
 
+      {/* OVERLAY MOBILE */}
+      {isSidebarOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 lg:hidden z-30"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
       {/* MAIN CONTENT */}
-      <div className="flex-1 flex flex-col min-w-0 bg-[#020617] relative">
+      <div className="flex-1 flex flex-col min-w-0 bg-[#020617] relative w-full">
         
         {/* HEADER */}
-        <header className="h-16 border-b border-blue-900/20 flex items-center justify-between px-6 bg-slate-900/20 backdrop-blur-md z-10">
-          <div className="flex items-center gap-4 flex-1">
+        <header className="h-16 border-b border-blue-900/20 flex items-center justify-between px-4 sm:px-6 bg-slate-900/20 backdrop-blur-md z-10">
+          <div className="flex items-center gap-2 sm:gap-4 flex-1 min-w-0">
             <button 
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="p-2 hover:bg-slate-800 rounded-xl text-slate-400 hover:text-white transition-all"
+              className="lg:hidden p-2 hover:bg-slate-800 rounded-xl text-slate-400 hover:text-white transition-all flex-shrink-0 relative z-40"
             >
               {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
             </button>
             
-            <div className="relative w-full max-w-md group">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-500 transition-colors" size={16} />
+            <div className="relative w-full max-w-md group min-w-0">
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-500 transition-colors flex-shrink-0" size={16} />
               <input 
                 type="text" 
-                placeholder="Rechercher une ressource, un sujet ou une entreprise..." 
+                placeholder="Rechercher..." 
                 className="w-full bg-slate-900/50 border border-slate-800 rounded-xl py-2 pl-10 pr-4 text-xs text-white outline-none focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all placeholder:text-slate-600"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -143,32 +158,32 @@ export default function LunaResourcesCenter() {
             </div>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20">
+          <div className="flex items-center gap-2 sm:gap-4 flex-shrink-0">
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20">
               <span className="w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse"></span>
               <span className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">Live Updates</span>
             </div>
-            <button className="p-2 hover:bg-slate-800 rounded-xl text-slate-400 hover:text-white transition-all">
+            <button className="p-2 hover:bg-slate-800 rounded-xl text-slate-400 hover:text-white transition-all flex-shrink-0">
               <Globe size={20} />
             </button>
           </div>
         </header>
 
         {/* CONTENT AREA */}
-        <div className="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-10">
+        <div className="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 lg:p-10">
           
           {/* HERO SECTION DANS LE CONTENU */}
-          <div className="mb-12">
-            <h1 className="text-3xl font-black text-white tracking-tight mb-2">
+          <div className="mb-8 sm:mb-12">
+            <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight mb-2">
               Centre de <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-500">Ressources</span>
             </h1>
-            <p className="text-slate-500 text-sm max-w-xl leading-relaxed">
+            <p className="text-slate-500 text-xs sm:text-sm max-w-xl leading-relaxed">
               Explorez notre bibliothèque exhaustive de connaissances techniques, optimisée pour les ingénieurs d'élite.
             </p>
           </div>
 
           {/* GRILLE DES RESSOURCES */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             <AnimatePresence mode="popLayout">
               {filteredResources.map((item, index) => (
                 <motion.div
@@ -178,7 +193,7 @@ export default function LunaResourcesCenter() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ duration: 0.2, delay: index * 0.05 }}
-                  className="group relative flex flex-col justify-between rounded-3xl border border-slate-800 bg-slate-900/20 p-6 transition-all hover:border-blue-500/40 hover:bg-slate-900/40 hover:shadow-2xl hover:shadow-blue-500/5 overflow-hidden"
+                  className="group relative flex flex-col justify-between rounded-3xl border border-slate-800 bg-slate-900/20 p-4 sm:p-6 transition-all hover:border-blue-500/40 hover:bg-slate-900/40 hover:shadow-2xl hover:shadow-blue-500/5 overflow-hidden"
                 >
                   {/* Décoration de fond */}
                   <div className="absolute -right-4 -top-4 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity">
@@ -186,7 +201,7 @@ export default function LunaResourcesCenter() {
                   </div>
 
                   <div>
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 sm:gap-0 mb-4">
                       <span className="text-[9px] font-black text-blue-500 uppercase tracking-widest bg-blue-500/10 px-2 py-0.5 rounded-full border border-blue-500/20">
                         {item.company}
                       </span>
@@ -196,19 +211,19 @@ export default function LunaResourcesCenter() {
                       </div>
                     </div>
 
-                    <h3 className="text-base font-bold text-white leading-tight group-hover:text-blue-400 transition-colors line-clamp-2 mb-4">
+                    <h3 className="text-sm sm:text-base font-bold text-white leading-tight group-hover:text-blue-400 transition-colors line-clamp-2 mb-4">
                       {item.title}
                     </h3>
                     
-                    <div className="flex items-center gap-4 text-slate-500 text-[10px] font-bold font-mono">
+                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-slate-500 text-[10px] font-bold font-mono">
                       <div className="flex items-center gap-1.5">
-                        <Eye size={12} className="text-slate-700" />
+                        <Eye size={12} className="text-slate-700 flex-shrink-0" />
                         <span>{item.views.toLocaleString()}</span>
                       </div>
                       
                       {item.rating && (
                         <div className="flex items-center gap-1 text-amber-500/80">
-                          <Star size={12} fill="currentColor" />
+                          <Star size={12} fill="currentColor" className="flex-shrink-0" />
                           <span>{item.rating}.0</span>
                         </div>
                       )}
@@ -219,8 +234,8 @@ export default function LunaResourcesCenter() {
                     </div>
                   </div>
 
-                  <div className="mt-8 flex items-center justify-between">
-                    <button className="rounded-xl bg-blue-600 px-6 py-2 text-[10px] font-black text-white uppercase tracking-widest transition-all hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-600/20 active:scale-95">
+                  <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+                    <button className="w-full sm:w-auto rounded-xl bg-blue-600 px-4 sm:px-6 py-2 text-[10px] font-black text-white uppercase tracking-widest transition-all hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-600/20 active:scale-95">
                       Explorer
                     </button>
                     
@@ -236,17 +251,17 @@ export default function LunaResourcesCenter() {
 
           {/* ÉTAT VIDE */}
           {filteredResources.length === 0 && (
-            <div className="h-96 flex flex-col items-center justify-center text-center p-12 bg-slate-900/10 border-2 border-dashed border-slate-800 rounded-[40px]">
+            <div className="h-64 sm:h-96 flex flex-col items-center justify-center text-center p-6 sm:p-12 bg-slate-900/10 border-2 border-dashed border-slate-800 rounded-[40px]">
               <Search size={48} className="text-slate-800 mb-4" />
-              <h3 className="text-xl font-black text-white mb-2 tracking-tight">Aucune ressource trouvée</h3>
-              <p className="text-slate-500 text-sm max-w-xs leading-relaxed">
+              <h3 className="text-lg sm:text-xl font-black text-white mb-2 tracking-tight">Aucune ressource trouvée</h3>
+              <p className="text-slate-500 text-xs sm:text-sm max-w-xs leading-relaxed">
                 Nous n'avons trouvé aucune ressource correspondant à "{searchTerm}" dans la catégorie "{selectedCategory}".
               </p>
               <button 
                 onClick={() => { setSearchTerm(""); setSelectedCategory("Toutes"); }}
-                className="mt-8 px-8 py-3 bg-blue-600/10 text-blue-500 hover:bg-blue-600/20 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all"
+                className="mt-6 sm:mt-8 px-6 sm:px-8 py-2 sm:py-3 bg-blue-600/10 text-blue-500 hover:bg-blue-600/20 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all"
               >
-                Réinitialiser la recherche
+                Réinitialiser
               </button>
             </div>
           )}

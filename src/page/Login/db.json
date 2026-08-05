@@ -1,0 +1,19 @@
+{
+  "users": [
+    {
+      "id": 1785878316610,
+      "fullName": "Scof",
+      "email": "scofmatand@gmail.com",
+      "password": "123456",
+      "createdAt": "2026-08-04T21:18:36.610Z"
+    },
+    {
+      "id": 1785950855787,
+      "fullName": "Scof",
+      "email": "scof@gmail.com",
+      "password": "1234567",
+      "profilePicture": "/uploads/1785950855780.jfif",
+      "createdAt": "2026-08-05T17:27:35.787Z"
+    }
+  ]
+}

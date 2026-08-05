@@ -2,6 +2,7 @@
 import Parcours from "../page/Parcour"
 import Hero from "../components/Hero";
 
+
 import FeaturesSection from "../page/Imporent";
 import CompanyQuestionsSection from "./CompagnieQustions/CompagniesQuestions";
 
@@ -16,6 +17,7 @@ export default function Home() {
     <Parcours/>
     <FeaturesSection/>
     <CompanyQuestionsSection/>
+   
   </div>
 
 </main>
