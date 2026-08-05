@@ -1,12 +1,10 @@
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import {
-  Type, Search, ChevronRight, Menu, X,
+import { Search, ChevronRight, Menu, X,
   Settings, Info, MessageSquare, BookOpen,
-  Terminal, Zap, ShieldCheck,
-  FileCode, CheckCircle2, HelpCircle, ArrowLeft,
-  Braces, Box, GitMerge
+  Terminal, Zap, ArrowLeft,
+  Braces, Box
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { SiTypescript } from "react-icons/si";

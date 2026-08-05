@@ -1,11 +1,9 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-import img1 from "../../assets/ent1.png";
+
 import img2 from "../../assets/ent2.png";
-import img3 from "../../assets/luna.png";
 import img4 from "../../assets/ent4.png";
-import img5 from "../../assets/ent5.png";
 import img6 from "../../assets/ent6.png";
 import img7 from "../../assets/ent7.png";
 import img8 from "../../assets/ent8.png";

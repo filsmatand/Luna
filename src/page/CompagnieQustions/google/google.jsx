@@ -3,7 +3,7 @@ import {
   ArrowLeft, Play, Pause, RotateCcw, Eye, EyeOff, Send, 
   Clock, Code, CheckCircle2, Copy, Check,Layout,Users,ShieldCheck,Share2
 } from 'lucide-react';
-import CodeEditor from '../../editorcode/CodeEditor';
+
 
 const DashboardGoogle = () => {
   const [selectedQuestion, setSelectedQuestion] = useState(null);
@@ -725,12 +725,12 @@ Grid :
 <header>
     <nav>
         <ul>
-            <li><a href=\"#main\">Aller au contenu</a></li>
+            <li><a href="#main">Aller au contenu</a></li>
         </ul>
     </nav>
 </header>
 
-<main id=\"main\" role=\"main\">
+<main id="main" role="main">
     <article>
         <h1>Titre</h1>
         <p>Contenu</p>
@@ -738,8 +738,8 @@ Grid :
 </main>
 
 <!-- ARIA Labels -->
-<button aria-label=\"Ouvrir le menu\">☰</button>
-<img src=\"image.jpg\" alt=\"Description de l'image\">
+<button aria-label="Ouvrir le menu">☰</button>
+<img src="image.jpg" alt="Description de l'image">
 
 <!-- Contraste et Focus -->
 .button {
@@ -772,10 +772,10 @@ function escapeHtml(text) {
         '&': '&amp;',
         '<': '&lt;',
         '>': '&gt;',
-        '\"': '&quot;',
-        \"'\": '&#039;'
+        '"': '&quot;',
+        "'": '&#039;'
     };
-    return text.replace(/[&<>\"']/g, m => map[m]);
+    return text.replace(/[&<>"']/g, m => map[m]);
 }
 
 // 2. Sanitization (utiliser une bibliothèque)

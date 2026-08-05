@@ -177,7 +177,7 @@ export default function CodeEditor({
         );
 
 
-    },[language]);
+    },[language, storageKey]);
 
 
 

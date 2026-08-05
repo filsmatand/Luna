@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import logo from "../assets/logo4.png"
-import { Menu, X, ChevronDown, User, Map, Layout, Server, Layers, LogOut } from "lucide-react";
+import { Menu, X, ChevronDown, User, Layout, Server, Layers } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Navbar() {

@@ -60,7 +60,7 @@ const JavascriptFondamentaux = () => {
           {
             subTitle: "Déclaration et exécution",
             text: "Une fonction est un bloc de code réutilisable. Elle prend des entrées (paramètres) et retourne un résultat.",
-            code: "function saluer(prenom) {\n  return `Bonjour ${prenom} !`;\n}\n\nconst message = saluer('Alice'); // Appel de la fonction",
+            code: `function saluer(prenom) {\n  return \`Bonjour \${prenom} !\`;\n}\n\nconst message = saluer('Alice'); // Appel de la fonction`,
             tips: "Les fonctions fléchées (Arrow Functions) sont une syntaxe moderne et concise très utilisée aujourd'hui."
           },
           {

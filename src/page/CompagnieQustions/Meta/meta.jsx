@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  ArrowLeft, Play, Pause, RotateCcw, Eye, EyeOff, Send, 
-  Clock, Code, CheckCircle2, AlertCircle, Copy, Check, MessageCircle, Share2, Users, Layout, ShieldCheck
+  ArrowLeft, Play, Pause, RotateCcw, Eye, EyeOff, Send, Code, CheckCircle2, AlertCircle, Copy, Check, MessageCircle, Share2, Users, Layout, ShieldCheck
 } from 'lucide-react';
-import { FaFacebook, FaGithub, FaInstagram, FaLinkedin } from "react-icons/fa";
+
 
 const DashboardMetaResponsive = () => {
   const [selectedQuestion, setSelectedQuestion] = useState(null);

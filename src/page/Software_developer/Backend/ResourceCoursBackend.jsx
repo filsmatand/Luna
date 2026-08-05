@@ -1,17 +1,15 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { 
-  Code2, Terminal, Database, GitBranch, Sparkles, GraduationCap, 
-  Cloud, Zap, TrendingUp, Cpu, ServerCog, HardDrive, Globe, 
-  Lock, Lightbulb, Search, ChevronRight, ExternalLink, Menu, X,
+import {  Terminal, Database, GitBranch, Zap, ServerCog, HardDrive, Globe, 
+  Lock, Search, ChevronRight, ExternalLink, Menu, X,
   Settings, Info, MessageSquare, ArrowLeft, Layers, Activity, Workflow, Box, ShieldCheck
 } from "lucide-react";
 import { 
-  FaNodeJs, FaPython, FaAws, FaDocker, FaDatabase, FaJava, FaGithub, FaReact
+  FaNodeJs,  FaAws, FaDocker, FaDatabase,FaGithub, 
 } from "react-icons/fa";
 import { 
-  SiPostgresql, SiRedis, SiMongodb, SiKubernetes, SiGraphql, SiTypescript, SiGo 
+   SiRedis, SiKubernetes, SiGraphql, 
 } from "react-icons/si";
 
 // --- DONNÉES DU BACKEND ---

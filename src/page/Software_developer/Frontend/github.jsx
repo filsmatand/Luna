@@ -1,11 +1,11 @@
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+
 import {
-  Layout, PenTool, Code, Smartphone, Eye,
-  Search, ChevronRight, ExternalLink, Menu, X,
-  Settings, Info, MessageSquare, Sparkles, BookOpen,
-  Terminal, CheckCircle, GitBranch, GitPullRequest, GitMerge, Database, Globe
+  PenTool,
+  Search, ChevronRight, Menu, X,
+  Settings, Info, MessageSquare, BookOpen,
+  Terminal,  GitBranch, GitPullRequest, GitMerge, Database, Globe
 } from "lucide-react";
 import { FaGithub, FaGitAlt } from "react-icons/fa";
 
@@ -105,7 +105,7 @@ const categories = [
 ];
 
 export default function GithubResources() {
-  const navigate = useNavigate();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);

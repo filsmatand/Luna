@@ -1,8 +1,7 @@
-import React, { useState, useEffect,useMemo} from 'react';
+import React, { useState, useEffect} from 'react';
 import { 
   ArrowLeft, Play, Pause, RotateCcw, Eye, EyeOff, Send, 
-  Clock, Code, CheckCircle2, AlertCircle, Copy, Check,
-  ShoppingBag, Truck, Users, Database,ShieldCheck,Share2,Layout
+  Clock, Code, CheckCircle2, AlertCircle, Copy, Check, Truck, Users,ShieldCheck,Share2
 } from 'lucide-react';
 
 const DashboardApple = () => {
@@ -14,9 +13,8 @@ const DashboardApple = () => {
   const [copied, setCopied] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const [activeTab, setActiveTab] = useState('all');
-  const [activeRole, setActiveRole] = useState('all');
-  const [searchQuery, setSearchQuery] = useState('');
+ 
+
 
   useEffect(() => {
     let interval;
@@ -271,12 +269,7 @@ def mergeKLists(lists):
     setTimeout(() => setSubmitted(false), 3000);
   };
 
-   const filteredQuestions = useMemo(() => {
-      return questions.filter(q => 
-        (activeTab === 'all' || q.category.toLowerCase() === activeTab.toLowerCase()) 
-       
-      );
-    }, [activeTab, activeRole, searchQuery]);
+ 
   
 
   return (
@@ -318,7 +311,7 @@ def mergeKLists(lists):
                  
                 <button 
                  key={cat} 
-                 onClick={() => setActiveTab(item.label.toLowerCase())}
+                 
                  className={`${item.bg} p-3 sm:p-4 rounded-2xl border border-gray-800/50 flex items-center gap-3 sm:gap-4 hover:scale-[1.02] transition-transform cursor-pointer `}>
                   <item.icon className={`w-6 h-6 sm:w-8 sm:h-8 flex-shrink-0 ${item.color}`} />
                   <span className="font-bold text-gray-200 text-sm sm:text-base">{item.label}</span>

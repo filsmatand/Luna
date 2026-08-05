@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   Server, Search, ChevronRight, Menu, X,
   Settings, Info, MessageSquare, BookOpen,
-  Terminal, Zap, ShieldCheck,
-  FileCode, CheckCircle2, HelpCircle, ArrowLeft,
+  Terminal, ShieldCheck, ArrowLeft,
   Globe, Database, Activity
 } from "lucide-react";
 import { FaGithub, FaNodeJs } from "react-icons/fa";

@@ -1,11 +1,11 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Search, ChevronDown, Eye, Star, PlayCircle, BookOpen, 
-  FileText, Filter, ArrowUpDown, Layout, Code2, Globe, 
+  Search, ChevronDown, Eye, Star, PlayCircle,
+  FileText,  Layout, Globe, 
   Cpu, Shield, Zap, TrendingUp, Settings, Info, 
-  MessageSquare, FaGithub, ExternalLink, Menu, X, ArrowLeft,
-  Sparkles, Database, GitBranch, Lock, Lightbulb, ServerCog, Bot
+  MessageSquare, Menu, X, 
+  Sparkles, ServerCog, Bot
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
@@ -14,49 +14,56 @@ import { useNavigate } from "react-router-dom";
  * Design : Luna Development Aesthetic (Dark, Glassmorphism, Gradients).
  * Fonctionnalités : Filtrage dynamique, Recherche, Sidebar intelligente.
  * Responsive : Optimisé pour mobile, tablette et desktop.
+ * Authentification : Vérification de l'utilisateur dans localStorage (cohérent avec Navbar).
  */
+// BASE DE DONNÉES MASSIVE DE RESSOURCES
+const resources = [
+  // --- WEB PERFORMANCE ---
+  { id: 1, title: "Optimisation des performances Web pour les appareils à faible consommation", views: 4200, rating: 5, type: "Article", category: "Performance", company: "Google" },
+  { id: 2, title: "CDN d'images et infrastructure de livraison moderne", views: 2300, rating: 5, type: "Article", category: "Performance", company: "Cloudflare" },
+  { id: 3, title: "Chargement paresseux (Lazy Loading) des images en 2027", views: 1050, rating: 5, type: "Article", category: "Performance", company: "Chrome" },
+  { id: 4, title: "Mesurer les Core Web Vitals avec précision", views: 2700, rating: 4, type: "Blog", category: "Performance", company: "Vercel" },
+  
+  // --- ARCHITECTURE & CODE ---
+  { id: 5, title: "Comment refactoriser de grandes bases de code sans douleur", views: 18190, rating: 5, type: "Vidéo", category: "Architecture", company: "Meta" },
+  { id: 6, title: "Design Patterns en JavaScript Moderne", views: 5500, rating: 4, type: "Vidéo", category: "Architecture", company: "Microsoft" },
+  { id: 7, title: "Micro-frontends : Stratégies de déploiement", views: 3200, rating: 5, type: "Article", category: "Architecture", company: "Amazon" },
+  { id: 8, title: "Clean Code : Principes SOLID appliqués au Frontend", views: 9400, rating: 5, type: "Article", category: "Architecture", company: "Apple" },
+
+  // --- CARRIÈRE & ENTRETIENS ---
+  { id: 9, title: "Expérience d'entretien frontend chez Cars24", views: 35970, rating: 4, type: "Blog", category: "Carrière", company: "Cars24" },
+  { id: 10, title: "Comment j'ai été promu Senior Engineer en 12 mois", views: 21920, rating: 5, type: "Vidéo", category: "Carrière", company: "Netflix" },
+  { id: 11, title: "Négocier son salaire de développeur en 2027", views: 15400, rating: 5, type: "Article", category: "Carrière", company: "Luna" },
+  { id: 12, title: "Préparer le System Design Interview", views: 28000, rating: 5, type: "Vidéo", category: "Carrière", company: "Google" },
+
+  // --- SÉCURITÉ & BACKEND ---
+  { id: 13, title: "Sécuriser vos APIs avec JWT et Refresh Tokens", views: 12500, rating: 5, type: "Article", category: "Sécurité", company: "Auth0" },
+  { id: 14, title: "Prévenir les failles OWASP Top 10 en Node.js", views: 8900, rating: 4, type: "Vidéo", category: "Sécurité", company: "Snyk" },
+  { id: 15, title: "Introduction à Rust pour les développeurs JS", views: 6700, rating: 5, type: "Blog", category: "Backend", company: "Mozilla" },
+  { id: 16, title: "Scaling Database with Sharding and Replication", views: 4500, rating: 5, type: "Article", category: "Backend", company: "AWS" },
+
+  // --- IA & FUTUR ---
+  { id: 17, title: "Intégrer les LLMs dans vos applications React", views: 34000, rating: 5, type: "Vidéo", category: "IA", company: "OpenAI" },
+  { id: 18, title: "Prompt Engineering pour les développeurs Frontend", views: 12000, rating: 4, type: "Article", category: "IA", company: "Anthropic" },
+  { id: 19, title: "WebAssembly : Le futur du Web haute performance", views: 9800, rating: 5, type: "Article", category: "Performance", company: "Figma" },
+  { id: 20, title: "Créer des agents autonomes avec Vercel AI SDK", views: 15000, rating: 5, type: "Vidéo", category: "IA", company: "Vercel" }
+];
+
+const categories = ["Toutes", "Performance", "Architecture", "Carrière", "Sécurité", "Backend", "IA"];
+
 export default function LunaResourcesCenter() {
   const navigate = useNavigate();
+  
+  // TOUS LES HOOKS DÉCLARÉS AU DÉBUT DU COMPOSANT
   const [searchTerm, setSearchTerm] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("Toutes");
+  const [isLoading, setIsLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
-  // BASE DE DONNÉES MASSIVE DE RESSOURCES
-  const resources = [
-    // --- WEB PERFORMANCE ---
-    { id: 1, title: "Optimisation des performances Web pour les appareils à faible consommation", views: 4200, rating: 5, type: "Article", category: "Performance", company: "Google" },
-    { id: 2, title: "CDN d'images et infrastructure de livraison moderne", views: 2300, rating: 5, type: "Article", category: "Performance", company: "Cloudflare" },
-    { id: 3, title: "Chargement paresseux (Lazy Loading) des images en 2027", views: 1050, rating: 5, type: "Article", category: "Performance", company: "Chrome" },
-    { id: 4, title: "Mesurer les Core Web Vitals avec précision", views: 2700, rating: 4, type: "Blog", category: "Performance", company: "Vercel" },
-    
-    // --- ARCHITECTURE & CODE ---
-    { id: 5, title: "Comment refactoriser de grandes bases de code sans douleur", views: 18190, rating: 5, type: "Vidéo", category: "Architecture", company: "Meta" },
-    { id: 6, title: "Design Patterns en JavaScript Moderne", views: 5500, rating: 4, type: "Vidéo", category: "Architecture", company: "Microsoft" },
-    { id: 7, title: "Micro-frontends : Stratégies de déploiement", views: 3200, rating: 5, type: "Article", category: "Architecture", company: "Amazon" },
-    { id: 8, title: "Clean Code : Principes SOLID appliqués au Frontend", views: 9400, rating: 5, type: "Article", category: "Architecture", company: "Apple" },
 
-    // --- CARRIÈRE & ENTRETIENS ---
-    { id: 9, title: "Expérience d'entretien frontend chez Cars24", views: 35970, rating: 4, type: "Blog", category: "Carrière", company: "Cars24" },
-    { id: 10, title: "Comment j'ai été promu Senior Engineer en 12 mois", views: 21920, rating: 5, type: "Vidéo", category: "Carrière", company: "Netflix" },
-    { id: 11, title: "Négocier son salaire de développeur en 2027", views: 15400, rating: 5, type: "Article", category: "Carrière", company: "Luna" },
-    { id: 12, title: "Préparer le System Design Interview", views: 28000, rating: 5, type: "Vidéo", category: "Carrière", company: "Google" },
 
-    // --- SÉCURITÉ & BACKEND ---
-    { id: 13, title: "Sécuriser vos APIs avec JWT et Refresh Tokens", views: 12500, rating: 5, type: "Article", category: "Sécurité", company: "Auth0" },
-    { id: 14, title: "Prévenir les failles OWASP Top 10 en Node.js", views: 8900, rating: 4, type: "Vidéo", category: "Sécurité", company: "Snyk" },
-    { id: 15, title: "Introduction à Rust pour les développeurs JS", views: 6700, rating: 5, type: "Blog", category: "Backend", company: "Mozilla" },
-    { id: 16, title: "Scaling Database with Sharding and Replication", views: 4500, rating: 5, type: "Article", category: "Backend", company: "AWS" },
-
-    // --- IA & FUTUR ---
-    { id: 17, title: "Intégrer les LLMs dans vos applications React", views: 34000, rating: 5, type: "Vidéo", category: "IA", company: "OpenAI" },
-    { id: 18, title: "Prompt Engineering pour les développeurs Frontend", views: 12000, rating: 4, type: "Article", category: "IA", company: "Anthropic" },
-    { id: 19, title: "WebAssembly : Le futur du Web haute performance", views: 9800, rating: 5, type: "Article", category: "Performance", company: "Figma" },
-    { id: 20, title: "Créer des agents autonomes avec Vercel AI SDK", views: 15000, rating: 5, type: "Vidéo", category: "IA", company: "Vercel" }
-  ];
-
-  const categories = ["Toutes", "Performance", "Architecture", "Carrière", "Sécurité", "Backend", "IA"];
-
-  // LOGIQUE DE FILTRAGE
+  // LOGIQUE DE FILTRAGE - useMemo APPELÉ AVANT TOUT RETURN CONDITIONNEL
   const filteredResources = useMemo(() => {
     return resources.filter((item) => {
       const matchesSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
@@ -65,6 +72,41 @@ export default function LunaResourcesCenter() {
       return matchesSearch && matchesCategory;
     });
   }, [searchTerm, selectedCategory]);
+
+  // VÉRIFICATION DE L'AUTHENTIFICATION AU CHARGEMENT (IDENTIQUE À LA NAVBAR)
+  useEffect(() => {
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      try {
+        setUser(JSON.parse(savedUser));
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Erreur lors du parsing de l'utilisateur:", error);
+        navigate("/login");
+      }
+    } else {
+      // Pas d'utilisateur trouvé, redirection vers la page Login
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  // AFFICHAGE DE L'ÉCRAN DE CHARGEMENT PENDANT LA VÉRIFICATION
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-[#020617]">
+        <motion.div
+          animate={{ rotate: 360 }}
+          transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+          className="w-12 h-12 border-4 border-blue-500/20 border-t-blue-500 rounded-full"
+        />
+      </div>
+    );
+  }
+
+  // SI PAS D'UTILISATEUR, NE PAS AFFICHER LE CONTENU (LA REDIRECTION SE FAIT DANS useEffect)
+  if (!user) {
+    return null;
+  }
 
   return (
     <div className="flex flex-col lg:flex-row h-screen bg-[#020617] font-sans text-slate-200 overflow-hidden selection:bg-blue-500/30 relative">

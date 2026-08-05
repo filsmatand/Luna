@@ -2,18 +2,16 @@ import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { 
-  Code2, Terminal, Database, GitBranch, Sparkles, GraduationCap, 
-  Cloud, Zap, TrendingUp, Cpu, ServerCog, HardDrive, Globe, 
-  Lock, Lightbulb, Search, ChevronRight, ExternalLink, Menu, X,
-  Settings, Info, MessageSquare, ArrowLeft, Layers, Activity, Workflow, Box, ShieldCheck,
-  Smartphone, Brain, Bot, Layout, Server
+  Code2, Terminal, Database, GitBranch, Sparkles,  Zap, TrendingUp, ServerCog, Globe, 
+  Lock, Search, ChevronRight, ExternalLink, Menu, X,
+  Settings, Info, MessageSquare, ArrowLeft, Activity, Brain,
 } from "lucide-react";
 import { 
-  FaHtml5, FaCss3Alt, FaJs, FaReact, FaPython, FaNodeJs, FaAws, FaDocker, FaGithub
+  FaAws, FaGithub,FaReact, FaNodeJs
 } from "react-icons/fa";
 import { 
-  SiTailwindcss, SiTypescript, SiNextdotjs, SiKubernetes, SiPostgresql, 
-  SiPrisma, SiGraphql, SiVercel 
+  SiTailwindcss, SiTypescript, SiNextdotjs, SiKubernetes, 
+  SiPrisma,
 } from "react-icons/si";
 
 // --- DONNÉES FULLSTACK ---

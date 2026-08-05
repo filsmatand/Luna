@@ -1,13 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { 
-  User, Mail, Lock, Eye, EyeOff, ArrowRight, 
-  CheckCircle2, ShieldCheck, Sparkles, AlertCircle, Camera, Upload
+import {  Sparkles, AlertCircle, Camera
 } from 'lucide-react';
-import { FaFacebook, FaGoogle, FaMicrosoft } from "react-icons/fa";
+
 
 const Register = () => {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [previewUrl, setPreviewUrl] = useState(null);
@@ -185,12 +182,12 @@ const Register = () => {
 
             <div className="grid grid-cols-2 gap-4">
               <input 
-                type={showPassword ? "text" : "password"} name="password" placeholder="Mot de passe" value={formData.password} onChange={handleInputChange}
+                type="password" name="password" placeholder="Mot de passe" value={formData.password} onChange={handleInputChange}
                 className="w-full bg-[#242526] border border-gray-800 rounded-2xl py-4 px-4 text-gray-200 outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
                 required
               />
               <input 
-                type={showConfirmPassword ? "text" : "password"} name="confirmPassword" placeholder="Confirmer" value={formData.confirmPassword} onChange={handleInputChange}
+                type="password" name="confirmPassword" placeholder="Confirmer" value={formData.confirmPassword} onChange={handleInputChange}
                 className="w-full bg-[#242526] border border-gray-800 rounded-2xl py-4 px-4 text-gray-200 outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
                 required
               />

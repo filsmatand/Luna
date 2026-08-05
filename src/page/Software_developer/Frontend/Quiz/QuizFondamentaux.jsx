@@ -12,7 +12,6 @@ import {
   Link,
   ArrowLeftRight,
   FileWarning,
-  Code2,
   Rocket,
   Trophy,
   RotateCcw,

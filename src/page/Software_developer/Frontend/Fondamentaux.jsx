@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+
 import { 
   Server, Eye, Zap, Layout, Code, Smartphone, 
-  Search, ChevronRight, ExternalLink, Menu, X,
-  Settings, Info, MessageSquare, Sparkles, GraduationCap,
+  Search, ChevronRight, Menu, X,
+  Settings, Info, MessageSquare, Sparkles,
   BookOpen, PenTool, Terminal, CheckCircle
 } from "lucide-react";
 import { FaGithub, FaHtml5, FaCss3Alt, FaJs } from "react-icons/fa";
@@ -126,7 +126,7 @@ Mobile (320px)`,
 const categories = ["Concept", "Protocole", "Structure", "Design", "Outils"];
 
 export default function FondamentauxResources() {
-  const navigate = useNavigate();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);

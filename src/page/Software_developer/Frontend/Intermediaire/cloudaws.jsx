@@ -13,10 +13,6 @@ import {
   BookOpen,
   Terminal,
   Zap,
-  ShieldCheck,
-  FileCode,
-  CheckCircle2,
-  HelpCircle,
   ArrowLeft,
   UploadCloud,
   GitBranch,
@@ -29,17 +25,9 @@ import {
   Code2,
   Split,
   LayoutGrid,
-  Rocket,
-  HardDrive,
-  Scale,
   Network,
-  Key,
-  RefreshCcw,
-  BarChart2,
-  Users,
   Container,
   Shield,
-  Bell,
   Layers
 } from "lucide-react";
 
@@ -89,7 +77,7 @@ jobs:
 aws s3 sync ./dist s3://my-frontend-bucket --delete
 
 # Invalider le cache pour forcer la mise à jour
-aws cloudfront create-invalidation --distribution-id YOUR_DIST_ID --paths \"/*\"`,
+aws cloudfront create-invalidation --distribution-id YOUR_DIST_ID --paths: "/*"`,
     exercise: "Rédigez une politique de cache-control pour vos fichiers JS (hachés) afin qu'ils soient mis en cache pendant 1 an, et pour votre index.html afin qu'il ne soit jamais mis en cache.",
   },
   {
@@ -135,13 +123,13 @@ const secretKey = process.env.STRIPE_SECRET_KEY; // Uniquement côté serveur`,
     color: "text-emerald-400",
     course: "L'Infrastructure as Code permet de définir votre infrastructure cloud (Buckets S3, distributions CloudFront, bases de données) via des fichiers de configuration. Des outils comme Terraform, AWS CDK ou Pulumi permettent de versionner votre infrastructure comme votre code. Pour une équipe frontend, cela garantit que les environnements de staging et de production sont identiques et reproductibles en un clic. C'est une compétence de plus en plus demandée pour les profils 'Frontend Engineer' ou 'Fullstack'.",
     code: `# Exemple Terraform pour un bucket S3
-resource \"aws_s3_bucket\" \"frontend_bucket\" {
-  bucket = \"my-app-frontend-prod\"
-  acl    = \"public-read\"
+resource "aws_s3_bucket" "frontend_bucket" {
+  bucket = "my-app-frontend-prod"
+  acl    = "public-read"
 
   website {
-    index_document = \"index.html\"
-    error_document = \"index.html\"
+    index_document = "index.html"
+    error_document = "index.html"
   }
 }`,
     exercise: "Expliquez l'avantage d'utiliser l'IaC par rapport à la création manuelle de ressources via la console AWS.",
@@ -153,10 +141,10 @@ resource \"aws_s3_bucket\" \"frontend_bucket\" {
     color: "text-orange-400",
     course: "Une fois votre application déployée, vous devez savoir comment elle se comporte. L'observabilité cloud pour le frontend inclut le Real User Monitoring (RUM), le suivi des erreurs (Sentry, LogRocket) et les métriques de performance. Sur AWS, CloudWatch permet de surveiller les logs de vos fonctions serverless et les performances de votre CDN. Comprendre comment lire des logs et configurer des alertes est essentiel pour réagir rapidement en cas d'incident en production.",
     code: `// Intégration simple de monitoring d'erreurs
-import * as Sentry from \"@sentry/react\";
+import * as Sentry from "@sentry/react";
 
 Sentry.init({
-  dsn: \"https://examplePublicKey@o0.ingest.sentry.io/0\",
+  dsn: "https://examplePublicKey@o0.ingest.sentry.io/0",
   integrations: [new Sentry.BrowserTracing()],
   tracesSampleRate: 1.0,
 });
@@ -177,7 +165,7 @@ try {
     course: "Les stratégies de déploiement Blue/Green et Canary sont essentielles pour minimiser les risques lors des mises à jour en production. Le Blue/Green implique de maintenir deux environnements identiques (Blue et Green) et de basculer le trafic d'un coup. Le Canary déploie la nouvelle version à un petit sous-ensemble d'utilisateurs, puis augmente progressivement le trafic si aucune erreur n'est détectée.",
     code: `# Pseudo-code pour un déploiement Canary
 update_load_balancer_rules(
-  route: \"/\",
+  route: "/",
   target_group_blue: 90,
   target_group_green: 10
 );`,
@@ -222,7 +210,7 @@ new ModuleFederationPlugin({
     code: `FROM nginx:alpine
 COPY ./dist /usr/share/nginx/html
 EXPOSE 80
-CMD [\"nginx\", \"-g\", \"daemon off;\"]`,
+CMD ["nginx", "-g", "daemon off;"]`,
     exercise: "Créez un Dockerfile simple pour une application React.",
   },
   {

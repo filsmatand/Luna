@@ -8,10 +8,10 @@ import {
   Settings, Info, MessageSquare, ArrowLeft,GraduationCap
 } from "lucide-react";
 import { 
-  FaHtml5, FaCss3Alt, FaJs, FaReact, FaPython, FaNodeJs, FaAws, FaGithub
+   FaReact,  FaNodeJs,  FaGithub
 } from "react-icons/fa";
 import { 
-  SiTailwindcss, SiTypescript, SiNextdotjs, SiKubernetes 
+  SiTailwindcss, SiTypescript, SiKubernetes 
 } from "react-icons/si";
 
 const modules = [
@@ -371,7 +371,7 @@ export default function FrontendDashboard() {
                   <section>
                     <h2 className="text-base sm:text-lg font-bold text-white mb-4">Mise en route</h2>
                     <div className="bg-gray-900 border border-blue-900/30 rounded-lg p-4 font-mono text-[10px] sm:text-[11px] text-gray-300 overflow-x-auto">
-                      <div className="text-gray-500 mb-2">// Pour commencer ce module</div>
+                      <div className="text-gray-500 mb-2">{"// Pour commencer ce module"}</div>
                       <div className="whitespace-nowrap"><span className="text-blue-400">cd</span> project-directory</div>
                       <div className="whitespace-nowrap"><span className="text-blue-400">npm</span> install</div>
                       <div className="whitespace-nowrap"><span className="text-blue-400">npm</span> run dev</div>

@@ -1,13 +1,13 @@
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+
 import { 
   Layout, PenTool, Code, Smartphone, Eye, 
-  Search, ChevronRight, ExternalLink, Menu, X,
-  Settings, Info, MessageSquare, Sparkles, BookOpen, 
-  Terminal, CheckCircle
+  Search, ChevronRight,  Menu, X,
+  Settings, Info, MessageSquare,  BookOpen, 
+  Terminal,
 } from "lucide-react";
-import { FaGithub, FaHtml5, FaCss3Alt, FaJs } from "react-icons/fa";
+import { FaGithub, FaHtml5, FaCss3Alt } from "react-icons/fa";
 
 const lessons = [
   {
@@ -69,7 +69,7 @@ const lessons = [
 const categories = ["HTML", "CSS", "Responsive", "Projet"];
 
 export default function HtmlCssResources() {
-  const navigate = useNavigate();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);

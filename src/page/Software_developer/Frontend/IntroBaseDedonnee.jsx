@@ -1,10 +1,10 @@
 import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+
 import {
-  Layout, PenTool, Code, Search, ChevronRight, Menu, X,
+  Search, ChevronRight, Menu, X,
   Settings, Info, MessageSquare, BookOpen,
-  Terminal, Database, Table, Layers, ShieldCheck, Cloud, BarChart3, HelpCircle
+  Terminal, Database, Table, Layers, ShieldCheck, Cloud,HelpCircle
 } from "lucide-react";
 import { FaGithub, FaDatabase } from "react-icons/fa";
 
@@ -104,7 +104,7 @@ const categories = [
 ];
 
 export default function DatabaseResources() {
-  const navigate = useNavigate();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLesson, setSelectedLesson] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);

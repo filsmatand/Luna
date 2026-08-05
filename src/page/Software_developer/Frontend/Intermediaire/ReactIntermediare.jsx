@@ -1,15 +1,12 @@
-import React, { useState, useMemo, useReducer, useEffect, useCallback } from "react";
+import React, { useState, useMemo, } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
   Layout, Search, ChevronRight, Menu, X,
   Settings, Info, MessageSquare, BookOpen,
-  Terminal, Zap, MousePointer2,
-  FileCode, CheckCircle2, HelpCircle, ArrowLeft,
+  Terminal, Zap, MousePointer2, CheckCircle2, ArrowLeft,
   Layers, Code2, Sparkles, RefreshCw,
-  Cpu, Database, ShieldCheck, Box,
-  GitBranch, Eye, Share2, Globe, Monitor,
-  ShoppingCart, Heart, Send, Check, User,Activity
+  Cpu, Database, ShieldCheck,Eye, Share2, Globe, Monitor,Activity
 } from "lucide-react";
 import { FaGithub, FaReact } from "react-icons/fa";
 

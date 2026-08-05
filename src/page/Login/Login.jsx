@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { 
-  Mail, Lock, Eye, EyeOff, ArrowRight, 
-  LogIn, ShieldCheck, Sparkles, KeyRound, AlertCircle, CheckCircle2
+  Mail, Lock, Eye, EyeOff,
+  LogIn,  Sparkles, KeyRound, AlertCircle
 } from 'lucide-react';
 import { FaFacebook, FaGoogle, FaMicrosoft } from "react-icons/fa";
 
@@ -9,7 +9,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+
   
   const [formData, setFormData] = useState({
     email: '',
@@ -48,7 +48,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    setSuccess('');
+    //setSuccess('');
 
     if (!validateForm()) {
       return;

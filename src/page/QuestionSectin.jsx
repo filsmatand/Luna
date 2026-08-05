@@ -1,10 +1,10 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Search, ChevronDown, CheckCircle2, Circle, Trophy, 
-  Target, Zap, Layout, Server, Shield, ThumbsUp, Eye, 
-  Globe, Cpu, Terminal, Sparkles, Star, Info, MessageSquare, 
-  Settings, Menu, X, Filter, Code2, Rocket, ArrowRight
+  Search,CheckCircle2,  Trophy, 
+  Target,  ThumbsUp, Eye, 
+  Globe, Terminal,Info, MessageSquare, 
+  Settings, Menu, X, Code2, Rocket, ArrowRight
 } from "lucide-react";
 
 /**
@@ -12,6 +12,28 @@ import {
  * Style harmonisé avec LunaResourcesCenter.
  * Design : Dark, Glassmorphism, Gradients, Sidebar interactive.
  */
+// BASE DE DONNÉES D'EXERCICES
+const questions = [
+  { id: 1, title: "Centrer une Div en 2027", subtitle: "CSS Moderne - Flexbox/Grid", difficulty: 'Facile', language: 'CSS', type: 'Design', company: 'Apple', likes: 12000, views: 45000, solved: true },
+  { id: 2, title: "Inverser une chaîne de caractères", subtitle: "Algorithme de base JS", difficulty: 'Facile', language: 'JavaScript', type: 'Programmation', company: 'Google', likes: 8500, views: 32000, solved: true },
+  { id: 3, title: "Créer un hook de minuterie personnalisé", subtitle: "React State & A11y", difficulty: 'Moyen', language: 'React.js', type: 'Composant', company: 'Microsoft', likes: 9200, views: 28000, solved: false },
+  { id: 7, title: "Implémenter la fonction Debounce", subtitle: "Optimisation Performance", difficulty: 'Moyen', language: 'JavaScript', type: 'Programmation', company: 'Google', likes: 23000, views: 88000, solved: true },
+  { id: 11, title: "Flatten a Deeply Nested Array", subtitle: "Recursion Masterclass", difficulty: 'Moyen', language: 'JavaScript', type: 'Programmation', company: 'Google', likes: 42000, views: 134000, solved: true },
+  { id: 14, title: "Mini Clone de Google Calendar", subtitle: "Complex UI & Data Sync", difficulty: 'Difficile', language: 'React.js', type: 'Architecture', company: 'Google', likes: 25000, views: 95000, solved: false },
+  { id: 16, title: "Système de Virtual Scrolling", subtitle: "Performance de listes massives", difficulty: 'Difficile', language: 'React.js', type: 'Architecture', company: 'Meta', likes: 22000, views: 76000, solved: true },
+  { id: 21, title: "Apple Home App UI Clone", subtitle: "Glassmorphism & Gestures", difficulty: 'Difficile', language: 'CSS', type: 'Design', company: 'Apple', likes: 28000, views: 110000, solved: false },
+  { id: 23, title: "Meta News Feed Optimization", subtitle: "Infinite Scroll & Caching", difficulty: 'Difficile', language: 'React.js', type: 'Architecture', company: 'Meta', likes: 31000, views: 125000, solved: true },
+  { id: 24, title: "Microsoft Teams Chat Architecture", subtitle: "WebSockets & Real-time", difficulty: 'Difficile', language: 'Node.js', type: 'Backend', company: 'Microsoft', likes: 24000, views: 88000, solved: false },
+  { id: 29, title: "Apple Music Player (SwiftUI to React)", subtitle: "State & Audio API", difficulty: 'Difficile', language: 'React.js', type: 'Composant', company: 'Apple', likes: 26000, views: 92000, solved: false },
+  { id: 30, title: "Google Maps Marker Clustering", subtitle: "Geo-spatial Algorithms", difficulty: 'Difficile', language: 'JavaScript', type: 'Programmation', company: 'Google', likes: 14000, views: 38000, solved: false }
+];
+
+const filterOptions = {
+  language: ['Tous', 'JavaScript', 'React.js', 'Node.js', 'HTML', 'CSS', 'TypeScript'],
+  difficulty: ['Tous', 'Facile', 'Moyen', 'Difficile'],
+  company: ['Tous', 'Apple', 'Google', 'Meta', 'Microsoft']
+};
+
 export default function LunaTechInterview() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -35,27 +57,7 @@ export default function LunaTechInterview() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // BASE DE DONNÉES D'EXERCICES
-  const questions = [
-    { id: 1, title: "Centrer une Div en 2027", subtitle: "CSS Moderne - Flexbox/Grid", difficulty: 'Facile', language: 'CSS', type: 'Design', company: 'Apple', likes: 12000, views: 45000, solved: true },
-    { id: 2, title: "Inverser une chaîne de caractères", subtitle: "Algorithme de base JS", difficulty: 'Facile', language: 'JavaScript', type: 'Programmation', company: 'Google', likes: 8500, views: 32000, solved: true },
-    { id: 3, title: "Créer un hook de minuterie personnalisé", subtitle: "React State & A11y", difficulty: 'Moyen', language: 'React.js', type: 'Composant', company: 'Microsoft', likes: 9200, views: 28000, solved: false },
-    { id: 7, title: "Implémenter la fonction Debounce", subtitle: "Optimisation Performance", difficulty: 'Moyen', language: 'JavaScript', type: 'Programmation', company: 'Google', likes: 23000, views: 88000, solved: true },
-    { id: 11, title: "Flatten a Deeply Nested Array", subtitle: "Recursion Masterclass", difficulty: 'Moyen', language: 'JavaScript', type: 'Programmation', company: 'Google', likes: 42000, views: 134000, solved: true },
-    { id: 14, title: "Mini Clone de Google Calendar", subtitle: "Complex UI & Data Sync", difficulty: 'Difficile', language: 'React.js', type: 'Architecture', company: 'Google', likes: 25000, views: 95000, solved: false },
-    { id: 16, title: "Système de Virtual Scrolling", subtitle: "Performance de listes massives", difficulty: 'Difficile', language: 'React.js', type: 'Architecture', company: 'Meta', likes: 22000, views: 76000, solved: true },
-    { id: 21, title: "Apple Home App UI Clone", subtitle: "Glassmorphism & Gestures", difficulty: 'Difficile', language: 'CSS', type: 'Design', company: 'Apple', likes: 28000, views: 110000, solved: false },
-    { id: 23, title: "Meta News Feed Optimization", subtitle: "Infinite Scroll & Caching", difficulty: 'Difficile', language: 'React.js', type: 'Architecture', company: 'Meta', likes: 31000, views: 125000, solved: true },
-    { id: 24, title: "Microsoft Teams Chat Architecture", subtitle: "WebSockets & Real-time", difficulty: 'Difficile', language: 'Node.js', type: 'Backend', company: 'Microsoft', likes: 24000, views: 88000, solved: false },
-    { id: 29, title: "Apple Music Player (SwiftUI to React)", subtitle: "State & Audio API", difficulty: 'Difficile', language: 'React.js', type: 'Composant', company: 'Apple', likes: 26000, views: 92000, solved: false },
-    { id: 30, title: "Google Maps Marker Clustering", subtitle: "Geo-spatial Algorithms", difficulty: 'Difficile', language: 'JavaScript', type: 'Programmation', company: 'Google', likes: 14000, views: 38000, solved: false }
-  ];
 
-  const filterOptions = {
-    language: ['Tous', 'JavaScript', 'React.js', 'Node.js', 'HTML', 'CSS', 'TypeScript'],
-    difficulty: ['Tous', 'Facile', 'Moyen', 'Difficile'],
-    company: ['Tous', 'Apple', 'Google', 'Meta', 'Microsoft']
-  };
 
   // LOGIQUE DE FILTRAGE
   const filteredQuestions = useMemo(() => {

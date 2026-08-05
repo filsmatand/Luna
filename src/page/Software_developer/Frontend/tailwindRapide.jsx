@@ -4,8 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   Layout, Search, ChevronRight, Menu, X,
   Settings, Info, MessageSquare, BookOpen,
-  Terminal, Zap, Smartphone, Palette, MousePointer2,
-  FileCode, CheckCircle2, HelpCircle, ExternalLink, ArrowLeft
+  Terminal, Zap, Smartphone, Palette, MousePointer2, ArrowLeft
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { SiTailwindcss } from "react-icons/si";
